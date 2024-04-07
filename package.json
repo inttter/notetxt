@@ -1,0 +1,28 @@
+{
+  "name": "nextjs-tailwindcss-typescript-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@fontsource/geist-mono": "^5.0.2",
+    "@fontsource/geist-sans": "^5.0.2",
+    "next": "14.1.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.5",
+    "@types/react": "^18.2.74",
+    "autoprefixer": "^10.4.19",
+    "daisyui": "^4.10.1",
+    "postcss": "^8.4.38",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.4"
+  }
+}
