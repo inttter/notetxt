@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import NoteTitle from '../components/Title';
 import EditorControls from '../components/EditorControls'; // Import the EditorControls component
 import CharCount from '../components/CharCount';
@@ -11,10 +11,19 @@ export default function PlainTextEditor() {
   const [title, setTitle] = useState('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [unsupportedFile, setUnsupportedFile] = useState(null);
-  const textareaRef = useRef(null);
+  const contentEditableRef = useRef(null);
 
-  const handleChange = (event) => {
-    setText(event.target.value);
+  useEffect(() => {
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(contentEditableRef.current);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }, [text]);
+
+  const handleChange = () => {
+    setText(contentEditableRef.current.textContent);
   };
 
   const handleDownload = () => {
@@ -48,7 +57,7 @@ export default function PlainTextEditor() {
       reader.onload = (e) => {
         const fileContent = e.target.result as string;
         setText(fileContent);
-        setUnsupportedFile(null); // Reset the message if it was previously displayed
+        setUnsupportedFile(null);
       };
       
       reader.readAsText(file);
@@ -63,10 +72,10 @@ export default function PlainTextEditor() {
   };
 
   const handleDragLeave = (event) => {
-    // Check if the drag event target is the container element or its children
+    // checks if the drag event target is the container element or its children
     if (event.currentTarget === event.target || !event.currentTarget.contains(event.relatedTarget)) {
       setIsDraggingOver(false);
-      setUnsupportedFile(null); // Reset the message when dragging leaves
+      setUnsupportedFile(null);
     }
   };
 
@@ -96,15 +105,19 @@ export default function PlainTextEditor() {
           handleDownload={handleDownload}
         />
         </div>
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={handleChange}
+        <div
+          ref={contentEditableRef}
+          contentEditable
           className="bg-neutral-900 text-white focus:outline-none w-full px-3 font-mono text-lg resize-none caret-thick text"
-          style={{ fontFamily: "'Geist Mono', monospace", minHeight: '200px' }}
-        />
+          style={{ fontFamily: "'Geist Mono', monospace" }}
+          onInput={handleChange}
+        >
+          {text}
+        </div>
       </div>
+      <div className="fixed bottom-0 right-1">
       <CharCount text={text} />
+      </div>
     </div>
   );
 }
