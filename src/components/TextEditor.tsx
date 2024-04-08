@@ -7,7 +7,7 @@ import { FaDownload } from 'react-icons/fa';
 import '@fontsource/geist-mono';
 
 export default function PlainTextEditor() {
-  const [text, setText] = useState(`write down what's on your mind.`);
+  const [text, setText] = useState(`A simple text editor to write down what's on your mind. Delete this text and start writing something.`);
   const [title, setTitle] = useState('');
   const contentEditableRef = useRef(null);
 
