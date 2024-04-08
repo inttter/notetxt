@@ -55,14 +55,16 @@ export default function PlainTextEditor() {
             onStrikethroughClick={() => document.execCommand('strikethrough')}
           />
           <UndoRedo handleUndo={handleUndo} handleRedo={handleRedo} />
+          <div className="flex mb-4 bg-neutral-800 ml-2 p-1 rounded-lg">
           <button
-            className="text-white font-semibold -mt-3 px-6 tooltip tooltip-bottom bg-transparent"
+            className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
             data-tip="Save as .txt file"
             data-theme="lofi"
             onClick={handleDownload}
           >
             <FaDownload />
           </button>
+          </div>
         </div>
         <div
           ref={contentEditableRef}
