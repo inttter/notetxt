@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TextFormatting from '../components/TextFormatting';
+import UndoRedo from '../components/UndoRedo';
 import CharCount from '../components/CharCount';
 import { FaDownload } from 'react-icons/fa';
 import '@fontsource/geist-mono';
@@ -27,15 +28,17 @@ export default function PlainTextEditor() {
     const a = document.createElement('a');
     a.href = url;
     a.download = 'text.txt';
-  
-    // Add event listener to remove URL and show toast message after download completes
-    a.addEventListener('click', () => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-  
+
     document.body.appendChild(a);
     a.click();
+  };
+
+  const handleUndo = () => {
+    document.execCommand('undo');
+  };
+  
+  const handleRedo = () => {
+    document.execCommand('redo');
   };
 
   return (
@@ -48,6 +51,7 @@ export default function PlainTextEditor() {
             onUnderlineClick={() => document.execCommand('underline')}
             onStrikethroughClick={() => document.execCommand('strikethrough')}
           />
+          <UndoRedo handleUndo={handleUndo} handleRedo={handleRedo} />
           <button
             className="text-white font-semibold -mt-3 px-6 tooltip tooltip-bottom bg-transparent"
             data-tip="Save as .txt file"
