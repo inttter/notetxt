@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TextFormatting from '../components/TextFormatting';
+import CharCount from '../components/CharCount';
 import { FaDownload } from 'react-icons/fa';
 import '@fontsource/geist-mono';
 
@@ -26,10 +27,15 @@ export default function PlainTextEditor() {
     const a = document.createElement('a');
     a.href = url;
     a.download = 'text.txt';
+  
+    // Add event listener to remove URL and show toast message after download completes
+    a.addEventListener('click', () => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  
     document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -61,6 +67,7 @@ export default function PlainTextEditor() {
           {text}
         </div>
       </div>
+      <CharCount text={text} />
     </div>
   );
 }
