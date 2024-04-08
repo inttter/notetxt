@@ -11,17 +11,8 @@ export default function PlainTextEditor() {
   const [title, setTitle] = useState('');
   const contentEditableRef = useRef(null);
 
-  useEffect(() => {
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNodeContents(contentEditableRef.current);
-    range.collapse(false);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }, [text]);
-
-  const handleChange = () => {
-    setText(contentEditableRef.current.textContent);
+  const handleChange = (event) => {
+    setText(event.target.value);
   };
 
   const handleDownload = () => {
@@ -66,15 +57,12 @@ export default function PlainTextEditor() {
           </button>
           </div>
         </div>
-        <div
-          ref={contentEditableRef}
-          contentEditable
+        <textarea
+          value={text}
+          onChange={handleChange}
           className="bg-neutral-900 text-white focus:outline-none w-full px-3 font-mono text-lg resize-none caret-thick text"
-          style={{ fontFamily: "'Geist Mono', monospace" }}
-          onInput={handleChange}
-        >
-          {text}
-        </div>
+          style={{ fontFamily: "'Geist Mono', monospace", minHeight: '200px' }}
+        />
       </div>
       <CharCount text={text} />
     </div>
