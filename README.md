@@ -1,5 +1,9 @@
-# Notetxt
+<img src="https://raw.githubusercontent.com/inttter/notetxt/master/public/favicon/apple-touch-icon.png" width="125"> 
 
-A simple text editor to write down what's on your mind.
+# *Notetxt*
 
-Currently supports various text formatting options, and downloading text you have written as a `.txt` file.
+A simple text editor to write down what's on your mind. 
+
+* Give your note a title
+* Start writing
+* Save it to your computer
