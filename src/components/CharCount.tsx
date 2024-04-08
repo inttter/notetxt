@@ -11,7 +11,7 @@ export default function CharCount({ text }) {
   return (
     <div>
       <p
-      className="absolute bottom-5 text-zinc-300 right-5 tooltip tooltip-left bg-transparent hover:cursor-help"
+      className="absolute bottom-5 text-zinc-300 right-5 tooltip tooltip-left hover:cursor-help bg-neutral-800 rounded-lg duration-300 py-1 px-2 font-mono focus:outline-none font-semibold"
       data-tip="The amount of characters you've typed."
       data-theme="lofi"
       >
