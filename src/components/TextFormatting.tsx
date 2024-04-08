@@ -3,7 +3,7 @@ import { FaBold, FaItalic, FaUnderline, FaStrikethrough } from "react-icons/fa6"
 
 function TextFormatting({ onBoldClick, onItalicClick, onUnderlineClick, onStrikethroughClick }) {
   return (
-    <div className="flex mb-4">
+    <div className="flex mb-4 bg-neutral-800 ml-2 p-1 rounded-lg">
       <button
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Bold (CTRL+B)"

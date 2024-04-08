@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import NoteTitle from '../components/Title';
 import TextFormatting from '../components/TextFormatting';
 import UndoRedo from '../components/UndoRedo';
 import CharCount from '../components/CharCount';
@@ -7,6 +8,7 @@ import '@fontsource/geist-mono';
 
 export default function PlainTextEditor() {
   const [text, setText] = useState(`write down what's on your mind.`);
+  const [title, setTitle] = useState('');
   const contentEditableRef = useRef(null);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function PlainTextEditor() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'text.txt';
+    a.download = title ? `${title}.txt` : 'note.txt';
 
     document.body.appendChild(a);
     a.click();
@@ -43,7 +45,8 @@ export default function PlainTextEditor() {
 
   return (
     <div className="bg-neutral-900 min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 selection:bg-[#E8D4B6] selection:text-black">
-      <div className="max-w-xl w-full px-5 space-y-6 flex-col relative top-0 md:px-0">
+      <div className="max-w-xl w-full px-5 space-y-4 flex-col relative top-0 md:px-0">
+        <NoteTitle title={title} setTitle={setTitle} />
         <div className="flex justify-between items-center">
           <TextFormatting
             onBoldClick={() => document.execCommand('bold')}
