@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import NoteTitle from '../components/Title';
-import EditorControls from '../components/EditorControls'; // Import the EditorControls component
+import EditorControls from '../components/EditorControls';
 import CharCount from '../components/CharCount';
-import { FaDownload } from 'react-icons/fa';
 import { CgDanger } from 'react-icons/cg';
 import '@fontsource/geist-mono';
 
@@ -93,17 +92,17 @@ export default function PlainTextEditor() {
         </div>
       )}
       <div className="max-w-xl w-full space-y-6 flex-col relative">
-      <NoteTitle title={title} setTitle={setTitle} />
+        <NoteTitle title={title} setTitle={setTitle} />
         <div className="md:w-[354px] mr-2">
-        <EditorControls
-          onBoldClick={() => document.execCommand('bold')}
-          onItalicClick={() => document.execCommand('italic')}
-          onUnderlineClick={() => document.execCommand('underline')}
-          onStrikethroughClick={() => document.execCommand('strikethrough')}
-          handleUndo={handleUndo}
-          handleRedo={handleRedo}
-          handleDownload={handleDownload}
-        />
+          <EditorControls
+            onBoldClick={() => document.execCommand('bold')}
+            onItalicClick={() => document.execCommand('italic')}
+            onUnderlineClick={() => document.execCommand('underline')}
+            onStrikethroughClick={() => document.execCommand('strikethrough')}
+            handleUndo={handleUndo}
+            handleRedo={handleRedo}
+            handleDownload={handleDownload}
+          />
         </div>
         <div
           ref={contentEditableRef}
@@ -116,7 +115,7 @@ export default function PlainTextEditor() {
         </div>
       </div>
       <div className="fixed bottom-0 right-1">
-      <CharCount text={text} />
+        <CharCount text={text} />
       </div>
     </div>
   );

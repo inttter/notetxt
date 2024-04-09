@@ -10,13 +10,19 @@ function EditorControls({
   handleRedo, 
   handleDownload 
 }) {
+  const handleClick = (callback) => (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    callback();
+  };
+
   return (
     <div className="flex mb-4 bg-neutral-800 ml-2 p-1 rounded-lg">
       <button
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Bold (CTRL+B)"
         data-theme="lofi"
-        onClick={onBoldClick}
+        onClick={handleClick(onBoldClick)}
       >
         <FaBold />
       </button>
@@ -24,15 +30,15 @@ function EditorControls({
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Italic (CTRL+I)"
         data-theme="lofi"
-        onClick={onItalicClick}
+        onClick={handleClick(onItalicClick)}
       >
         <FaItalic />
       </button>
       <button
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
-        onClick={onUnderlineClick}
         data-tip="Underline (CTRL+U)"
         data-theme="lofi"
+        onClick={handleClick(onUnderlineClick)}
       >
         <FaUnderline />
       </button>
@@ -40,15 +46,15 @@ function EditorControls({
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Strikethrough"
         data-theme="lofi"
-        onClick={onStrikethroughClick}
+        onClick={handleClick(onStrikethroughClick)}
       >
         <FaStrikethrough />
       </button>
       <button
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
-        onClick={handleUndo}
         data-tip="Undo (CTRL+Z)"
         data-theme="lofi"
+        onClick={handleClick(handleUndo)}
       >
         <FaUndo />
       </button>
@@ -56,7 +62,7 @@ function EditorControls({
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Redo (CTRL+Y)"
         data-theme="lofi"
-        onClick={handleRedo}
+        onClick={handleClick(handleRedo)}
       >
         <FaRedo />
       </button>
@@ -64,7 +70,7 @@ function EditorControls({
         className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Save as .txt file"
         data-theme="lofi"
-        onClick={handleDownload}
+        onClick={handleClick(handleDownload)}
       >
         <FaDownload />
       </button>
