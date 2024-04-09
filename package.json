@@ -16,8 +16,8 @@
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.5",
-    "@types/react": "^18.2.74",
+    "@types/node": "^20.12.6",
+    "@types/react": "^18.2.75",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.10.1",
     "postcss": "^8.4.38",
