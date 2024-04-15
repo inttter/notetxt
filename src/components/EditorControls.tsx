@@ -51,7 +51,7 @@ function EditorControls({
         <FaStrikethrough />
       </button>
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Undo (CTRL+Z)"
         data-theme="lofi"
         onClick={handleClick(handleUndo)}
@@ -59,7 +59,7 @@ function EditorControls({
         <FaUndo />
       </button>
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Redo (CTRL+Y)"
         data-theme="lofi"
         onClick={handleClick(handleRedo)}
@@ -67,7 +67,7 @@ function EditorControls({
         <FaRedo />
       </button>
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Save as .txt file"
         data-theme="lofi"
         onClick={handleClick(handleDownload)}
