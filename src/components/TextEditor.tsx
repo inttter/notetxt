@@ -86,19 +86,19 @@ export default function PlainTextEditor() {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
+      <div className="flex flex-col justify-start items-start md:w-[600px]">
+        <Navbar />
+      </div>
       {unsupportedFile && (
         <div className="absolute flex items-center bottom-10 md:bottom-5 w-1/2 py-2 pl-4 bg-red-500 bg-opacity-40 rounded-md text-zinc-300 text-md">
           <CgDanger className="mr-1 text-xl" />
           {unsupportedFile}
         </div>
       )}
-      <div className="max-w-xl w-full space-y-6 flex-col relative">
+      <div className="max-w-xl w-full space-y-4 flex-col relative">
         <NoteTitle title={title} setTitle={setTitle} />
-        <div className="absolute -top-64">
-          <Navbar />
-        </div>
-        <div className="md:w-[365px] mr-2">
-          <EditorControls
+        <div className="-ml-2">
+        <EditorControls
             onBoldClick={() => document.execCommand('bold')}
             onItalicClick={() => document.execCommand('italic')}
             onUnderlineClick={() => document.execCommand('underline')}
@@ -107,11 +107,11 @@ export default function PlainTextEditor() {
             handleRedo={handleRedo}
             handleDownload={handleDownload}
           />
-        </div>
+          </div>
         <div
           ref={contentEditableRef}
           contentEditable
-          className="bg-neutral-800 bg-opacity-80 focus:bg-opacity-50 text-neutral-200 outline-none w-full p-3 ml-2 border-neutral-700 border-transparent border duration-300 font-mono text-lg resize-none caret-thick text rounded-lg"
+          className="bg-neutral-800 bg-opacity-80 focus:bg-opacity-50 text-neutral-200 outline-none w-full p-3 border-neutral-700 border-transparent border duration-300 font-mono text-lg resize-none caret-thick text rounded-lg"
           style={{ fontFamily: "'Geist Mono', monospace" }}
           onInput={handleChange}
         >
