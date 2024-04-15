@@ -19,7 +19,7 @@ function EditorControls({
   return (
     <div className="flex mb-4 bg-neutral-800 ml-2 p-1 rounded-lg">
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Bold (CTRL+B)"
         data-theme="lofi"
         onClick={handleClick(onBoldClick)}
@@ -27,7 +27,7 @@ function EditorControls({
         <FaBold />
       </button>
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Italic (CTRL+I)"
         data-theme="lofi"
         onClick={handleClick(onItalicClick)}
@@ -35,7 +35,7 @@ function EditorControls({
         <FaItalic />
       </button>
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Underline (CTRL+U)"
         data-theme="lofi"
         onClick={handleClick(onUnderlineClick)}
@@ -43,7 +43,7 @@ function EditorControls({
         <FaUnderline />
       </button>
       <button
-        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded focus:outline-none tooltip tooltip-bottom font-semibold"
+        className="text-white bg-transparent hover:bg-neutral-700 hover:bg-opacity-40 duration-300 py-2 px-4 rounded hover:border-neutral-700 border-transparent border-2 outline-none tooltip tooltip-bottom font-semibold"
         data-tip="Strikethrough"
         data-theme="lofi"
         onClick={handleClick(onStrikethroughClick)}
