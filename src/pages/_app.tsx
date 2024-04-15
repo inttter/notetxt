@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Notetxt</title>
+        <title>notetxt - Write down what's on your mind.</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta property="og:title" content="Notetxt" />
         <meta property="og:type" content="website" />

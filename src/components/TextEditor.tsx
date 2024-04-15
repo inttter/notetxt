@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import NoteTitle from '../components/Title';
 import EditorControls from '../components/EditorControls';
 import CharCount from '../components/CharCount';
+import Navbar from './Navbar';
 import { CgDanger } from 'react-icons/cg';
 import '@fontsource/geist-mono';
 
@@ -93,7 +94,10 @@ export default function PlainTextEditor() {
       )}
       <div className="max-w-xl w-full space-y-6 flex-col relative">
         <NoteTitle title={title} setTitle={setTitle} />
-        <div className="md:w-[354px] mr-2">
+        <div className="absolute -top-64">
+          <Navbar />
+        </div>
+        <div className="md:w-[365px] mr-2">
           <EditorControls
             onBoldClick={() => document.execCommand('bold')}
             onItalicClick={() => document.execCommand('italic')}
@@ -107,7 +111,7 @@ export default function PlainTextEditor() {
         <div
           ref={contentEditableRef}
           contentEditable
-          className="bg-neutral-900 text-white focus:outline-none w-full px-3 font-mono text-lg resize-none caret-thick text"
+          className="bg-neutral-800 bg-opacity-80 focus:bg-opacity-50 text-neutral-200 outline-none w-full p-3 ml-2 border-neutral-700 border-transparent border duration-300 font-mono text-lg resize-none caret-thick text rounded-lg"
           style={{ fontFamily: "'Geist Mono', monospace" }}
           onInput={handleChange}
         >
