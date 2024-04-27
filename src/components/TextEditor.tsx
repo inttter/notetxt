@@ -63,6 +63,9 @@ export default function PlainTextEditor() {
       reader.readAsText(file);
     } else {
       setUnsupportedFile("This is not a supported file format. Only .txt and .md files are supported.");
+      setTimeout(() => {
+        setUnsupportedFile("");
+      }, 3000);
     }
   };
 
