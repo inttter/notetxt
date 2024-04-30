@@ -3,7 +3,7 @@ import NoteTitle from '../components/Title';
 import EditorControls from '../components/EditorControls';
 import CharCount from '../components/CharCount';
 import Navbar from './Navbar';
-import { CgDanger } from 'react-icons/cg';
+import { Triangle, TriangleAlert } from 'lucide-react';
 import '@fontsource/geist-mono';
 
 export default function PlainTextEditor() {
@@ -94,7 +94,7 @@ export default function PlainTextEditor() {
       </div>
       {unsupportedFile && (
         <div className="absolute flex items-center bottom-10 md:bottom-5 w-1/2 py-2 pl-4 bg-red-500 bg-opacity-40 rounded-md text-zinc-300 text-md">
-          <CgDanger className="mr-1 text-xl" />
+          <TriangleAlert className="mr-1" size={20} />
           {unsupportedFile}
         </div>
       )}
