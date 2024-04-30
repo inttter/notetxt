@@ -3,12 +3,13 @@ import NoteTitle from '../components/Title';
 import EditorControls from '../components/EditorControls';
 import CharCount from '../components/CharCount';
 import Navbar from './Navbar';
-import { Triangle, TriangleAlert } from 'lucide-react';
+import { CircleX } from 'lucide-react';
 import '@fontsource/geist-mono';
+import '@fontsource/geist-sans';
 
 export default function PlainTextEditor() {
-  const [text, setText] = useState(`A simple text editor to write down what's on your mind. Delete this text and start writing something.`);
   const [title, setTitle] = useState('');
+  const [text, setText] = useState('A simple text editor to write down anything on your mind. Delete this text and start writing something');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [unsupportedFile, setUnsupportedFile] = useState(null);
   const contentEditableRef = useRef(null);
@@ -48,21 +49,21 @@ export default function PlainTextEditor() {
   const handleDrop = (event) => {
     event.preventDefault();
     setIsDraggingOver(false);
-
+  
     const file = event.dataTransfer.files[0];
     const reader = new FileReader();
-
+  
     // Check file type by extension
     if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) {
       reader.onload = (e) => {
         const fileContent = e.target.result as string;
-        setText(fileContent);
+        contentEditableRef.current.innerText = fileContent; // Set innerText instead of textContent
         setUnsupportedFile(null);
       };
       
       reader.readAsText(file);
     } else {
-      setUnsupportedFile("This is not a supported file format. Only .txt and .md files are supported.");
+      setUnsupportedFile("Sorry, this type of file is not supported.");
       setTimeout(() => {
         setUnsupportedFile("");
       }, 3000);
@@ -82,26 +83,30 @@ export default function PlainTextEditor() {
     }
   };
 
+  const handlePaste = (event) => {
+    event.preventDefault();
+    const text = event.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+  };
+
   return (
     <div 
-      className={`overflow-x-hidden bg-neutral-900 min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 selection:bg-[#E8D4B6] selection:text-black ${isDraggingOver ? 'bg-neutral-950 opacity-50 duration-300' : ''}`}
+      className={`overflow-x-hidden bg-neutral-900 min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 selection:bg-neutral-700 selection:text-zinc-300 ${isDraggingOver ? 'bg-neutral-80 opacity-50 duration-300' : ''}`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
-      <div className="flex flex-col justify-start items-start md:w-[600px]">
-        <Navbar />
-      </div>
+      <Navbar />
       {unsupportedFile && (
-        <div className="absolute flex items-center bottom-10 md:bottom-5 w-1/2 py-2 pl-4 bg-red-500 bg-opacity-40 rounded-md text-zinc-300 text-md">
-          <TriangleAlert className="mr-1" size={20} />
+        <div className="absolute bottom-10 flex justify-center items-center bg-red-500 bg-opacity-40 text-zinc-200 p-3 rounded-md">
+          <CircleX className="mr-2" size={20} />
           {unsupportedFile}
         </div>
       )}
-      <div className="max-w-xl w-full space-y-4 flex-col relative">
+      <div className="max-w-xl w-full space-y-3 flex-col relative">
         <NoteTitle title={title} setTitle={setTitle} />
-        <div className="-ml-2">
-        <EditorControls
+        <div className="-ml-2 px-1">
+          <EditorControls
             onBoldClick={() => document.execCommand('bold')}
             onItalicClick={() => document.execCommand('italic')}
             onUnderlineClick={() => document.execCommand('underline')}
@@ -110,16 +115,14 @@ export default function PlainTextEditor() {
             handleRedo={handleRedo}
             handleDownload={handleDownload}
           />
-          </div>
+        </div>
         <div
           ref={contentEditableRef}
-          contentEditable
-          className="bg-neutral-800 bg-opacity-80 focus:bg-opacity-50 text-neutral-200 outline-none w-full p-3 border-neutral-700 border-transparent border duration-300 font-mono text-lg resize-none caret-thick text rounded-lg"
-          style={{ fontFamily: "'Geist Mono', monospace" }}
+          contentEditable={true}
+          className="focus:bg-[#222222] focus:bg-opacity-50 text-neutral-200 outline-none w-full p-4 duration-300 text-lg resize-none rounded-md border-neutral-800 border max-w-screen overflow-auto"
           onInput={handleChange}
-        >
-          {text}
-        </div>
+          onPaste={handlePaste}
+        />
       </div>
       <div className="fixed bottom-0 right-1">
         <CharCount text={text} />

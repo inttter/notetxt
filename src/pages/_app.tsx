@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:image" content="https://notetxt.iinter.me/external/og.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="theme-color" content="#161617" />
-        <meta property="og:description" content="A simple text editor to write down what's on your mind." />
+        <meta property="og:description" content="A simple text editor to write down what's on your mind without any distractions." />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />

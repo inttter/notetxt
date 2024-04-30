@@ -4,10 +4,12 @@ import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <div className="absolute top-0 left-0 p-6 flex items-center space-x-2">
-      <Image src="/favicon/apple-touch-icon.png" alt="Logo" width={20} height={20} className="rounded-md" />
-      <Link href="https://github.com/inttter/notetxt">
-      <span className="text-zinc-200 font-semibold text-lg flex items-center w-full">notetxt</span>
+    <div className="fixed top-5 left-5 flex items-center space-x-2 hover:bg-neutral-700 hover:bg-opacity-30 duration-300 p-2.5 rounded-md">
+      <Link href="https://github.com/inttter/notetxt" target="_blank" rel="noopener noreferrer">
+        <div className="flex items-center space-x-2">
+          <Image src="/favicon/apple-touch-icon.png" alt="Logo" width={20} height={20} className="rounded-md" />
+          <span className="text-zinc-200 hover:text-zinc-300 duration-300 font-semibold text-lg tracking-tighter">notetxt</span>
+        </div>
       </Link>
     </div>
   );
