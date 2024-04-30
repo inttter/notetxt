@@ -9,9 +9,9 @@ export default function Title({ title, setTitle }) {
     <textarea
       value={title}
       onChange={handleChange}
-      className="bg-transparent focus:bg-neutral-800 focus:bg-opacity-50 duration-500 rounded-lg text-zinc-400 placeholder-neutral-700 md:text-2xl text-lg outline-none w-full p-2 h-11 overflow-hidden font-bold resize-none"
-      style={{ fontFamily: "'Geist Mono', monospace", border: 'none' }}
-      placeholder="Give this note a title..."
+      className="bg-transparent focus:bg-neutral-800 focus:bg-opacity-50 duration-300 rounded-md text-zinc-300 placeholder-neutral-600 placeholder:font-normal md:text-2xl text-3xl font-bold outline-none w-full md:h-11 h-auto p-2 max-w-auto"
+      style={{ fontFamily: "'Geist Sans', sans-serif", border: 'none' }}
+      placeholder="Enter the title of your note"
     />
   );
 }
