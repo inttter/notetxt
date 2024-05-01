@@ -6,13 +6,16 @@ import Navbar from './Navbar';
 import { CircleX } from 'lucide-react';
 import '@fontsource/geist-mono';
 import '@fontsource/geist-sans';
+import { toast, Toaster } from 'sonner';
 
 export default function PlainTextEditor() {
   const [title, setTitle] = useState('');
-  const [text, setText] = useState('A simple text editor to write down anything on your mind. Delete this text and start writing something');
+  const [text, setText] = useState('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [unsupportedFile, setUnsupportedFile] = useState(null);
   const contentEditableRef = useRef(null);
+
+  const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
 
   useEffect(() => {
     const range = document.createRange();
@@ -21,6 +24,24 @@ export default function PlainTextEditor() {
     range.collapse(false);
     selection.removeAllRanges();
     selection.addRange(range);
+  }, [text]);
+
+  useEffect(() => {
+    const savedText = localStorage.getItem('text');
+
+    if (savedText) {
+      toast.loading('Finding previous note contents...');
+
+      setTimeout(() => {
+        setText(savedText);
+        contentEditableRef.current.innerText = savedText;
+        toast.success('Restored the previous contents of your note!');
+      }, 500);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('text', text);
   }, [text]);
 
   const handleChange = () => {
@@ -124,6 +145,7 @@ export default function PlainTextEditor() {
           onPaste={handlePaste}
         />
       </div>
+      <Toaster richColors />
       <div className="fixed bottom-0 right-1">
         <CharCount text={text} />
       </div>
