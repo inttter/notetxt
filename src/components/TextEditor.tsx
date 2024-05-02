@@ -15,8 +15,6 @@ export default function PlainTextEditor() {
   const [unsupportedFile, setUnsupportedFile] = useState(null);
   const contentEditableRef = useRef(null);
 
-  const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
-
   useEffect(() => {
     const range = document.createRange();
     const selection = window.getSelection();
@@ -30,8 +28,6 @@ export default function PlainTextEditor() {
     const savedText = localStorage.getItem('text');
 
     if (savedText) {
-      toast.loading('Finding previous note contents...');
-
       setTimeout(() => {
         setText(savedText);
         contentEditableRef.current.innerText = savedText;
