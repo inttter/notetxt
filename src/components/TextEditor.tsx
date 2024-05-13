@@ -74,7 +74,7 @@ export default function PlainTextEditor() {
     if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) {
       reader.onload = (e) => {
         const fileContent = e.target.result as string;
-        contentEditableRef.current.innerText = fileContent; // Set innerText instead of textContent
+        contentEditableRef.current.innerText = fileContent;
         setUnsupportedFile(null);
       };
       
@@ -108,7 +108,7 @@ export default function PlainTextEditor() {
 
   return (
     <div 
-      className={`overflow-x-hidden bg-neutral-900 min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 selection:bg-neutral-700 selection:text-zinc-300 ${isDraggingOver ? 'bg-neutral-80 opacity-50 duration-300' : ''}`}
+      className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 selection:bg-neutral-700 selection:text-zinc-300 ${isDraggingOver ? 'bg-neutral-80 opacity-50 duration-300' : ''}`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -136,7 +136,7 @@ export default function PlainTextEditor() {
         <div
           ref={contentEditableRef}
           contentEditable={true}
-          className="focus:bg-[#222222] focus:bg-opacity-50 text-neutral-200 outline-none w-full p-4 duration-300 text-lg resize-none rounded-md border-neutral-800 border max-w-screen overflow-auto"
+          className="bg-[#101010] focus:bg-[#222222] focus:bg-opacity-50 text-neutral-200 outline-none w-full p-4 duration-300 text-lg resize-none rounded-md border-neutral-800 border max-w-screen overflow-auto"
           onInput={handleChange}
           onPaste={handlePaste}
         />

@@ -17,33 +17,33 @@ function EditorControls({
   };
 
   return (
-    <div className="flex mb-4 bg-neutral-800 ml-2 px-3 py-2 rounded-lg space-x-2">
+    <div className="flex mb-4 bg-[#191919] ml-2 px-3 py-2 rounded-lg space-x-2">
       <button
-        className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
-        data-tip="Bold (CTRL+B)"
+        className="text-zinc-300 bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
+        data-tip="Bold"
         data-theme="lofi"
         onClick={handleClick(onBoldClick)}
       >
         <Bold size={20} />
       </button>
       <button
-        className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
-        data-tip="Italic (CTRL+I)"
+        className="text-zinc-300 bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
+        data-tip="Italic"
         data-theme="lofi"
         onClick={handleClick(onItalicClick)}
       >
         <Italic size={20} />
       </button>
       <button
-        className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
-        data-tip="Underline (CTRL+U)"
+        className="text-zinc-300 bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
+        data-tip="Underline"
         data-theme="lofi"
         onClick={handleClick(onUnderlineClick)}
       >
         <Underline size={20} />
       </button>
       <button
-        className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
+        className="text-zinc-300 bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
         data-tip="Strikethrough"
         data-theme="lofi"
         onClick={handleClick(onStrikethroughClick)}
@@ -51,16 +51,16 @@ function EditorControls({
         <Strikethrough size={20} />
       </button>
       <button
-        className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
-        data-tip="Undo (CTRL+Z)"
+        className="text-zinc-300 bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
+        data-tip="Undo"
         data-theme="lofi"
         onClick={handleClick(handleUndo)}
       >
         <Undo size={20} />
       </button>
       <button
-        className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
-        data-tip="Redo (CTRL+Y)"
+        className="text-zinc-300 bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
+        data-tip="Redo"
         data-theme="lofi"
         onClick={handleClick(handleRedo)}
       >
@@ -68,7 +68,7 @@ function EditorControls({
       </button>
       <button
         className="text-white bg-transparent outline-none tooltip tooltip-bottom font-semibold hover:bg-neutral-700 hover:bg-opacity-40 duration-300 hover:border-neutral-700 border-transparent border-2 p-2 rounded-lg"
-        data-tip="Save as .txt file"
+        data-tip="Download"
         data-theme="lofi"
         onClick={handleClick(handleDownload)}
       >
