@@ -1,8 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
-
 @import 'tailwindcss/utilities';
 
 :root {
     font-family: 'Geist Sans', sans-serif;
+}
+
+.code {
+    font-family: 'Geist Mono', monospace;
 }

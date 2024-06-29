@@ -1,9 +1,18 @@
-<img src="https://raw.githubusercontent.com/inttter/notetxt/master/public/favicon/apple-touch-icon.png" width="125"> 
+<img src="public/favicon/android-chrome-512x512.png" width="125"> 
 
 # *Notetxt*
 
-A simple text editor to write down what's on your mind. 
+A note-taker with a focus on minimalism and simplicity, so you can write down what's on your mind.
 
-* Give your note a title
-* Start writing
-* Save it to your computer
+## Features
+
+* Supports `.txt` and `.md` files.
+* Drag and drop existing files into the website.
+* Automatically retrieve the last note you were working on.
+* Download notes to your computer.
+* Copy contents of your note.
+* [**Your notes are for you only.**](https://notetxt.iinter.me/privacy)
+
+## License
+
+©️ 2024 - Notetxt is licensed under the [MIT License](LICENSE).
