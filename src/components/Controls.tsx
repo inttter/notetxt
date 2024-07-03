@@ -43,15 +43,17 @@ function Controls({
     }
   };
 
-  // keybinds
+  // Keybinds
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === 'o') { // open file
+      // Open File
+      if (event.ctrlKey && event.key === 'o' || event.key === 'O') {
         event.preventDefault();
         document.getElementById('fileInput').click();
-      } else if (event.ctrlKey && event.key === 's' ) { // download
+      // Download
+      } else if (event.ctrlKey && event.key === 's' || event.key === 'S') {
         handleDownload();
-      }
+    }
     };
 
     document.addEventListener('keydown', handleKeyDown);
