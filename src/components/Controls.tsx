@@ -69,9 +69,9 @@ function Controls({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
         htmlFor="fileInput" 
-        className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center"
+        className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center"
       >
-        <FolderOpen size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Open File</span>
+        <FolderOpen size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-200 md:inline hidden">Open File</span>
         <input
           id="fileInput"
           type="file"
@@ -84,19 +84,19 @@ function Controls({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center" 
+          className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center" 
           onClick={handleClick(handleDownload)}
         >
-          <Download size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Download</span>
+          <Download size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-200 md:inline hidden">Download</span>
         </motion.button>
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center"
+          className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center"
           onClick={handleCopy}
         >
-          <Copy size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Copy Note</span>
+          <Copy size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-200 md:inline hidden">Copy Note</span>
         </motion.button>
       </div>
     </>
