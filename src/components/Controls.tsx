@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Download, FolderOpen, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import copy from 'copy-to-clipboard';
+import { motion } from 'framer-motion';
 
 function Controls({ 
   handleDownload,
@@ -63,22 +64,40 @@ function Controls({
   return (
     <>
       <div className="flex mb-4 px-3 py-2 rounded-lg space-x-2">
-      <label htmlFor="fileInput" className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center">
-          <FolderOpen size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Open File</span>
-          <input
-            id="fileInput"
-            type="file"
-            accept=".txt,.md" // notetxt only supports .txt and .md
-            className="hidden"
-            onChange={handleFileInputChange}
-          />
-        </label>
-        <button className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center" onClick={handleClick(handleDownload)}>
+      <motion.label 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        htmlFor="fileInput" 
+        className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center"
+      >
+        <FolderOpen size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Open File</span>
+        <input
+          id="fileInput"
+          type="file"
+          accept=".txt,.md" // notetxt only supports .txt and .md
+          className="hidden"
+          onChange={handleFileInputChange}
+        />
+        </motion.label>
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center" 
+          onClick={handleClick(handleDownload)}
+        >
           <Download size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Download</span>
-        </button>
-        <button className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center" onClick={handleCopy}>
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-2 rounded-md flex items-center"
+          onClick={handleCopy}
+        >
           <Copy size={20} className="mr-0 md:mr-2" /> <span className="text-zinc-300 md:inline hidden">Copy Note</span>
-        </button>
+        </motion.button>
       </div>
     </>
   );

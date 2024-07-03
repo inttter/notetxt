@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Editor from '../components/Editor';
+import { Toaster } from 'sonner';
 
 export default function Home() {
   const [randomSlogan, setRandomSlogan] = useState('');
@@ -32,6 +33,7 @@ export default function Home() {
   return (
     <div className="relative">
       <Editor /> {/* the actual editor */}
+      <Toaster richColors closeButton invert pauseWhenPageIsHidden />
 
       {/* footer content */}
       <div className="absolute text-sm text-neutral-700 italic bottom-7 md:bottom-5 left-5">

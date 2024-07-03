@@ -4,6 +4,7 @@ import WordCount from './WordCount';
 import Modal from './DownloadModal';
 import { toast, Toaster } from 'sonner';
 import DOMPurify from 'dompurify';
+import { motion } from 'framer-motion';
 
 export default function Editor() {
   const [text, setText] = useState('');
@@ -119,7 +120,10 @@ export default function Editor() {
             openExistingFile={openExistingFile}
           />
         </div>
-        <textarea
+        <motion.textarea
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           value={text}
           placeholder="Start typing here..."
           onChange={(e) => setText(e.target.value)}
