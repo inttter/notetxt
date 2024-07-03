@@ -13,6 +13,12 @@ A note-taker with a focus on minimalism and simplicity, so you can write down wh
 * Copy contents of your note.
 * [**Your notes are for you only.**](https://notetxt.iinter.me/privacy)
 
+## Keybinds
+
+* `Ctrl+O` - Open File
+* `Ctrl+S` - Download
+* `Ctrl+Shift+C` - Copy Note
+
 ## License
 
 ©️ 2024 - Notetxt is licensed under the [MIT License](LICENSE).
