@@ -11,12 +11,14 @@ A note-taker with a focus on minimalism and simplicity, so you can write down wh
 * Automatically retrieve the last note you were working on.
 * Download notes to your computer.
 * Copy contents of your note.
-* [**Your notes are for you only.**](https://notetxt.iinter.me/privacy)
+* [Your notes are yours only to see.](https://notetxt.iinter.me/privacy)
 
 ## Keybinds
 
-* `Ctrl+O` - Open File
-* `Ctrl+S` - Download
+* `Ctrl+K` - **Command Menu**
+* `Ctrl+O` - Open Note
+* `Ctrl+N` - New Note
+* `Ctrl+S` - Save Note
 * `Ctrl+Shift+C` - Copy Note
 
 ## License

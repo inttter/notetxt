@@ -26,7 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="shortcut icon" href="/favicon/favicon.ico"></link>
       </Head>
-      <Component {...pageProps} />
+      <div className="selection:bg-neutral-700 selection:text-zinc-300">
+        <Component {...pageProps} />
+      </div>
       <Analytics />
     </>
   )

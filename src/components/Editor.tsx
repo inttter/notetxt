@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Controls from './Controls';
+import Command from './Command';
 import WordCount from './WordCount';
 import Modal from './DownloadModal';
 import { toast, Toaster } from 'sonner';
 import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
+import copy from 'copy-to-clipboard';
+import hotkeys from 'hotkeys-js';
 
 export default function Editor() {
   const [text, setText] = useState('');
@@ -16,7 +18,7 @@ export default function Editor() {
 
     if (savedText) {
       setText(savedText);
-      toast.info('The contents of the previous note were restored.');
+      toast.info('Restored the contents of the previous note.')
     }
   }, []);
 
@@ -24,11 +26,33 @@ export default function Editor() {
     localStorage.setItem('text', text);
   }, [text]);
 
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) {
+      readFileContents(file);
+    } else {
+      toast.error('File not supported!', {
+        description: `Please select a '.txt' or '.md' file.`
+      });
+    }
+  };
+
+  const readFileContents = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const fileContent = e.target?.result as string;
+      setText(fileContent);
+      toast.success('Successfully imported contents!');
+    };
+    reader.readAsText(file);
+  };
+
   // 'Esc' will exit the modal as well
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setModalVisible(false); 
+        setModalVisible(false);
       }
     };
 
@@ -39,8 +63,8 @@ export default function Editor() {
     };
   }, []);
 
-  const handleDownload = (fileName) => {
-    if (!text.trim()) { // if note content is empty when saving
+  const handleDownload = (fileName: string) => {
+    if (!text.trim()) {
       toast.error('Cannot download an empty note!', {
         description: 'Please type something and then save your note.'
       });
@@ -59,65 +83,124 @@ export default function Editor() {
     document.body.removeChild(a);
     setModalVisible(false);
     toast.success('Saved to your device!', {
-      description: `Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the 'Open File' button and selecting the correct file.`,
+      description: `Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the 'Open Note' option in the command menu and selecting the correct file.`,
     });
   };
 
-  const sanitizeFileName = (fileName) => { // sanitize file names
+  const sanitizeFileName = (fileName: string) => {
     return fileName.replace(/[^\w.-]/g, '-');
   };
 
-  const handleDrop = (event) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(false);
-  
+
     const file = event.dataTransfer.files[0];
-    const reader = new FileReader();
-  
-    if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) { // .txt and .md only
-      reader.onload = (e) => {
-        const fileContent = e.target.result as string;
-        setText(fileContent);
-      };
-  
-      reader.readAsText(file);
-      toast.success('Successfully imported contents!')
+    if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) {
+      readFileContents(file);
     } else {
       toast.error('File not supported!', {
-        description: `Please drag a '.txt' or '.md' file into the window.`
+        description: `Please drag in a '.TXT' or '.MD' file.`
       });
     }
   };
 
-  const openExistingFile = (fileContent) => {
-    setText(fileContent);
-    toast.success('Successfully imported contents!');
-  };
-
-  const handleDragOver = (event) => {
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(true);
   };
 
-  const handleDragLeave = (event) => {
-    // checks if the drag event target is the container element (or its children)
-    if (event.currentTarget === event.target || !event.currentTarget.contains(event.relatedTarget)) {
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    if (event.currentTarget === event.target || !event.currentTarget.contains(event.relatedTarget as Node)) {
       setIsDraggingOver(false);
     }
   };
 
+  const handleCopy = async () => {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      if (textarea.value.trim() === '') {
+        toast.warning('There is no content to copy!');
+        return;
+      }
+      try {
+        copy(textarea.value);
+        toast.success('Note copied to your clipboard!');
+      } catch (error) {
+        toast.error('Failed to copy note to your clipboard.');
+      }
+    }
+  };
+
+
+  const handleCommandSelect = (commandId: string) => {
+    switch (commandId) {
+      case 'new':
+        setText('');
+        toast.info('Started a new note.');
+        break;
+      case 'open':
+        const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+        fileInput.click();
+        break;
+      case 'save':
+        setModalVisible(true);
+        break;
+      case 'copy':
+        handleCopy();
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Keybinds
+  useEffect(() => {
+    hotkeys('ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, command+n, command+o, command+s, command+shift+c', function(event, handler) {
+      event.preventDefault();
+      switch (handler.key) {
+        case 'ctrl+n':
+        case 'command+n':
+          handleCommandSelect('new');
+          break;
+        case 'ctrl+o':
+        case 'command+o':
+          handleCommandSelect('open');
+          break;
+        case 'ctrl+s':
+        case 'command+s':
+          handleCommandSelect('save');
+          break;
+        case 'ctrl+shift+c':
+        case 'command+shift+c':
+          handleCommandSelect('copy');
+          break;
+        default:
+          break;
+      }
+    });
+
+    return () => {
+      hotkeys.unbind('ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, command+n, command+o, command+s, command+shift+c');
+    };
+  }, []);
+
   return (
-    <div 
-      className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 selection:bg-neutral-700 selection:text-zinc-300 ${isDraggingOver ? 'bg-[#050505] opacity-70 duration-300' : ''}`}
+    <div
+      className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 ${isDraggingOver ? 'bg-[#050505] opacity-70 duration-300' : ''}`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
       <div className="max-w-xl w-full space-y-3 flex-col relative">
         <div className="-ml-3 px-1">
-          <Controls
-            handleDownload={() => setModalVisible(true)}
-            openExistingFile={openExistingFile}
+          <Command openCommandMenu={handleCommandSelect} />
+          <input
+            type="file"
+            id="fileInput"
+            style={{ display: 'none' }}
+            accept=".txt,.md"
+            onChange={handleFileInputChange}
           />
         </div>
         <motion.textarea
@@ -127,7 +210,7 @@ export default function Editor() {
           value={text}
           placeholder="Start typing here..."
           onChange={(e) => setText(e.target.value)}
-          className="bg-[#181818] text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg resize-none rounded-md border border-neutral-800 focus:border-neutral-700 max-w-screen h-96 overflow-auto"
+          className="bg-[#181818] text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md border border-neutral-800 focus:border-neutral-700 max-w-screen h-96 overflow-auto"
           aria-label="Note Content"
         />
       </div>

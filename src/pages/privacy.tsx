@@ -12,11 +12,11 @@ export default function Policy() {
       <div className="max-w-2xl w-full px-4 py-8 space-y-4 flex-col">
         <div className="flex items-center justify-start">
           <Head>
-            <title>policy • notetxt</title>
+            <title>Policy • Notetxt</title>
           </Head>
           <Lock size={40} className="mr-2 text-amber-400 md:mt-0 mt-10" />
           <h1 className="text-4xl md:text-5xl text-zinc-100 opacity-90 md:mt-0 mt-10 max-w-lg font-semibold tracking-tighter flex items-center">
-            your notes are safe
+            Your Notes Are Safe
           </h1>
         </div>
         <p className="text-neutral-400 tracking-tight text-md max-w-lg pt-2">
