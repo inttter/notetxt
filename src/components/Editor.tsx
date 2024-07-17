@@ -210,7 +210,7 @@ export default function Editor() {
           value={text}
           placeholder="Start typing here..."
           onChange={(e) => setText(e.target.value)}
-          className="bg-[#181818] text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md border border-neutral-800 focus:border-neutral-700 max-w-screen h-96 overflow-auto"
+          className="bg-[#181818] text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md border border-neutral-800 focus:border-neutral-700 min-h-96 max-w-screen h-96 overflow-auto"
           aria-label="Note Content"
         />
       </div>
