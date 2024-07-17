@@ -13,7 +13,7 @@ export default function Home() {
       'tip: ctrl+k for the command menu',
       'tip: drop in a .txt or .md file',
       'tip: notes save when you leave',
-      'tip: find important links in the command menu'
+      'tip: find links in the command menu'
     ];
 
     const updateTip = () => {
