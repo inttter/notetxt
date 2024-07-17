@@ -12,6 +12,7 @@ export default function Editor() {
   const [text, setText] = useState('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [fileName, setFileName] = useState('');
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -43,6 +44,7 @@ export default function Editor() {
     reader.onload = (e) => {
       const fileContent = e.target?.result as string;
       setText(fileContent);
+      setFileName(file.name);
       toast.success('Successfully imported contents!');
     };
     reader.readAsText(file);
@@ -224,6 +226,7 @@ export default function Editor() {
           isVisible={isModalVisible}
           onClose={() => setModalVisible(false)}
           onSave={handleDownload}
+          initialFileName={fileName}
         />
       )}
     </div>

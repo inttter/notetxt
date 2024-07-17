@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DOMPurify from 'dompurify';
 
-function Modal({ isVisible, onClose, onSave }) {
-  const [fileName, setFileName] = React.useState('');
+function Modal({ isVisible, onClose, onSave, initialFileName }) {
+  const [fileName, setFileName] = useState(initialFileName || '');
+
+  useEffect(() => {
+    // remove the file extension from the name if present in initialFileName
+    if (initialFileName) {
+      // sanitize file name
+      const sanitizedFileName = DOMPurify.sanitize(initialFileName);
+      const nameWithoutExtension = sanitizedFileName.replace(/\.[^/.]+$/, '');
+      
+      // set the file name without the extension
+      setFileName(nameWithoutExtension);
+    }
+  }, [initialFileName])
 
   const handleSave = () => {
     const sanitizedFileName = DOMPurify.sanitize(fileName);
@@ -34,8 +46,8 @@ function Modal({ isVisible, onClose, onSave }) {
               placeholder="Note Title"
             />
             <div className="flex justify-between items-center">
-              <div className="text-xs text-neutral-600 italic hidden md:block ml-0.5 mb-2 md:mb-0">
-                Leave empty to give the note no name.
+              <div className="text-xs text-neutral-500 hidden md:flex ml-0.5 items-center">
+                Drag in or open a file to auto-set its file name as the title.
               </div>
               <div className="text-zinc-100">
                 <button onClick={onClose} className="bg-[#282828] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 mr-2 px-4 py-1 rounded-md">
