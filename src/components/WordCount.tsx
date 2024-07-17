@@ -16,10 +16,9 @@ export default function WordCount({ text }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute text-sm bottom-5 text-neutral-700 right-3 rounded-md py-1 px-2 italic sm:not-italic flex items-center whitespace-nowrap"
+          className="absolute text-sm text-neutral-700 -bottom-12 -mb-1 md:mb-0 md:bottom-5 right-5 whitespace-nowrap"
         >
-          {wordCount} word{wordCount !== 1 && 's'}
-          <span className="hidden sm:inline ml-1"></span>
+          {wordCount} word{wordCount !== 1 ? 's' : ''}
         </motion.div>
       )}
     </AnimatePresence>
