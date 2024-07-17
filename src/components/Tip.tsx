@@ -16,8 +16,14 @@ export default function Home() {
       'tip: find important links in the command menu'
     ];
 
-    const randomIndex = Math.floor(Math.random() * tips.length);
-    setRandomTip(tips[randomIndex]);
+    const updateTip = () => {
+      const randomIndex = Math.floor(Math.random() * tips.length);
+      setRandomTip(tips[randomIndex]);
+    }
+
+    updateTip();
+    const intervalId = setInterval(updateTip, 10000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
