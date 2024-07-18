@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Command, FolderOpen, Plus, Download, Copy, Search, Github, Lock, Keyboard, Home } from 'lucide-react';
+import { Command, FolderOpen, Plus, Download, Copy, Search, Github, Lock, Keyboard, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
 
@@ -12,10 +12,10 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
   ];
 
   const links = [
-    { id: 'home', name: 'Home', icon: <Home size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, url: '/' },
     { id: 'privacy', name: 'Privacy', icon: <Lock size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, url: '/privacy' }, 
     { id: 'keybinds', name: 'Keybinds', icon: <Keyboard size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, url: 'https://github.com/inttter/notetxt?tab=readme-ov-file#keybinds' }, 
     { id: 'github', name: 'GitHub', icon: <Github size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, url: 'https://github.com/inttter/notetxt' },
+    { id: 'donate', name: 'Donate', icon: <Heart size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, url: 'https://github.com/sponsors/inttter' },
   ];
 
   const menuRef = useRef(null);
@@ -61,7 +61,9 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
             </div>
             <CmdCommand.List className="bg-neutral-900 p-2 mt-3 rounded-xl">
               <CmdCommand.Group>
-                <div className="p-2 text-sm font-semibold text-stone-500 uppercase tracking-wide">Controls</div>
+                <div className="p-2 text-md text-stone-500">
+                  Controls
+                </div>
                 {controls.map((command) => (
                   <CmdCommand.Item
                   key={command.id}
@@ -69,7 +71,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
                     onCommandSelect(command.id);
                     toggleMenu(false);
                   }}
-                  className="p-2 cursor-pointer text-zinc-300 hover:bg-neutral-800 border border-transparent hover:border-neutral-700 rounded-lg duration-300 flex items-center group"
+                  className="p-2 cursor-pointer text-zinc-300 hover:bg-neutral-800 border border-transparent hover:shadow-lg hover:shadow-neutral-950 rounded-lg duration-300 flex items-center group"
                 >
                   {command.icon}
                   {command.name}
@@ -86,7 +88,9 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
                 ))}
               </CmdCommand.Group>
               <CmdCommand.Group>
-                <div className="p-2 text-sm font-semibold text-stone-500 uppercase tracking-wide">Links</div>
+                <div className="p-2 text-md text-stone-500">
+                  Links
+                </div>
                 {links.map((link) => (
                   <CmdCommand.Item
                     key={link.id}
@@ -94,7 +98,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
                       window.open(link.url, '_blank');
                       toggleMenu(false);
                     }}
-                    className="p-2 cursor-pointer text-zinc-300 hover:bg-neutral-800 border border-transparent hover:border-neutral-700 rounded-lg duration-300 flex items-center group"
+                    className="p-2 cursor-pointer text-zinc-300 hover:bg-neutral-800 border border-transparent hover:shadow-lg hover:shadow-neutral-950 rounded-lg duration-300 flex items-center group"
                   >
                     {link.icon}
                     {link.name}
@@ -137,14 +141,14 @@ const CommandMenuButton = ({ openCommandMenu }) => {
 
   return (
     <div>
-      <div className="flex mb-4 px-3 py-2 rounded-lg space-x-2">
+      <div className="flex mb-4 px-2 py-2 rounded-lg space-x-2">
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           onClick={toggleCommandMenu}
           className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-full flex items-center tooltip tooltip-right"
-          data-tip="Menu"
+          data-tip="Menu (Ctrl/Cmd+K)"
           data-theme="black"
         >
           <Command size={20} className="text-zinc-300 cursor-pointer" />
