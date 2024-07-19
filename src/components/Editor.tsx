@@ -138,16 +138,11 @@ export default function Editor() {
       case 'copy':
         handleCopy();
         break;
-        case 'preview':
-          if (!text.trim()) {
-            toast.error('There is no content to preview. Please write something before previewing.');
-            return;
-          }
-          
-          const id = Date.now();
-          localStorage.setItem(`markdown_${id}`, text);
-          router.push(`/preview/${id}`);
-          break;
+      case 'preview':          
+        const id = Date.now();
+        localStorage.setItem(`markdown_${id}`, text);
+        router.push(`/preview/${id}`);
+        break;
       default:
         break;
     }
