@@ -4,10 +4,14 @@ module.exports = {
     './src/pages/**/*.{ts,tsx,js,jsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Geist Sans', 'sans-serif'],
+      },
+    },
   },
   variants: {},
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require('@tailwindcss/typography')],
   daisyui: {
     themes: ["dark", "lofi", "black"],
   },

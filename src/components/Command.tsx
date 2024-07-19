@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Command, FolderOpen, Plus, Download, Copy, Search, Github, Lock, Keyboard, Heart } from 'lucide-react';
+import { Command, FolderOpen, Plus, Download, Copy, SearchCode, Search, Github, Lock, Keyboard, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
 
@@ -9,6 +9,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
     { id: 'new', name: 'New Note', icon: <Plus size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, keybind: 'Ctrl+N' },
     { id: 'save', name: 'Save Note', icon: <Download size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, keybind: 'Ctrl+S' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, keybind: 'Ctrl+Shift+C' },
+    { id: 'preview', name: 'Preview Markdown', icon: <SearchCode size={20} className="mr-2 text-stone-500 group-hover:text-zinc-300 duration-300" />, keybind: 'Ctrl+M' },
   ];
 
   const links = [
@@ -148,7 +149,7 @@ const CommandMenuButton = ({ openCommandMenu }) => {
           transition={{ duration: 0.5, delay: 0.2 }}
           onClick={toggleCommandMenu}
           className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-full flex items-center tooltip tooltip-right"
-          data-tip="Menu (Ctrl/Cmd+K)"
+          data-tip="Menu (Ctrl+K)"
           data-theme="black"
         >
           <Command size={20} className="text-zinc-300 cursor-pointer" />

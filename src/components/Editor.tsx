@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { toast, Toaster } from 'sonner';
 import Command from './Command';
 import WordCount from './WordCount';
 import Modal from './DownloadModal';
-import { toast, Toaster } from 'sonner';
-import DOMPurify from 'dompurify';
-import { motion } from 'framer-motion';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
+import DOMPurify from 'dompurify';
+import { motion } from 'framer-motion';
+import { useText } from './markdown/TextContent';
 
 export default function Editor() {
-  const [text, setText] = useState('');
+  const router = useRouter();
+  const { text, setText } = useText();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
-
     if (savedText) {
       setText(savedText);
-      toast.info('Restored the contents of the previous note.')
+      toast.info('Restored the contents of the previous note.');
     }
-  }, []);
+  }, [setText]);
 
   useEffect(() => {
     localStorage.setItem('text', text);
@@ -49,21 +51,6 @@ export default function Editor() {
     };
     reader.readAsText(file);
   };
-
-  // 'Esc' will exit the modal as well
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setModalVisible(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
 
   const handleDownload = (fileName: string) => {
     if (!text.trim()) {
@@ -151,6 +138,16 @@ export default function Editor() {
       case 'copy':
         handleCopy();
         break;
+        case 'preview':
+          if (!text.trim()) {
+            toast.error('There is no content to preview. Please write something before previewing.');
+            return;
+          }
+          
+          const id = Date.now();
+          localStorage.setItem(`markdown_${id}`, text);
+          router.push(`/preview/${id}`);
+          break;
       default:
         break;
     }
@@ -158,7 +155,9 @@ export default function Editor() {
 
   // Keybinds
   useEffect(() => {
-    hotkeys('ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, command+n, command+o, command+s, command+shift+c', function(event, handler) {
+    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, command+n, command+o, command+s, command+shift+c, command+m';
+    
+    const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();
       switch (handler.key) {
         case 'ctrl+n':
@@ -177,13 +176,19 @@ export default function Editor() {
         case 'command+shift+c':
           handleCommandSelect('copy');
           break;
+        case 'ctrl+m':
+        case 'command+m':
+          handleCommandSelect('preview');
+          break;
         default:
           break;
       }
-    });
+    };
+
+    hotkeys(hotkeyList, handler);
 
     return () => {
-      hotkeys.unbind('ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, command+n, command+o, command+s, command+shift+c');
+      hotkeys.unbind(hotkeyList);
     };
   }, []);
 
