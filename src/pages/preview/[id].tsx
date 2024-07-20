@@ -23,8 +23,9 @@ const Preview = () => {
       if (savedMarkdown) {
         setMarkdown(savedMarkdown);
       } else {
-        // TODO - Improve this error message with an image + better description and make it stand out more. This error can be formatted using Markdown, after all.
-        setMarkdown('Sorry, there was no content found for this preview. Please go back and try again.');
+        setMarkdown(
+          '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/) and try again.'
+        );
       }
 
       // on component mount, clears previous preview data (aka the text)
