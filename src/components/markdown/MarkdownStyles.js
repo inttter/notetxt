@@ -32,13 +32,13 @@ const markdownStyles = {
         <li className="mb-2 prose-li:mb-2" {...props} />
     ),
     table: ({ node, ...props }) => (
-        <table className="w-full overflow-x-auto border-collapse mb-4 prose-table:mt-4 prose-table:mb-4 prose-invert" {...props} />
+        <table className="table-auto w-full overflow-x-auto rounded-md border-collapse my-4 prose-table:my-4 prose-invert" {...props} />
     ),
     th: ({ node, ...props }) => (
-        <th className="border border-neutral-800 px-4 py-2 bg-neutral-800 text-zinc-300 prose-th:bg-neutral-800 prose-th:text-zinc-300 prose-invert text-left" {...props} />
+        <th className="border border-neutral-800 px-4 py-2 bg-[#0D1117] text-zinc-300 prose-th:bg-neutral-800 prose-th:text-zinc-300 prose-invert text-left" {...props} />
     ),
     td: ({ node, ...props }) => (
-        <td className="border border-neutral-800 px-4 py-1.5 bg-neutral-900 prose-td:bg-neutral-900 prose-invert" {...props} />
+        <td className="border border-neutral-800 px-4 py-1.5 bg-[#161B22] prose-td:bg-neutral-900 prose-invert" {...props} />
     ),
     strong: ({ node, ...props }) => (
         <strong className="prose-strong:font-bold prose-invert" {...props} />
