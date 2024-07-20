@@ -65,7 +65,7 @@ const markdownStyles = {
         <blockquote className="border-l-4 border-gray-500 pl-4 mb-4 italic prose-blockquote:border-l-4 prose-blockquote:border-gray-500 prose-blockquote:pl-4 prose-invert" {...props} />
     ),
     img: ({ node, ...props }) => (
-        <img className="max-w-full h-auto mb-4 prose-img:max-w-full prose-img:h-auto border border-neutral-800 prose-invert" {...props} />
+        <img className="max-w-full h-auto mb-4 prose-img:max-w-full prose-img:h-auto border border-neutral-800 prose-invert" loading="lazy" {...props} />
     ),
     hr: ({ node, ...props }) => (
         <hr className="border-t-2 border-neutral-700 my-4 prose-hr:border-t prose-hr:border-neutral-700 prose-invert" {...props} />
