@@ -2,22 +2,22 @@ import React from 'react';
 
 const markdownStyles = {
     h1: ({ node, ...props }) => (
-        <div className="relative text-3xl md:text-4xl font-bold tracking-tighter mt-5 pb-1 text-zinc-100 prose-invert" {...props} />
+        <div className="relative text-3xl md:text-4xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h2: ({ node, ...props }) => (
-        <h2 className="relative text-2xl md:text-3xl font-bold tracking-tighter mt-5 pb-1 text-zinc-100 prose-invert" {...props} />
+        <h2 className="relative text-2xl md:text-3xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h3: ({ node, ...props }) => (
-        <h3 className="relative text-xl md:text-2xl font-bold tracking-tighter mt-5 pb-1 text-zinc-100 prose-invert" {...props} />
+        <h3 className="relative text-xl md:text-2xl font-boldmd:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h4: ({ node, ...props }) => (
-        <h4 className="relative text-lg md:text-xl font-bold tracking-tighter mt-5 pb-1 text-zinc-100 prose-invert" {...props} />
+        <h4 className="relative text-lg md:text-xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h5: ({ node, ...props }) => (
-        <h5 className="relative text-base md:text-lg font-bold tracking-tighter mt-5 pb-1 text-zinc-100 prose-invert" {...props} />
+        <h5 className="relative text-base md:text-lg font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h6: ({ node, ...props }) => (
-        <h6 className="relative text-sm md:text-base font-bold tracking-tighter mt-5 pb-1 text-neutral-500 prose-invert" {...props} />
+        <h6 className="relative text-sm md:text-base font-bold md:tracking-normal tracking-tighter mt-5 text-neutral-500 prose-invert" {...props} />
     ),
     p: ({ node, ...props }) => (
         <p className="mb-4 prose-p:text-zinc-300 prose-invert" {...props} />
