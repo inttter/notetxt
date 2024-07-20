@@ -41,7 +41,10 @@ const markdownStyles = {
         <td className="border border-neutral-800 px-4 py-1.5 bg-[#161B22] prose-td:bg-neutral-900 prose-invert" {...props} />
     ),
     strong: ({ node, ...props }) => (
-        <strong className="prose-strong:font-bold prose-invert" {...props} />
+        <strong className="prose-strong:font-bold md:tracking-normal tracking-tighter prose-invert" {...props} />
+    ),
+    em: ({ node, ...props }) => (
+        <em className="italic m-0.5 prose-invert" {...props} />
     ),
     del: ({ node, ...props }) => (
         <del className="prose-del:line-through prose-invert" {...props} />
