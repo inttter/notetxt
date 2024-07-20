@@ -23,6 +23,7 @@ const Preview = () => {
       if (savedMarkdown) {
         setMarkdown(savedMarkdown);
       } else {
+        // TODO - Improve this error message with an image + better description and make it stand out more. This error can be formatted using Markdown, after all.
         setMarkdown('Sorry, there was no content found for this preview. Please go back and try again.');
       }
 
@@ -58,11 +59,11 @@ const Preview = () => {
       </div>
 
       <div
-        className="prose prose-invert text-zinc-300 max-w-full md:max-w-2xl mx-auto"
+        className="prose prose-invert text-zinc-300 w-full max-w-2xl mx-auto"
         style={{ fontFamily: 'Geist Sans, sans-serif' }}
       >
         <ReactMarkdown
-          className="text-left"
+          className=""
           children={markdown}
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw]}
