@@ -16,6 +16,7 @@ export default function Editor() {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [previewId, setPreviewId] = useState<number | null>(null);
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -138,15 +139,21 @@ export default function Editor() {
       case 'copy':
         handleCopy();
         break;
-      case 'preview':          
-        const id = Date.now();
-        localStorage.setItem(`markdown_${id}`, text);
-        router.push(`/preview/${id}`);
+      case 'preview':
+         const id = Date.now();
+         setPreviewId(id);
         break;
       default:
         break;
     }
   };
+
+  useEffect(() => {
+    if (previewId !== null) {
+      localStorage.setItem(`markdown_${previewId}`, text);
+      router.push(`/preview/${previewId}`);
+    }
+  }, [previewId]);
 
   // Keybinds
   useEffect(() => {
