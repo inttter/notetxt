@@ -59,10 +59,15 @@ export default function Editor() {
     reader.readAsText(file);
   };
 
+  // Check if the user is on an iOS device
+  const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  };
+
   const handleDownload = (fileName, fileType) => {
     if (!text.trim()) {
       toast.error('Cannot download an empty note!', {
-        description: 'Please type something and then save your note.'
+        description: 'Please type something and then save your note.',
       });
       return;
     }
@@ -84,20 +89,31 @@ export default function Editor() {
     const a = document.createElement('a');
     a.href = url;
     a.download = finalFileName;
-    
+
     document.body.appendChild(a);
     a.click();
+  
+    // On iOS, if the user dismisses the download prompt, the success toast might still show.
+    // To handle this, show a different toast.
+    if (isIOS()) {
+      toast.info('Check your downloads folder.', {
+        description: `Make sure you clicked 'Download' on the alert that appeared to download the note to your device. If you didn't, the note did not download.`,
+      });
+    } else {
+      setTimeout(() => {
+        toast.success('Saved to your device!', {
+          description: `Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the 'Open Note' option in the command menu and selecting the correct file.`,
+        });
+      }, 400);
+    }
+  
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  
     setModalVisible(false);
-    toast.success('Saved to your device!', {
-      description: `Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the 'Open Note' option in the command menu and selecting the correct file.`,
-    });
   };
-
-  const sanitizeFileName = (fileName: string) => {
-    return fileName.replace(/[^\w.-]/g, '-');
+  
+  const sanitizeFileName = (fileName) => {
+    return fileName.replace(/[<>:"\/\\|?*]/g, '-');
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
