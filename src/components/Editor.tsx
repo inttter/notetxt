@@ -76,7 +76,7 @@ export default function Editor() {
     const blob = new Blob([sanitizedText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
   
-    const defaultFileName = 'untitled-note';
+    const defaultFileName = 'note';
     const sanitizedFileName = sanitizeFileName(fileName || defaultFileName);
   
     const extension = fileType.startsWith('.') ? fileType : `.${fileType}`;
