@@ -16,6 +16,7 @@ export default function Editor() {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [fileType, setFileType] = useState('.txt');
   const [previewId, setPreviewId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -46,31 +47,49 @@ export default function Editor() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const fileContent = e.target?.result as string;
+      const fileNameWithExtension = file.name;
+      const fileName = fileNameWithExtension.replace(/\.[^/.]+$/, '');
+      const fileExtension = fileNameWithExtension.split('.').pop();
+  
       setText(fileContent);
-      setFileName(file.name);
+      setFileName(fileName);
+      setFileType(`.${fileExtension}`);
       toast.success('Successfully imported contents!');
     };
     reader.readAsText(file);
   };
 
-  const handleDownload = (fileName: string) => {
+  const handleDownload = (fileName, fileType) => {
     if (!text.trim()) {
       toast.error('Cannot download an empty note!', {
         description: 'Please type something and then save your note.'
       });
       return;
     }
-
+  
     const sanitizedText = DOMPurify.sanitize(text);
     const blob = new Blob([sanitizedText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
+  
+    const defaultFileName = 'untitled-note';
+    const sanitizedFileName = sanitizeFileName(fileName || defaultFileName);
+  
+    const extension = fileType.startsWith('.') ? fileType : `.${fileType}`;
+  
+    let finalFileName = sanitizedFileName;
+    if (!finalFileName.toLowerCase().endsWith(extension)) {
+      finalFileName += extension;
+    }
+  
     const a = document.createElement('a');
     a.href = url;
-    a.download = fileName ? `${sanitizeFileName(fileName)}.txt` : 'note.txt';
-
+    a.download = finalFileName;
+    
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  
     setModalVisible(false);
     toast.success('Saved to your device!', {
       description: `Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the 'Open Note' option in the command menu and selecting the correct file.`,
@@ -122,7 +141,6 @@ export default function Editor() {
     }
   };
 
-
   const handleCommandSelect = (commandId: string) => {
     switch (commandId) {
       case 'new':
@@ -140,8 +158,8 @@ export default function Editor() {
         handleCopy();
         break;
       case 'preview':
-         const id = Date.now();
-         setPreviewId(id);
+        const id = Date.now();
+        setPreviewId(id);
         break;
       default:
         break;
@@ -232,8 +250,10 @@ export default function Editor() {
         <Modal
           isVisible={isModalVisible}
           onClose={() => setModalVisible(false)}
-          onSave={handleDownload}
+          onSave={(fileName) => handleDownload(fileName, fileType)}
           initialFileName={fileName}
+          selectedFileType={fileType}
+          onFileTypeChange={(type) => setFileType(type)}
         />
       )}
     </div>
