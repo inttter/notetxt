@@ -53,7 +53,7 @@ const markdownStyles = {
         <iframe className="w-full aspect-video mb-4 prose-invert" {...props} />
     ),
     code: ({ node, ...props }) => (
-        <code className=" text-zinc-300 rounded-md px-1.5 py-1 bg-neutral-800 prose-invert font-normal code" {...props} />
+        <code className=" text-zinc-300 rounded-md px-1.5 py-1 bg-transparent prose-invert font-normal code" {...props} />
     ),
     pre: ({ node, ...props }) => (
         <pre className="p-4 rounded-md text-zinc-100 bg-[#161B22] prose-invert code" {...props} />
