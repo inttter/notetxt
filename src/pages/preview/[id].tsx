@@ -6,7 +6,7 @@ import rehypeRaw from 'rehype-raw';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { NextPageContext } from 'next'
+import Head from 'next/head';
 
 // markdown styling
 // note: uses github markdown styling + my own custom styling from markdownStyles
@@ -51,6 +51,9 @@ const Preview = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#0D1117] p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+      <Head>
+        <title>Preview • Notetxt</title>
+      </Head>
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -85,9 +88,3 @@ const Preview = () => {
 };
 
 export default Preview;
-
-Preview.getInitialProps = async (ctx: NextPageContext) => {
-  return {
-    title: 'Preview • Notetxt',
-  }
-}
