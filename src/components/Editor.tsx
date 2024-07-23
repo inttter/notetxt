@@ -185,11 +185,18 @@ export default function Editor() {
   useEffect(() => {
     if (previewId !== null) {
       localStorage.setItem(`markdown_${previewId}`, text);
-      router.push(`/preview/${previewId}`);
+
+      toast.promise(
+        router.push(`/preview/${previewId}`),
+        {
+          loading: 'Loading preview...',
+          success: 'Preview loaded successfully!',
+          error: 'Failed to load preview.',
+        }
+      );
     }
   }, [previewId]);
 
-  // Keybinds
   useEffect(() => {
     const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, command+n, command+o, command+s, command+shift+c, command+m';
     
@@ -261,7 +268,7 @@ export default function Editor() {
       <div className="absolute bottom-20 md:bottom-0 right-1">
         <WordCount text={text} />
       </div>
-      {/* download modal */}
+      {/* Download Modal */}
       {isModalVisible && (
         <Modal
           isVisible={isModalVisible}
