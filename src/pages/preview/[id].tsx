@@ -6,6 +6,7 @@ import rehypeRaw from 'rehype-raw';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { NextPageContext } from 'next'
 
 // markdown styling
 // note: uses github markdown styling + my own custom styling from markdownStyles
@@ -19,7 +20,7 @@ const Preview = () => {
 
   useEffect(() => {
     if (id) {
-      // Retrieve and set the markdown content
+      // retrieve and set markdown content
       const savedMarkdown = localStorage.getItem(`markdown_${id}`);
       if (savedMarkdown) {
         setMarkdown(savedMarkdown);
@@ -50,7 +51,6 @@ const Preview = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#0D1117] p-4 sm:p-6 lg:p-8 overflow-x-hidden">
-
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -74,7 +74,6 @@ const Preview = () => {
         style={{ fontFamily: 'Geist Sans, sans-serif' }}
       >
         <ReactMarkdown
-          className=""
           children={markdown}
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw]}
@@ -86,3 +85,9 @@ const Preview = () => {
 };
 
 export default Preview;
+
+Preview.getInitialProps = async (ctx: NextPageContext) => {
+  return {
+    title: 'Preview • Notetxt',
+  }
+}

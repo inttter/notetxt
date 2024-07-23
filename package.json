@@ -15,13 +15,14 @@
     "cmdk": "^1.0.0",
     "copy-to-clipboard": "^3.3.3",
     "dompurify": "^3.1.6",
-    "framer-motion": "^11.3.8",
+    "framer-motion": "^11.3.9",
     "github-markdown-css": "^5.6.1",
     "hotkeys-js": "^3.13.7",
-    "lucide-react": "^0.411.0",
+    "lucide-react": "^0.414.0",
     "next": "14.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-icons": "^5.2.1",
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
@@ -39,6 +40,6 @@
     "postcss": "^8.4.39",
     "postcss-import": "^16.1.0",
     "tailwindcss": "^3.4.6",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   }
 }
