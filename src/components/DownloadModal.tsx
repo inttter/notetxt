@@ -1,33 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import DOMPurify from 'dompurify';
 
-function Modal({ isVisible, onClose, onSave, initialFileName, selectedFileType, onFileTypeChange }) {
-  const [fileName, setFileName] = useState(initialFileName || '');
-  const [fileType, setFileType] = useState(selectedFileType || '.txt');
-
-  useEffect(() => {
-    if (initialFileName) {
-      const sanitizedFileName = DOMPurify.sanitize(initialFileName);
-      const nameWithoutExtension = sanitizedFileName.replace(/\.[^/.]+$/, '');
-      setFileName(nameWithoutExtension);
-
-      const extension = sanitizedFileName.match(/\.[^/.]+$/);
-      setFileType(extension ? extension[0] : '.txt');
-    }
-  }, [initialFileName]);
-
-  useEffect(() => {
-    // update the fileType state when selectedFileType changes
-    setFileType(selectedFileType || '.txt');
-  }, [selectedFileType]);
-
+const Modal = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType }) => {
   const handleSave = () => {
-    const sanitizedFileName = DOMPurify.sanitize(fileName.trim() || 'note');
-    const completeFileName = `${sanitizedFileName}${fileType}`;
-    onSave(completeFileName);
-    setFileName('');
-    onClose();
+    const defaultFileName = 'note';
+    const sanitizedFileName = fileName.trim() === '' ? defaultFileName : fileName.trim();
+    onDownload(sanitizedFileName, fileType);
   };
 
   const fileTypes = [
@@ -37,7 +15,7 @@ function Modal({ isVisible, onClose, onSave, initialFileName, selectedFileType, 
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isOpen && (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1.0 }}
@@ -59,18 +37,14 @@ function Modal({ isVisible, onClose, onSave, initialFileName, selectedFileType, 
             <div className="flex justify-end items-center">
               <div className="text-zinc-100 flex space-x-2">
                 <button
-                  onClick={onClose}
+                  onClick={onRequestClose}
                   className="bg-[#282828] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-1 rounded-md"
                 >
                   Cancel
                 </button>
                 <select
                   value={fileType}
-                  onChange={(e) => {
-                    const newType = e.target.value;
-                    setFileType(newType);
-                    onFileTypeChange(newType);
-                  }}
+                  onChange={(e) => setFileType(e.target.value)}
                   className="bg-[#282828] text-zinc-100 border border-transparent hover:border-neutral-700 rounded-md p-2 outline-none"
                 >
                   {fileTypes.map((type) => (
@@ -92,6 +66,6 @@ function Modal({ isVisible, onClose, onSave, initialFileName, selectedFileType, 
       )}
     </AnimatePresence>
   );
-}
+};
 
 export default Modal;

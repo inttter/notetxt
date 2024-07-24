@@ -34,7 +34,7 @@ export default function Editor() {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
-    if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) {
+    if (file && /\.(txt|md)$/i.test(file.name)) {
       readFileContents(file);
     } else {
       toast.error('File not supported!', {
@@ -50,7 +50,7 @@ export default function Editor() {
       const fileNameWithExtension = file.name;
       const fileName = fileNameWithExtension.replace(/\.[^/.]+$/, '');
       const fileExtension = fileNameWithExtension.split('.').pop();
-  
+
       setText(fileContent);
       setFileName(fileName);
       setFileType(`.${fileExtension}`);
@@ -71,28 +71,30 @@ export default function Editor() {
       });
       return;
     }
-  
+
+    const validFileTypes = ['.txt', '.md'];
+    const extension = validFileTypes.includes(fileType) ? fileType : '.txt';
     const sanitizedText = DOMPurify.sanitize(text);
     const blob = new Blob([sanitizedText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-  
+
     const defaultFileName = 'note';
     const sanitizedFileName = sanitizeFileName(fileName || defaultFileName);
-  
-    const extension = fileType.startsWith('.') ? fileType : `.${fileType}`;
-  
+
     let finalFileName = sanitizedFileName;
-    if (!finalFileName.toLowerCase().endsWith(extension)) {
+    if (!finalFileName.toLowerCase().endsWith(extension.toLowerCase())) {
       finalFileName += extension;
     }
-  
+
     const a = document.createElement('a');
     a.href = url;
     a.download = finalFileName;
-
     document.body.appendChild(a);
     a.click();
-  
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+ 
     // On iOS, if the user dismisses the download prompt, the success toast might still show.
     // To handle this, show a different toast.
     if (isIOS()) {
@@ -106,12 +108,10 @@ export default function Editor() {
         });
       }, 400);
     }
-  
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+
     setModalVisible(false);
   };
-  
+
   const sanitizeFileName = (fileName) => {
     return fileName.replace(/[<>:"\/\\|?*]/g, '-');
   };
@@ -121,12 +121,17 @@ export default function Editor() {
     setIsDraggingOver(false);
 
     const file = event.dataTransfer.files[0];
-    if (file && (file.name.endsWith('.txt') || file.name.endsWith('.md'))) {
-      readFileContents(file);
-    } else {
-      toast.error('File not supported!', {
-        description: `Please drag in a '.TXT' or '.MD' file.`
-      });
+    if (file) {
+      const fileName = file.name;
+      const extension = fileName.split('.').pop();
+
+      if (extension && (extension.toLowerCase() === 'txt' || extension.toLowerCase() === 'md')) {
+        readFileContents(file);
+      } else {
+        toast.error('File not supported!', {
+          description: `Please drag in a '.txt' or '.md' file.`
+        });
+      }
     }
   };
 
@@ -271,12 +276,13 @@ export default function Editor() {
       {/* Download Modal */}
       {isModalVisible && (
         <Modal
-          isVisible={isModalVisible}
-          onClose={() => setModalVisible(false)}
-          onSave={(fileName) => handleDownload(fileName, fileType)}
-          initialFileName={fileName}
-          selectedFileType={fileType}
-          onFileTypeChange={(type) => setFileType(type)}
+          isOpen={isModalVisible}
+          onRequestClose={() => setModalVisible(false)}
+          onDownload={handleDownload}
+          fileName={fileName}
+          setFileName={setFileName}
+          fileType={fileType}
+          setFileType={setFileType}
         />
       )}
     </div>
