@@ -15,6 +15,7 @@
     "cmdk": "^1.0.0",
     "copy-to-clipboard": "^3.3.3",
     "dompurify": "^3.1.6",
+    "file-saver": "^2.0.5",
     "framer-motion": "^11.3.9",
     "github-markdown-css": "^5.6.1",
     "hotkeys-js": "^3.13.7",

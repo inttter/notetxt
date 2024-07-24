@@ -9,6 +9,7 @@ import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
 import { useText } from './markdown/TextContent';
+import { saveAs } from 'file-saver';
 
 export default function Editor() {
   const router = useRouter();
@@ -71,29 +72,21 @@ export default function Editor() {
       });
       return;
     }
-
+  
     const validFileTypes = ['.txt', '.md'];
     const extension = validFileTypes.includes(fileType) ? fileType : '.txt';
     const sanitizedText = DOMPurify.sanitize(text);
     const blob = new Blob([sanitizedText], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-
+  
     const defaultFileName = 'note';
     const sanitizedFileName = sanitizeFileName(fileName || defaultFileName);
-
+  
     let finalFileName = sanitizedFileName;
     if (!finalFileName.toLowerCase().endsWith(extension.toLowerCase())) {
       finalFileName += extension;
     }
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = finalFileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
+    saveAs(blob, finalFileName);
  
     // On iOS, if the user dismisses the download prompt, the success toast might still show.
     // To handle this, show a different toast.
