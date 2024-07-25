@@ -263,7 +263,7 @@ export default function Editor() {
           aria-label="Note Content"
         />
       </div>
-      <Toaster richColors closeButton invert pauseWhenPageIsHidden />
+      <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
       <div className="absolute bottom-20 md:bottom-0 right-1">
         <WordCount text={text} />
       </div>
