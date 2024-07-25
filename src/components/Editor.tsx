@@ -187,9 +187,10 @@ export default function Editor() {
       toast.promise(
         router.push(`/preview/${previewId}`),
         {
-          loading: 'Loading preview...',
-          success: 'Preview loaded successfully!',
-          error: 'Failed to load preview.',
+          loading: 'Loading Markdown preview...',
+          success: 'Markdown preview loaded successfully!',
+          error: 'Failed to load Markdown preview.',
+          closeButton: false,
         }
       );
     }
