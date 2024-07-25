@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Command, FolderOpen, Plus, Download, Copy, SearchCode, Search, Github, Lock, Keyboard, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
   const controls = [
@@ -142,19 +143,45 @@ const CommandMenuButton = ({ openCommandMenu }) => {
 
   return (
     <div>
-      <div className="flex mb-4 px-2 py-2 rounded-lg space-x-2">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          onClick={toggleCommandMenu}
-          className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-full flex items-center tooltip tooltip-right"
-          data-tip="Menu (Ctrl+K)"
-          data-theme="black"
-        >
-          <Command size={20} className="text-zinc-300 cursor-pointer" />
-        </motion.div>
-      </div>
+      <Tooltip.Provider>
+        <Tooltip.Root delayDuration={0}>
+          <Tooltip.Trigger>
+            <div className="flex mb-4 px-2 py-2 rounded-lg space-x-2">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                onClick={toggleCommandMenu}
+                className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-full flex items-center"
+              >
+                <Command size={20} className="text-zinc-300 cursor-pointer" />
+              </motion.div>
+            </div>
+          </Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content side="right">
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 20, duration: 0.3 }}
+                  className="bg-neutral-700 bg-opacity-40 text-zinc-300 text-sm px-2 py-1 rounded-md shadow-xl shadow-neutral-950"
+                >
+                  <span className="text-base text-zinc-100">
+                    Menu (Ctrl/⌘ + K)
+                  </span>
+                  <br />
+                  <span className="text-stone-400">
+                    Access controls and links from here.
+                  </span>
+                  <Tooltip.Arrow className="fill-neutral-700 opacity-40 mr-1" />
+                </motion.div>
+              </AnimatePresence>
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
 
       <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
     </div>
