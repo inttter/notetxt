@@ -67,7 +67,7 @@ export default function Editor() {
 
   const handleDownload = (fileName, fileType) => {
     if (!text.trim()) {
-      toast.error('Cannot download an empty note!', {
+      toast.warning('Cannot download an empty note!', {
         description: 'Please type something and then save your note.',
       });
       return;
@@ -182,6 +182,14 @@ export default function Editor() {
 
   useEffect(() => {
     if (previewId !== null) {
+      if (text.trim() === '') {
+        toast.warning('Cannot preview an empty note!', {
+          description: 'Please type something before previewing.',
+        });
+        setPreviewId(null);
+        return;
+      }
+
       localStorage.setItem(`markdown_${previewId}`, text);
 
       toast.promise(
