@@ -236,12 +236,16 @@ export default function Editor() {
 
   return (
     <div
-      className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 ${isDraggingOver ? 'bg-[#050505] opacity-70 duration-300' : ''}`}
+      className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 relative`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
-      <div className="max-w-xl w-full space-y-3 flex-col relative">
+      {/* Darkens the page when a file is dragged over */}
+      <div
+        className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-300 z-50 pointer-events-none ${isDraggingOver ? 'opacity-50' : 'opacity-0'}`}
+      />
+      <div className="max-w-xl w-full space-y-3 flex-col relative z-10">
         <div className="-ml-3 px-1">
           <Command openCommandMenu={handleCommandSelect} />
           <input
