@@ -10,19 +10,19 @@ export default function Policy() {
       <div className="max-w-2xl w-full px-4 py-8 space-y-4 flex-col">
         <div className="flex items-center justify-start">
           <Head>
-            <title>Policy • Notetxt</title>
+            <title>Privacy • Notetxt</title>
           </Head>
           <Lock size={40} className="mr-2 text-amber-400 md:mt-0 mt-10" />
           <h1 className="text-4xl md:text-5xl text-zinc-100 opacity-90 md:mt-0 mt-10 max-w-lg font-semibold tracking-tighter flex items-center">
-            Your Notes Are Safe
+            Privacy
           </h1>
         </div>
         <p className="text-neutral-400 tracking-tight text-md max-w-lg pt-2">
           All of the text you write on this site is for <strong>your eyes only</strong>. No data or contents of your notes are sent to others.
-          Your browser's <code className="code">localStorage</code> is used only to handle retrieving previous note contents, but It is impossible for anyone to access the contents of your notes.
+          Your browser's <code className="code">localStorage</code> is used only to handle retrieving previous note contents and to preview your content in Markdown.
         </p>
         <p className="text-neutral-400 tracking-tight text-md max-w-lg pt-2">
-          If you wish to delete the note that is currently stored in your browser storage, clear them from your <code className="code">localStorage</code> with
+          If you wish to delete the note that is currently stored in your browser's <code className="code">localStorage</code>, clear your <code className="code">localStorage</code> with
           <Link
             href="https://www.leadshook.com/help/how-to-clear-local-storage-in-google-chrome-browser/"
             target="_blank"
@@ -43,8 +43,8 @@ export default function Policy() {
           >
             ▲ Vercel Analytics
           </Link>
-          is used to collect anonymized usage data for analytical purposes. This includes information such as page views and user interactions.
-          No personally identifiable information is collected, meaning your notes won't be included.
+          is used to collect anonymized usage data for analytical purposes. This information includes things such as page views, country origin, and device.
+          No personally identifiable information is collected. Your notes won't be included either.
         </p>
         <button className="text-zinc-300 bg-[#202020] hover:bg-neutral-600 hover:bg-opacity-40 duration-300 px-4 py-2 rounded-md mr-2 group">
           <Link href="/" className="flex items-center">
