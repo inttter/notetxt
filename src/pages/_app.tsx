@@ -2,8 +2,8 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { Analytics } from '@vercel/analytics/react';
 import '../styles/index.css';
-import '@fontsource/geist-mono';
 import '@fontsource/geist-sans';
+import '@fontsource/jetbrains-mono';
 import 'github-markdown-css';
 import { TextProvider } from '../components/markdown/TextContent';
 
@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <meta property="og:title" content="Notetxt" />
       <meta property="og:type" content="website" />
       <meta property="og:image" content="https://notetxt.iinter.me/external/og.png" />
-      <meta property="og:description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind. Now with Markdown support!" />
+      <meta property="og:description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind." />
       <meta name="description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind. Now with Markdown support!" />
       <meta name="twitter:image" content="https://notetxt.iinter.me/external/og.png" />
       <meta name="twitter:card" content="summary_large_image" />
