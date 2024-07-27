@@ -1,8 +1,6 @@
 import React from 'react';
 import { Lock, ArrowLeft } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
-import '@fontsource/geist-mono';
-import '@fontsource/geist-sans';
 import Link from 'next/link';
 import Head from 'next/head';
 

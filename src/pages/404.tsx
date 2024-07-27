@@ -1,7 +1,5 @@
 import React from 'react';
 import { X, ArrowLeft } from 'lucide-react';
-import '@fontsource/geist-mono';
-import '@fontsource/geist-sans';
 import Link from 'next/link';
 import Head from 'next/head';
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import Command from './Command';
-import WordCount from './WordCount';
+import NoteSummary from './NoteSummary';
 import Modal from './DownloadModal';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
@@ -277,7 +277,7 @@ export default function Editor() {
       </div>
       <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
       <div className="absolute bottom-20 md:bottom-0 right-1">
-        <WordCount text={text} />
+        <NoteSummary text={text} />
       </div>
       {/* Download Modal */}
       {isModalVisible && (

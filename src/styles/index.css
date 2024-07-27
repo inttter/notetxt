@@ -9,3 +9,7 @@
 .code {
     font-family: 'Jetbrains Mono', monospace;
 }
+
+.move-desktop-toast-up {
+    bottom: 25px !important;
+  }
