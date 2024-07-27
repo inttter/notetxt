@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <div className="absolute text-sm text-neutral-700 bottom-7 md:bottom-5 left-5">
+      <div className="absolute hidden md:block text-sm text-neutral-700 bottom-7 md:bottom-5 left-5">
         <span className="truncate w-full flex items-center">
           <Lightbulb size={17} className="mr-1" /> {randomTip}
         </span>
