@@ -72,7 +72,7 @@ export default function NoteSummary({ text }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleShowInfoToast}
-            className="absolute text-sm text-neutral-500 hover:text-neutral-400 duration-300 -bottom-12 md:-top-12 -mb-1 md:mb-0 md:bottom-5 right-5 whitespace-nowrap flex items-center"
+            className="absolute text-sm text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800 p-2 -mr-1 rounded-md duration-300 -bottom-12 md:-top-12 -mb-1 md:mb-0 md:bottom-5 right-5 whitespace-nowrap flex items-center"
           >
             <LetterText size={15} className="mr-1" /> Note Summary
           </motion.button>
