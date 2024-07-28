@@ -10,6 +10,7 @@ import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
 import { useText } from './markdown/TextContent';
 import { saveAs } from 'file-saver';
+import { isIOS } from 'react-device-detect';
 
 export default function Editor() {
   const router = useRouter();
@@ -60,11 +61,6 @@ export default function Editor() {
     reader.readAsText(file);
   };
 
-  // Check if the user is on an iOS device
-  const isIOS = () => {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent);
-  };
-
   const handleDownload = (fileName, fileType) => {
     if (!text.trim()) {
       toast.warning('Cannot download an empty note!', {
@@ -90,7 +86,7 @@ export default function Editor() {
  
     // On iOS, if the user dismisses the download prompt, the success toast might still show.
     // To handle this, show a different toast.
-    if (isIOS()) {
+    if (isIOS) {
       toast.info('Check your downloads folder.', {
         description: `Make sure you clicked 'Download' on the alert that appeared to download the note to your device. If you didn't, the note did not download.`,
       });
