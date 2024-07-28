@@ -19,7 +19,6 @@ export default function Editor() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
-  const [previewId, setPreviewId] = useState<number | null>(null);
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -168,37 +167,30 @@ export default function Editor() {
         handleCopy();
         break;
       case 'preview':
-        const id = Date.now();
-        setPreviewId(id);
+        if (text.trim() === '') {
+          toast.warning('Cannot preview an empty note!', {
+            description: 'Please type something before previewing.',
+          });
+          return;
+        }
+
+        // Saves current note content as 'markdown_preview' in localStorage
+        localStorage.setItem('markdown_preview', text);
+
+        toast.promise(
+          router.push(`/preview`),
+          {
+            loading: 'Loading Markdown preview...',
+            success: 'Markdown preview loaded successfully!',
+            error: 'Failed to load Markdown preview.',
+            closeButton: false,
+          }
+        );
         break;
       default:
         break;
     }
   };
-
-  useEffect(() => {
-    if (previewId !== null) {
-      if (text.trim() === '') {
-        toast.warning('Cannot preview an empty note!', {
-          description: 'Please type something before previewing.',
-        });
-        setPreviewId(null);
-        return;
-      }
-
-      localStorage.setItem(`markdown_${previewId}`, text);
-
-      toast.promise(
-        router.push(`/preview/${previewId}`),
-        {
-          loading: 'Loading Markdown preview...',
-          success: 'Markdown preview loaded successfully!',
-          error: 'Failed to load Markdown preview.',
-          closeButton: false,
-        }
-      );
-    }
-  }, [previewId]);
 
   useEffect(() => {
     const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, command+n, command+o, command+s, command+shift+c, command+m';

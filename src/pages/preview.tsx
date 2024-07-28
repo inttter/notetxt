@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -8,46 +7,28 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 
-// markdown styling
-// note: uses github markdown styling + my own custom styling from markdownStyles
-import markdownStyles from '../../components/markdown/MarkdownStyles';
+// Markdown Styling
+import markdownStyles from '../components/markdown/MarkdownStyles';
 import 'github-markdown-css';
 
 const Preview = () => {
-  const router = useRouter();
-  const { id } = router.query;
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
-    if (id) {
-      // retrieve and set markdown content
-      const savedMarkdown = localStorage.getItem(`markdown_${id}`);
-      if (savedMarkdown) {
-        setMarkdown(savedMarkdown);
-      } else {
-        setMarkdown(
-          '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/) and try again.'
-        );
-      }
-
-      // on component mount, clears previous preview data (aka the text)
-      const clearOldPreviews = () => {
-        const keys = Object.keys(localStorage).filter(key => key.startsWith('markdown_'));
-        keys.forEach(key => {
-          // removes only those that are not the current preview ID
-          if (key !== `markdown_${id}`) {
-            localStorage.removeItem(key);
-          }
-        });
-      };
-
-      clearOldPreviews();
-
-      return () => {
-        localStorage.removeItem(`markdown_${id}`);
-      };
+    const savedMarkdown = localStorage.getItem('markdown_preview');
+    if (savedMarkdown) {
+      setMarkdown(savedMarkdown);
+    } else {
+      setMarkdown(
+        '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/) and try again.'
+      );
     }
-  }, [id]);
+
+    // Cleans up localStorage when the component unmounts
+    return () => {
+      localStorage.removeItem('markdown_preview');
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#0D1117] p-4 sm:p-6 lg:p-8 overflow-x-hidden">
