@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Command, FolderOpen, Plus, Download, Copy, SearchCode, Search, Github, Lock, Keyboard, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
@@ -41,7 +41,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
   }, [isOpen, toggleMenu]);
 
   return (
-    <CmdCommand.Dialog open={isOpen} onOpenChange={toggleMenu} label="Command Menu" className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 selection:bg-neutral-700 selection:text-zinc-300">
+    <CmdCommand.Dialog open={isOpen} onOpenChange={toggleMenu} label="Command Menu" className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 selection:bg-neutral-700 selection:text-zinc-300">
       <AnimatePresence>
         {isOpen && (
           <motion.div 
@@ -126,20 +126,20 @@ const CommandMenuButton = ({ openCommandMenu }) => {
   };
 
   // not using `hotkeys-js` here so that they can open it from any scenario
-  const handleKeyDown = (event) => {
+  const handleKeyDown = useCallback((event) => {
     if (event.key === 'k' && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       toggleCommandMenu();
     }
-  };
-
+  }, [toggleCommandMenu]);
+  
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-
+  
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   return (
     <div>
