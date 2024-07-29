@@ -88,20 +88,20 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            className="rounded-xl shadow-2xl shadow-neutral-950 md:w-1/3 w-full sm:w-11/12 xs:w-3/4 px-4 sm:px-6 md:px-0 overflow-auto"
+            className="shadow-2xl shadow-neutral-950 md:w-1/3 w-full sm:w-11/12 xs:w-3/4 px-4 sm:px-6 md:px-0 overflow-auto"
             ref={menuRef}
           >
             <div className="relative">
               <CmdCommand.Input
                 autoFocus
                 placeholder="Search for commands..."
-                className="w-full p-3 pl-10 bg-neutral-900 placeholder:text-stone-500 text-zinc-100 outline-none tracking-tight border-b-2 border-neutral-800"
+                className="w-full p-3 pl-10 bg-neutral-900 placeholder:text-stone-500 text-zinc-100 outline-none tracking-tight border-b-2 border-neutral-800 rounded-t-xl"
               />
               <div className="absolute inset-y-0 left-0.5 pl-2 flex items-center pointer-events-none">
                 <Search size={20} className="text-stone-500 ml-1 mb-0.5" />
               </div>
             </div>
-            <CmdCommand.List className="bg-neutral-900 p-2">
+            <CmdCommand.List className="bg-neutral-900 p-2 rounded-b-xl">
               <CmdCommand.Group>
                 <MenuHeader title="Controls" />
                 {controls.map((command) => (
