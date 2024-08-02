@@ -29,16 +29,16 @@ const markdownStyles = {
         <ol className="prose-ol:pl-5 prose-ol:mb-4" {...props} />
     ),
     li: ({ node, ...props }) => (
-        <li className="mb-2 prose-li:mb-2" {...props} />
+        <li className="mb-2 prose-li:mb-2 marker:text-neutral-600" {...props} />
     ),
     table: ({ node, ...props }) => (
         <table className="table-auto w-full overflow-x-auto rounded-md border-collapse my-4 prose-table:my-4 prose-invert" {...props} />
     ),
     th: ({ node, ...props }) => (
-        <th className="border border-neutral-800 px-4 py-2 bg-[#0D1117] text-zinc-300 prose-th:bg-neutral-800 prose-th:text-zinc-300 prose-invert text-left" {...props} />
+        <th className="border border-neutral-800 px-4 py-2 bg-neutral-800 text-zinc-300 prose-th:bg-neutral-800 prose-th:text-zinc-300 prose-invert text-left code" {...props} />
     ),
     td: ({ node, ...props }) => (
-        <td className="border border-neutral-800 px-4 py-1.5 bg-[#161B22] prose-td:bg-neutral-900 prose-invert" {...props} />
+        <td className="border border-neutral-800 px-4 py-1.5 bg-neutral-900 prose-td:bg-neutral-900 prose-invert" {...props} />
     ),
     strong: ({ node, ...props }) => (
         <strong className="prose-strong:font-bold md:tracking-normal tracking-tighter prose-invert" {...props} />
@@ -53,22 +53,22 @@ const markdownStyles = {
         <iframe className="w-full aspect-video mb-4 prose-invert" {...props} />
     ),
     code: ({ node, ...props }) => (
-        <code className=" text-zinc-300 rounded-md px-1.5 py-1 bg-transparent prose-invert font-normal code" {...props} />
+        <code className="text-zinc-300 rounded-md px-1.5 py-1 bg-neutral-800 prose-invert font-normal code" {...props} />
     ),
     pre: ({ node, ...props }) => (
-        <pre className="p-4 rounded-md text-zinc-100 bg-[#161B22] prose-invert code" {...props} />
+        <pre className="p-4 rounded-md text-zinc-100 bg-neutral-900 border border-neutral-700 prose-invert code" {...props} />
     ),
     a: ({ node, ...props }) => (
-        <a className="text-blue-400 hover:underline underline-offset-2 prose-a:text-blue-400 prose-invert" {...props} />
+        <a className="no-underline text-zinc-100 border-b-2 border-neutral-600 hover:border-neutral-400 duration-300" {...props} />
     ),
     blockquote: ({ node, ...props }) => (
-        <blockquote className="border-l-4 border-gray-500 pl-4 mb-4 italic prose-blockquote:border-l-4 prose-blockquote:border-gray-500 prose-blockquote:pl-4 prose-invert" {...props} />
+        <blockquote className="border-l-4 border-neutral-700 pl-4 mb-4 italic prose-blockquote:border-l-4 prose-blockquote:border-neutral-700 prose-blockquote:pl-4 prose-invert" {...props} />
     ),
     img: ({ node, ...props }) => (
         <img className="max-w-full h-auto mb-4 prose-img:max-w-full prose-img:h-auto border border-neutral-800 prose-invert" loading="lazy" {...props} />
     ),
     hr: ({ node, ...props }) => (
-        <hr className="border-t-2 border-neutral-700 my-4 prose-hr:border-t prose-hr:border-neutral-700 prose-invert" {...props} />
+        <hr className="border-t-2 border-neutral-800 my-4 prose-hr:border-t prose-hr:border-neutral-800 prose-invert" {...props} />
     ),
     video: ({ node, ...props }) => (
       <div className="relative">
@@ -78,7 +78,7 @@ const markdownStyles = {
       </div>
   ),
     kbd: ({ node, ...props }) => (
-      <kbd className="p-1 text-sm bg-neutral-800 text-zinc-300 border-2 border-neutral-800 rounded-md prose-invert code" {...props} />
+      <kbd className="px-1 py-0.5 text-sm bg-neutral-800 text-zinc-300 border border-neutral-700 rounded-md prose-invert code" {...props} />
   ),
 };
 

@@ -31,7 +31,7 @@ const Preview = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#0D1117] p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#111111] p-4 sm:p-6 lg:p-8 overflow-x-hidden">
       <Head>
         <title>Preview • Notetxt</title>
       </Head>

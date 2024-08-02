@@ -3,13 +3,18 @@
 @import 'tailwindcss/utilities';
 
 :root {
-    font-family: 'Geist Sans', sans-serif;
+  font-family: 'Geist Sans', sans-serif;
 }
 
 .code {
-    font-family: 'Jetbrains Mono', monospace;
+  font-family: 'Jetbrains Mono', monospace;
+}
+
+.code::before,
+.code::after {
+  content: none;
 }
 
 .move-desktop-toast-up {
-    bottom: 25px !important;
-  }
+  bottom: 25px !important;
+}
