@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import '../styles/index.css';
 import '@fontsource/geist-sans';
 import '@fontsource/jetbrains-mono';
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       </TextProvider>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
