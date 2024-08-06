@@ -18,3 +18,30 @@
 .move-desktop-toast-up {
   bottom: 25px !important;
 }
+
+.summary-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-item .shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at var(--shine-x) var(--shine-y), rgba(62, 61, 61, 0.4) 0%, transparent 70%);
+  transition: 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.summary-item-content {
+  position: relative;
+  z-index: 2;
+}

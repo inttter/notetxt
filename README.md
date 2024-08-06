@@ -12,7 +12,7 @@ A note-taker with a focus on minimalism and simplicity, so you can write down wh
 * Download notes to your computer.
 * Copy contents of your note.
 * Preview your note in Markdown.
-* [Your notes are yours only to see.](https://notetxt.iinter.me/privacy)
+* [Your notes are yours only.](https://notetxt.iinter.me/privacy)
 
 ## Keybinds
 
@@ -21,7 +21,8 @@ A note-taker with a focus on minimalism and simplicity, so you can write down wh
 * `Ctrl+N` - New Note
 * `Ctrl+S` - Save Note
 * `Ctrl+Shift+C` - Copy Note
-* `Ctrl+M` - Preview Note In Markdown
+* `Ctrl+M` - Preview Markdown
+* `Ctrl+I` - Note Summary
 
 ## License
 

@@ -19,6 +19,7 @@ export default function Editor() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
+  const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -187,13 +188,16 @@ export default function Editor() {
           }
         );
         break;
+      case 'summary':
+        setNoteSummaryDialogOpen(true);
+        break;
       default:
         break;
     }
   };
 
   useEffect(() => {
-    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, command+n, command+o, command+s, command+shift+c, command+m';
+    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+n, command+o, command+s, command+shift+c, command+m, command+i';
     
     const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();
@@ -218,6 +222,9 @@ export default function Editor() {
         case 'command+m':
           handleCommandSelect('preview');
           break;
+        case 'ctrl+i':
+        case 'command+i':
+          handleCommandSelect('summary');
         default:
           break;
       }
@@ -264,9 +271,9 @@ export default function Editor() {
         />
       </div>
       <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
-      <div className="absolute bottom-20 md:bottom-0 right-1">
-        <NoteSummary text={text} />
-      </div>
+      {isNoteSummaryDialogOpen && (
+        <NoteSummary text={text} isDialogOpen={isNoteSummaryDialogOpen} onClose={() => setNoteSummaryDialogOpen(false)} />
+      )}
       {/* Download Modal */}
       {isModalVisible && (
         <Modal

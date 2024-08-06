@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Command, FolderOpen, Plus, Download, Copy, Eye, Search, Lock, Keyboard, Heart } from 'lucide-react';
+import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Lock, Heart } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
@@ -49,12 +49,12 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
     { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+N' },
     { id: 'save', name: 'Save Note', icon: <Download size={20} />, keybind: 'Ctrl+S' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} />, keybind: 'Ctrl+Shift+C' },
-    { id: 'preview', name: 'Preview Markdown', icon: <Eye size={20} />, keybind: 'Ctrl+M' },
+    { id: 'preview', name: 'Preview Markdown', icon: <View size={20} />, keybind: 'Ctrl+M' },
+    { id: 'summary', name: 'Note Summary', icon: <ScrollText size={20} />, keybind: 'Ctrl+I' },
   ];
 
   const links = [
     { id: 'privacy', name: 'Privacy', icon: <Lock size={20} />, url: '/privacy', keybind: '' },
-    { id: 'keybinds', name: 'Keybinds', icon: <Keyboard size={20} />, url: 'https://github.com/inttter/notetxt?tab=readme-ov-file#keybinds' },
     { id: 'github', name: 'GitHub', icon: <FaGithub size={20} />, url: 'https://github.com/inttter/notetxt' },
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
   ];
