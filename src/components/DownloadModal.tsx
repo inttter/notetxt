@@ -18,7 +18,7 @@ const DownloadModal = ({ isOpen, onRequestClose, onDownload, fileName, setFileNa
   return (
     <Dialog.Root open={isOpen} onOpenChange={onRequestClose}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-6 md:px-0 selection:bg-neutral-700 selection:text-zinc-300">
+        <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-6 md:px-0 selection:bg-neutral-700 selection:text-zinc-300 backdrop-blur-sm">
           <Dialog.Content asChild>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -68,7 +68,7 @@ const DownloadModal = ({ isOpen, onRequestClose, onDownload, fileName, setFileNa
                   </button>
                 </div>
               </div>
-              <Dialog.Close className="absolute top-4 right-3 text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 hover:bg-opacity-70 rounded-lg p-1 duration-300 mr-1" aria-label="Close">
+              <Dialog.Close className="absolute top-4 right-3 text-sm text-zinc-300 font-semibold bg-neutral-900 hover:border-neutral-700 duration-300 border md:border-2 border-neutral-800 rounded-md px-1 py-0.5 mr-1" aria-label="Close">
                 <X size={20} />
               </Dialog.Close>
             </motion.div>
