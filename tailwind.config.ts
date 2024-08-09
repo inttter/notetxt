@@ -8,6 +8,10 @@ module.exports = {
       fontFamily: {
         sans: ['Geist Sans', 'sans-serif'],
       },
+      colors: {
+        'danger': '#F0243C',
+        'dark': '#101010'
+      }
     },
   },
   variants: {},

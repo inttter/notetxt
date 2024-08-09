@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 
-const DownloadModal = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType }) => {
+const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType }) => {
   const handleSave = () => {
     const defaultFileName = 'note';
     const sanitizedFileName = fileName.trim() === '' ? defaultFileName : fileName.trim();
@@ -79,4 +79,4 @@ const DownloadModal = ({ isOpen, onRequestClose, onDownload, fileName, setFileNa
   );
 };
 
-export default DownloadModal;
+export default DownloadDialog;

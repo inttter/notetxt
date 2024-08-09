@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import Command from './Command';
 import NoteSummary from './NoteSummary';
-import Modal from './DownloadModal';
+import Download from './Dialogs/Download';
+import ConfirmNew from './Dialogs/ConfirmNew';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
@@ -20,6 +21,7 @@ export default function Editor() {
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
+  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false); // New state
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -84,8 +86,6 @@ export default function Editor() {
 
     saveAs(blob, finalFileName);
  
-    // On iOS, if the user dismisses the download prompt, the success toast might still show.
-    // To handle this, show a different toast.
     if (isIOS) {
       toast.info('Check your downloads folder.', {
         description: `Make sure you clicked 'Download' on the alert that appeared to download the note to your device. If you didn't, the note did not download.`,
@@ -154,8 +154,7 @@ export default function Editor() {
   const handleCommandSelect = (commandId: string) => {
     switch (commandId) {
       case 'new':
-        setText('');
-        toast.info('Started a new note.');
+        setConfirmationDialogOpen(true);
         break;
       case 'open':
         const fileInput = document.getElementById('fileInput') as HTMLInputElement;
@@ -168,14 +167,6 @@ export default function Editor() {
         handleCopy();
         break;
       case 'preview':
-        if (text.trim() === '') {
-          toast.warning('Cannot preview an empty note!', {
-            description: 'Please type something before previewing.',
-          });
-          return;
-        }
-
-        // Saves current note content as 'markdown_preview' in localStorage
         localStorage.setItem('markdown_preview', text);
 
         toast.promise(
@@ -194,6 +185,16 @@ export default function Editor() {
       default:
         break;
     }
+  };
+
+  const handleNewNoteConfirm = () => {
+    setText('');
+    toast.info('Started a new note.');
+    setConfirmationDialogOpen(false);
+  };
+
+  const handleNewNoteCancel = () => {
+    setConfirmationDialogOpen(false);
   };
 
   useEffect(() => {
@@ -244,7 +245,6 @@ export default function Editor() {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
-      {/* Darkens the page when a file is dragged over */}
       <div
         className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-300 z-50 pointer-events-none ${isDraggingOver ? 'opacity-50' : 'opacity-0'}`}
       />
@@ -274,9 +274,8 @@ export default function Editor() {
       {isNoteSummaryDialogOpen && (
         <NoteSummary text={text} isDialogOpen={isNoteSummaryDialogOpen} onClose={() => setNoteSummaryDialogOpen(false)} />
       )}
-      {/* Download Modal */}
       {isModalVisible && (
-        <Modal
+        <Download
           isOpen={isModalVisible}
           onRequestClose={() => setModalVisible(false)}
           onDownload={handleDownload}
@@ -286,6 +285,11 @@ export default function Editor() {
           setFileType={setFileType}
         />
       )}
+      <ConfirmNew
+        isOpen={isConfirmationDialogOpen}
+        onConfirm={handleNewNoteConfirm}
+        onCancel={handleNewNoteCancel}
+      />
     </div>
   );
 }
