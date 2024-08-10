@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import Command from './Command';
-import NoteSummary from './NoteSummary';
+import NoteSummary from './Dialogs/NoteSummary';
 import Download from './Dialogs/Download';
 import ConfirmNew from './Dialogs/ConfirmNew';
 import copy from 'copy-to-clipboard';
@@ -16,6 +16,7 @@ import { isIOS } from 'react-device-detect';
 export default function Editor() {
   const router = useRouter();
   const { text, setText } = useText();
+  const textareaRef = useRef(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
@@ -33,6 +34,14 @@ export default function Editor() {
 
   useEffect(() => {
     localStorage.setItem('text', text);
+  }, [text]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      // Set the height to the scrollHeight to expand with content
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
   }, [text]);
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +98,7 @@ export default function Editor() {
     if (isIOS) {
       toast.info('Check your downloads folder.', {
         description: `Make sure you clicked 'Download' on the alert that appeared to download the note to your device. If you didn't, the note did not download.`,
+        duration: 5000,
       });
     } else {
       setTimeout(() => {
@@ -248,7 +258,8 @@ export default function Editor() {
       <div
         className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-300 z-50 pointer-events-none ${isDraggingOver ? 'opacity-50' : 'opacity-0'}`}
       />
-      <div className="max-w-xl w-full space-y-3 flex-col relative z-10">
+      <div className="max-w-2xl w-full space-y-3 flex-col relative z-10 mb-10">
+        <div className="relative">
         <div className="-ml-3 px-1">
           <Command openCommandMenu={handleCommandSelect} />
           <input
@@ -266,9 +277,10 @@ export default function Editor() {
           value={text}
           placeholder="Start typing here..."
           onChange={(e) => setText(e.target.value)}
-          className="bg-[#181818] text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md border border-neutral-800 focus:border-neutral-700 min-h-96 max-w-screen h-96 overflow-auto"
+          className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none"
           aria-label="Note Content"
         />
+      </div>
       </div>
       <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
       {isNoteSummaryDialogOpen && (

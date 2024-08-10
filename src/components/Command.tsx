@@ -87,7 +87,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
             className="shadow-2xl shadow-neutral-950 md:w-1/3 w-full sm:w-11/12 xs:w-3/4 px-4 sm:px-6 md:px-0 overflow-auto"
             ref={menuRef}
           >
@@ -151,7 +151,7 @@ const CommandMenuButton = ({ openCommandMenu }) => {
     setCommandMenuOpen(prev => !prev);
   };
 
-  // not using `hotkeys-js` here so that they can open it from any scenario
+  // Not using `hotkeys-js` here so that they can open it from any scenario
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'k' && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
@@ -168,49 +168,48 @@ const CommandMenuButton = ({ openCommandMenu }) => {
   }, [handleKeyDown]);
 
   return (
-    <div>
-      <Tooltip.Provider>
+    <Tooltip.Provider>
+      <div>
         <Tooltip.Root delayDuration={0}>
           <Tooltip.Trigger>
-            <div className="flex mb-4 px-2 py-2 rounded-lg space-x-2">
+            <div className="flex mb-4 px-5 mx-0.5 rounded-lg">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 onClick={toggleCommandMenu}
-                className="text-neutral-500 bg-[#202020] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-full flex items-center"
+                className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
               >
-                <Command size={20} className="text-zinc-300 cursor-pointer" />
+                <Command size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+                <Tooltip.Portal>
+                  <Tooltip.Content side="right">
+                    <AnimatePresence>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ type: 'spring', stiffness: 200, damping: 20, duration: 0.3, mass: 0.5 }}
+                        className="bg-neutral-800 bg-opacity-80 text-zinc-300 text-sm px-2 py-1 rounded-md shadow-xl shadow-neutral-950 -mx-3 mb-2.5"
+                      >
+                        <span className="text-base text-zinc-100">
+                          Menu (<span className="code">Ctrl/⌘+K</span>)
+                        </span>
+                        <br />
+                        <span className="text-stone-400">
+                          Access controls and links from here.
+                        </span>
+                      </motion.div>
+                    </AnimatePresence>
+                  </Tooltip.Content>
+                </Tooltip.Portal>
               </motion.div>
             </div>
           </Tooltip.Trigger>
-          <Tooltip.Portal>
-            <Tooltip.Content side="right">
-              <AnimatePresence>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 20, duration: 0.3 }}
-                  className="bg-neutral-700 bg-opacity-40 text-zinc-300 text-sm px-2 py-1 rounded-md shadow-xl shadow-neutral-950"
-                >
-                  <span className="text-base text-zinc-100">
-                    Menu (Ctrl/⌘ + K)
-                  </span>
-                  <br />
-                  <span className="text-stone-400">
-                    Access controls and links from here.
-                  </span>
-                  <Tooltip.Arrow className="fill-neutral-700 opacity-40 mr-1" />
-                </motion.div>
-              </AnimatePresence>
-            </Tooltip.Content>
-          </Tooltip.Portal>
         </Tooltip.Root>
-      </Tooltip.Provider>
 
-      <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
-    </div>
+        <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
+      </div>
+    </Tooltip.Provider>
   );
 };
 
