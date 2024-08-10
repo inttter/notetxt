@@ -34,7 +34,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
     setAverageReadingTime(calculateAverageReadingTime(numWords));
 
     // The regex assumes that periods after a sentence are followed by a space
-    // so that it does not include decimal points/URLs as a sentence. 
+    // so that it does not include decimal points/URLs as a sentence.
     const sentenceDelimiterRegex = /[.!?]+\s/;
     const sentences = text.split(sentenceDelimiterRegex).filter(sentence => sentence.trim().length > 0);
     const numSentences = sentences.length;
@@ -42,7 +42,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
   }, [text]);
 
   const summaryItems = [
-    { label: 'Letters', value: letterCount, description: 'Total number of letters in the note, also including empty spaces.' },
+    { label: 'Letters', value: letterCount, description: 'The total number of letters in the note, also including empty spaces.' },
     { label: 'Words', value: wordCount, description: 'The total number of words in the note, separated by at least one space.' },
     { label: 'Lines', value: lineCount, description: 'The total number of lines in the note, including empty lines.' },
     { label: 'Paragraphs', value: paragraphCount, description: 'The total number of paragraphs in the note, separated by at least one blank line.' },
@@ -52,18 +52,15 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
 
   const handleShowToast = (label, description) => {
     toast(
-      <div>
-        <strong className="block text-lg font-semibold text-zinc-100">
-          {label}
-        </strong>
-        <p className="text-zinc-300 text-sm mt-1">
-          {description}
-        </p>
+      <div className="toast-container">
+        <strong className="toast-title">{label}</strong>
+        <p className="toast-message">{description}</p>
       </div>,
       {
         duration: 2000,
         position: 'bottom-center',
         closeButton: false,
+        unstyled: true,
       }
     );
   };
@@ -86,11 +83,11 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1.0 }}
               exit={{ opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="bg-neutral-900 p-5 rounded-lg shadow-2xl shadow-neutral-950 max-w-xl w-full relative"
+              transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
+              className="bg-dark border border-neutral-800 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative"
             >
-              <Dialog.Title className="text-lg font-medium text-zinc-100">
-                Summary
+              <Dialog.Title className="text-lg font-medium text-zinc-100 pb-1">
+                Note Summary
               </Dialog.Title>
               <Dialog.Description className="text-stone-500 text-sm leading-normal mb-4">
                 This is a summary of various metrics about your note. Click on these metrics for more information about how they are calculated.
@@ -99,7 +96,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                 {summaryItems.map(({ label, value, description }, index) => (
                   <div
                     key={label}
-                    className="summary-item bg-neutral-800 bg-opacity-20 md:bg-opacity-60 hover:bg-neutral-700 hover:bg-opacity-40 border border-neutral-700 p-3 rounded-md cursor-pointer transition-colors duration-300"
+                    className="summary-item bg-neutral-900 bg-opacity-60 hover:bg-neutral-800 hover:bg-opacity-40 border border-neutral-800 p-3 rounded-md cursor-pointer transition-colors duration-300"
                     onClick={() => handleShowToast(label, description)}
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setHoveredIndex(index)}
@@ -124,7 +121,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                   </div>
                 ))}
               </div>
-              <Dialog.Close className="absolute top-4 right-3 text-sm text-zinc-300 font-semibold bg-neutral-900 hover:border-neutral-700 duration-300 border md:border-2 border-neutral-800 rounded-md px-1 py-0.5 mr-1" aria-label="Close">
+              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close">
                 <X size={20} />
               </Dialog.Close>
             </motion.div>

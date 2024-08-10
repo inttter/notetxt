@@ -9,8 +9,10 @@ module.exports = {
         sans: ['Geist Sans', 'sans-serif'],
       },
       colors: {
-        'danger': '#F0243C',
-        'dark': '#101010'
+        'confirm': '#166534',
+        'destructive': '#F0243C',
+        'default': '#282828',
+        'dark': '#101010',
       }
     },
   },

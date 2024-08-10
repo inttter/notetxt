@@ -24,35 +24,34 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1.0 }}
               exit={{ opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="bg-neutral-900 p-5 rounded-lg shadow-2xl shadow-neutral-950 max-w-xl w-full relative"
+              transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
+              className="bg-dark border border-neutral-800 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative"
             >
               <Dialog.Title className="text-lg font-medium text-zinc-100 mx-0.5">
-                Download your note
+                Download Your Note
               </Dialog.Title>
               <Dialog.Description className="text-stone-500 text-sm leading-normal mx-0.5">
-                Give your note a title to save as its filename. 
-                Click 'Save' when you're done.
+                Choose a file format and create a title for your note.
               </Dialog.Description>
               <input
                 type="text"
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-neutral-900 focus:bg-neutral-800 focus:bg-opacity-60 placeholder:text-stone-500 text-zinc-300 outline-none border border-neutral-700 focus:border-neutral-700 duration-300 mt-3 mb-3.5"
+                className="w-full px-3 py-2 rounded-md bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700 duration-300 mt-3 mb-3.5"
                 placeholder="Note Title"
               />
               <div className="flex justify-end items-center">
                 <div className="text-zinc-100 flex space-x-2">
                   <button
                     onClick={onRequestClose}
-                    className="bg-[#282828] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-1 rounded-md"
+                    className="bg-default btn-dialog hover:bg-opacity-80"
                   >
                     Cancel
                   </button>
                   <select
                     value={fileType}
                     onChange={(e) => setFileType(e.target.value)}
-                    className="bg-[#282828] text-zinc-100 border border-transparent hover:border-neutral-700 rounded-md p-2 outline-none cursor-pointer"
+                    className="bg-default hover:bg-opacity-80 text-zinc-100 duration-300 rounded-md p-2 outline-none cursor-pointer"
                   >
                     {fileTypes.map((type) => (
                       <option key={type.value} value={type.value}>
@@ -62,13 +61,13 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                   </select>
                   <button
                     onClick={handleSave}
-                    className="bg-[#282828] border border-transparent hover:border-neutral-700 hover:bg-neutral-600 hover:bg-opacity-40 hover:cursor-pointer duration-300 px-4 py-1 rounded-md"
+                    className="bg-confirm btn-dialog hover:bg-opacity-80"
                   >
                     Save
                   </button>
                 </div>
               </div>
-              <Dialog.Close className="absolute top-4 right-3 text-sm text-zinc-300 font-semibold bg-neutral-900 hover:border-neutral-700 duration-300 border md:border-2 border-neutral-800 rounded-md px-1 py-0.5 mr-1" aria-label="Close">
+              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close">
                 <X size={20} />
               </Dialog.Close>
             </motion.div>

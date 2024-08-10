@@ -27,22 +27,19 @@ const ConfirmNew = ({ isOpen, onConfirm, onCancel }) => {
                 <div className="text-zinc-100 flex space-x-2 mt-5 md:mt-3">
                   <button
                     onClick={onCancel}
-                    className="bg-[#282828] hover:bg-opacity-80 hover:cursor-pointer duration-300 px-4 py-1 rounded-md"
+                    className="bg-[#282828] btn-dialog hover:bg-opacity-80"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={onConfirm}
-                    className="bg-danger hover:bg-opacity-80 hover:cursor-pointer duration-300 px-4 py-1 rounded-md"
+                    className="bg-destructive btn-dialog hover:bg-opacity-80"
                   >
                     Clear
                   </button>
                 </div>
               </div>
-              <Dialog.Close
-                className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1"
-                aria-label="Close"
-              >
+              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close">
                 <X size={20} />
               </Dialog.Close>
             </motion.div>

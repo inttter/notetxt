@@ -24,11 +24,6 @@
   overflow: hidden;
 }
 
-.summary-item {
-  position: relative;
-  overflow: hidden;
-}
-
 .summary-item .shine {
   position: absolute;
   top: -50%;
@@ -44,4 +39,26 @@
 .summary-item-content {
   position: relative;
   z-index: 2;
+}
+
+/* Toasts shown in NoteSummary dialog */
+.toast-container {
+  @apply bg-dark border border-neutral-800 rounded-lg shadow-lg p-4 z-[1050];
+}
+
+.toast-title {
+  @apply text-lg text-zinc-100 font-semibold;
+}
+
+.toast-message {
+  @apply text-sm text-zinc-300 mt-1;
+}
+
+/* Button styles for dialogs (see components/Dialogs) */
+.btn-dialog {
+  @apply px-4 py-1 rounded-md duration-300;
+}
+
+.btn-dialog-hover {
+  @apply hover:cursor-pointer;
 }
