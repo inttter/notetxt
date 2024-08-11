@@ -22,7 +22,7 @@ export default function Editor() {
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
-  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false); // New state
+  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -79,22 +79,22 @@ export default function Editor() {
       });
       return;
     }
-  
+
     const validFileTypes = ['.txt', '.md'];
     const extension = validFileTypes.includes(fileType) ? fileType : '.txt';
     const sanitizedText = DOMPurify.sanitize(text);
     const blob = new Blob([sanitizedText], { type: 'text/plain' });
-  
+
     const defaultFileName = 'note';
     const sanitizedFileName = sanitizeFileName(fileName || defaultFileName);
-  
+
     let finalFileName = sanitizedFileName;
     if (!finalFileName.toLowerCase().endsWith(extension.toLowerCase())) {
       finalFileName += extension;
     }
 
     saveAs(blob, finalFileName);
- 
+
     if (isIOS) {
       toast.info('Check your downloads folder.', {
         description: `Make sure you clicked 'Download' on the alert that appeared to download the note to your device. If you didn't, the note did not download.`,
@@ -209,7 +209,7 @@ export default function Editor() {
 
   useEffect(() => {
     const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+c, ctrl+m, ctrl+i, command+n, command+o, command+s, command+c, command+m, command+i';
-    
+
     const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();
       switch (handler.key) {
@@ -260,31 +260,35 @@ export default function Editor() {
       />
       <div className="max-w-2xl w-full space-y-3 flex-col relative z-10 mb-10">
         <div className="relative">
-        <div className="-ml-3 px-1">
-          <Command openCommandMenu={handleCommandSelect} />
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: 'none' }}
-            accept=".txt,.md"
-            onChange={handleFileInputChange}
+          <div className="-ml-3 px-1">
+            <Command openCommandMenu={handleCommandSelect} />
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: 'none' }}
+              accept=".txt,.md"
+              onChange={handleFileInputChange}
+            />
+          </div>
+          <motion.textarea
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            value={text}
+            placeholder="Start typing here..."
+            onChange={(e) => setText(e.target.value)}
+            className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none mt-3"
+            aria-label="Note Content"
           />
         </div>
-        <motion.textarea
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          value={text}
-          placeholder="Start typing here..."
-          onChange={(e) => setText(e.target.value)}
-          className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none"
-          aria-label="Note Content"
-        />
-      </div>
       </div>
       <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
       {isNoteSummaryDialogOpen && (
-        <NoteSummary text={text} isDialogOpen={isNoteSummaryDialogOpen} onClose={() => setNoteSummaryDialogOpen(false)} />
+        <NoteSummary
+          text={text}
+          isDialogOpen={isNoteSummaryDialogOpen}
+          onClose={() => setNoteSummaryDialogOpen(false)}
+        />
       )}
       {isModalVisible && (
         <Download

@@ -62,3 +62,18 @@
 .btn-dialog-hover {
   @apply hover:cursor-pointer;
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  border: 1px solid #d5d5d5;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: #171717;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #262626;
+}
