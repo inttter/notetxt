@@ -177,8 +177,6 @@ export default function Editor() {
         handleCopy();
         break;
       case 'preview':
-        localStorage.setItem('markdown_preview', text);
-
         toast.promise(
           router.push(`/preview`),
           {
@@ -199,7 +197,7 @@ export default function Editor() {
 
   const handleNewNoteConfirm = () => {
     setText('');
-    toast.info('Started a new note.');
+    toast.info('Started a brand new note.');
     setConfirmationDialogOpen(false);
   };
 

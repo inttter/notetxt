@@ -15,7 +15,7 @@ const Preview = () => {
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
-    const savedMarkdown = localStorage.getItem('markdown_preview');
+    const savedMarkdown = localStorage.getItem('text');
     if (savedMarkdown) {
       setMarkdown(savedMarkdown);
     } else {
@@ -23,11 +23,6 @@ const Preview = () => {
         '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/) and try again.'
       );
     }
-
-    // Cleans up localStorage when the component unmounts
-    return () => {
-      localStorage.removeItem('markdown_preview');
-    };
   }, []);
 
   return (
