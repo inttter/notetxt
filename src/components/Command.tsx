@@ -24,7 +24,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
     <CmdCommand.Item
       key={id}
       onSelect={handleSelect}
-      className="p-2 cursor-pointer border-2 border-transparent hover:bg-neutral-800 hover:bg-opacity-70 hover:border-neutral-800 hover:shadow-lg rounded-xl flex items-center group duration-300"
+      className="p-2 cursor-pointer border-2 border-transparent hover:bg-neutral-900 hover:border-neutral-800 hover:shadow-lg rounded-xl flex items-center group duration-300"
     >
       <span className="mr-2 text-stone-500">
         {icon}
@@ -34,7 +34,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
       </span>
       {keybind && (
         <div className="ml-auto flex items-center">
-          <div className="px-2 py-1 rounded-md text-xs text-stone-500 group-hover:text-stone-400 duration-300 code">
+          <div className="px-2 py-1 text-xs text-stone-500 group-hover:text-stone-400 duration-300 code">
             {keybind}
           </div>
         </div>
@@ -84,24 +84,24 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
             transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
-            className="shadow-2xl shadow-neutral-950 md:w-1/3 w-full sm:w-11/12 xs:w-3/4 px-4 sm:px-6 md:px-0 overflow-auto"
+            className="bg-dark border border-neutral-800 mx-5 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative"
             ref={menuRef}
           >
             <div className="relative">
               <CmdCommand.Input
                 autoFocus
                 placeholder="Search for commands..."
-                className="w-full p-3 pl-10 bg-neutral-900 placeholder:text-stone-500 text-zinc-100 outline-none tracking-tight border-b-2 border-neutral-800 rounded-t-xl"
+                className="w-full p-3 pl-10 bg-dark placeholder:text-stone-600 text-zinc-100 outline-none tracking-tight border-b-2 border-neutral-800 rounded-t-xl"
               />
               <div className="absolute inset-y-0 left-0.5 pl-2 flex items-center pointer-events-none">
                 <Search size={20} className="text-stone-500 ml-1 mb-0.5" />
               </div>
             </div>
-            <CmdCommand.List className="bg-neutral-900 p-2 rounded-b-xl">
+            <CmdCommand.List className="p-2 rounded-b-xl">
               <CmdCommand.Group>
                 <MenuHeader title="Controls" />
                 {controls.map((command) => (
@@ -192,11 +192,11 @@ const CommandMenuButton = ({ openCommandMenu }) => {
                         className="bg-neutral-800 bg-opacity-80 text-zinc-300 text-sm px-2 py-1 rounded-md shadow-xl shadow-neutral-950 -mx-3 mb-2.5"
                       >
                         <span className="text-base text-zinc-100">
-                          Menu (<span className="code">Ctrl/⌘+K</span>)
+                          Command Menu
                         </span>
                         <br />
                         <span className="text-stone-400">
-                          Access controls and links from here.
+                          Access various controls and links from here.
                         </span>
                       </motion.div>
                     </AnimatePresence>
