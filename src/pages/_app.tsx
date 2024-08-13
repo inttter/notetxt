@@ -2,11 +2,11 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import '../styles/index.css';
+import '@/styles/index.css';
 import '@fontsource/geist-sans';
 import '@fontsource/jetbrains-mono';
 import 'github-markdown-css';
-import { TextProvider } from '../components/markdown/TextContent';
+import { TextProvider } from '@/components/Markdown/TextContent';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

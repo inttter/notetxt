@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import Head from 'next/head';
 
 // Markdown Styling
-import markdownStyles from '../components/markdown/MarkdownStyles';
+import markdownStyles from '../components/Markdown/MarkdownStyles';
 import 'github-markdown-css';
 
 const Preview = () => {
@@ -38,7 +38,7 @@ const Preview = () => {
       >
         <div className="flex justify-start mb-4 md:pt-0 pt-5">
           <button className="text-sm text-zinc-300 hover:text-zinc-400 duration-300 rounded-md group">
-            <Link href="/" className="flex items-center">
+            <Link href="/editor" className="flex items-center">
               <ArrowLeft size={20} className="mr-1 group-hover:-translate-x-0.5 text-zinc-100 group-hover:text-zinc-400 duration-300" /> Return to note
             </Link>
           </button>

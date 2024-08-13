@@ -1,0 +1,23 @@
+[
+    {
+      "image": "/landing/1.png",
+      "title": "Minimal and Functional",
+      "description": "Notetxt is designed to have a minimal user interface, while minimizing any unwanted distractions, letting you focus on your thoughts."
+    },
+    {
+      "image": "/landing/2.png",
+      "title": "Markdown Support",
+      "description": "You can preview your note to see how it would look like in a Markdown format. Includes support for most base Markdown features and supports raw HTML!"
+    },
+    {
+      "image": "/landing/3.png",
+      "title": "Simple, but Useful Features",
+      "description": "Notetxt includes multiple features that, while small, help improve your workflow while taking notes, such as downloading your note to share on other platforms, viewing metrics about the note's contents, and more!"
+    },
+    {
+      "image": "/landing/4.png",
+      "title": "Open Source",
+      "description": "This project is open-sourced on GitHub under the MIT License! You can view all the source code that makes up this app by visiting the repository, and you can also contribute if you would like."
+    }
+  ]
+  

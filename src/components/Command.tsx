@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Lock, Heart } from 'lucide-react';
+import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Home, Lock, Heart } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
@@ -54,7 +54,8 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
   ];
 
   const links = [
-    { id: 'privacy', name: 'Privacy', icon: <Lock size={20} />, url: '/privacy', keybind: '' },
+    { id: 'landing', name: 'Landing Page', icon: <Home size={20} />, url: '/', keybind: '' },
+    { id: 'privacy', name: 'Privacy', icon: <Lock size={20} />, url: '/privacy' },
     { id: 'github', name: 'GitHub', icon: <FaGithub size={20} />, url: 'https://github.com/inttter/notetxt' },
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
   ];

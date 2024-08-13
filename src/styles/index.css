@@ -15,10 +15,6 @@
   content: none;
 }
 
-.move-desktop-toast-up {
-  bottom: 25px !important;
-}
-
 .summary-item {
   position: relative;
   overflow: hidden;
@@ -54,6 +50,11 @@
   @apply text-sm text-zinc-300 mt-1;
 }
 
+/* Normal Button styles */
+.btn {
+  @apply rounded-md px-3.5 py-2.5 duration-300
+}
+
 /* Button styles for dialogs (see components/Dialogs) */
 .btn-dialog {
   @apply px-4 py-1 rounded-md duration-300;
@@ -63,8 +64,9 @@
   @apply hover:cursor-pointer;
 }
 
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 8px;
   border: 1px solid #d5d5d5;
 }
 
