@@ -79,3 +79,16 @@
   border-radius: 0;
   background: #262626;
 }
+
+::-webkit-scrollbar:horizontal {
+  height: 8px;
+  border: 1px solid #d5d5d5;
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background: #171717;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: #262626;
+}
