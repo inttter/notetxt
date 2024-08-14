@@ -246,6 +246,12 @@ export default function Editor() {
     };
   }, []);
 
+  // Needed for keybinds to work when the `textarea` is focused.
+  // https://github.com/jaywcjlove/hotkeys-js/issues/51
+  hotkeys.filter = function(event) {
+    return true;
+  }
+
   return (
     <div
       className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 relative`}
