@@ -23,6 +23,7 @@ export default function Editor() {
   const [fileType, setFileType] = useState('.txt');
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
   const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const savedText = localStorage.getItem('text');
@@ -36,19 +37,11 @@ export default function Editor() {
     localStorage.setItem('text', text);
   }, [text]);
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      // Set the height to the scrollHeight to expand with content
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [text]);
-
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
     if (file && /\.(txt|md)$/i.test(file.name)) {
       readFileContents(file);
+      event.target.value = ''; // Clear the file input value
     } else {
       toast.error('File not supported!', {
         description: `Please select a '.txt' or '.md' file.`
@@ -167,8 +160,8 @@ export default function Editor() {
         setConfirmationDialogOpen(true);
         break;
       case 'open':
-        const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-        fileInput.click();
+        fileInputRef.current.value = '';
+        fileInputRef.current?.click();
         break;
       case 'save':
         setModalVisible(true);
@@ -181,9 +174,10 @@ export default function Editor() {
           router.push(`/preview`),
           {
             loading: 'Loading Markdown preview...',
-            success: 'Markdown preview loaded successfully!',
+            success: 'Markdown preview ready!',
             error: 'Failed to load Markdown preview.',
             closeButton: false,
+            className: 'toast-container',
           }
         );
         break;
@@ -269,6 +263,7 @@ export default function Editor() {
             <input
               type="file"
               id="fileInput"
+              ref={fileInputRef}
               style={{ display: 'none' }}
               accept=".txt,.md"
               onChange={handleFileInputChange}
@@ -281,7 +276,7 @@ export default function Editor() {
             value={text}
             placeholder="Start typing here..."
             onChange={(e) => setText(e.target.value)}
-            className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none mt-3"
+            className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none mt-3 textarea-custom-scroll"
             aria-label="Note Content"
           />
         </div>

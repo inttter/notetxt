@@ -37,7 +37,7 @@
   z-index: 2;
 }
 
-/* Toasts shown in NoteSummary dialog */
+/* Custom toast styles */
 .toast-container {
   @apply bg-dark border border-neutral-800 rounded-lg shadow-lg p-4 z-[1050];
 }
@@ -50,12 +50,12 @@
   @apply text-sm text-zinc-300 mt-1;
 }
 
-/* Normal Button styles */
+/* Normal button styles */
 .btn {
   @apply rounded-md px-3.5 py-2.5 duration-300
 }
 
-/* Button styles for dialogs (see components/Dialogs) */
+/* Button styles for dialogs (see `components/Dialogs`) */
 .btn-dialog {
   @apply px-4 py-1 rounded-md duration-300;
 }
@@ -64,7 +64,7 @@
   @apply hover:cursor-pointer;
 }
 
-/* Scrollbar */
+/* Normal scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   border: 1px solid #d5d5d5;
@@ -80,6 +80,7 @@
   background: #262626;
 }
 
+/* Scrollbar for x-axis overflowing */
 ::-webkit-scrollbar:horizontal {
   height: 8px;
   border: 1px solid #d5d5d5;
@@ -91,4 +92,18 @@
 
 ::-webkit-scrollbar-thumb:horizontal {
   background: #262626;
+}
+
+/* Use a thinner scrollbar for the textarea because it looks ugly with the 8px style */
+.textarea-custom-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.textarea-custom-scroll::-webkit-scrollbar-track {
+  background: #101010;
+}
+
+.textarea-custom-scroll::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 20px;
 }
