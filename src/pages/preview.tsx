@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import Head from 'next/head';
 
 // Markdown Styling
-import markdownStyles from '../components/Markdown/MarkdownStyles';
+import markdownStyles from '../components/markdown/MarkdownStyles';
 import 'github-markdown-css';
 
 const Preview = () => {

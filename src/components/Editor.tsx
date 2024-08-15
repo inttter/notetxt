@@ -9,14 +9,13 @@ import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
-import { useText } from './Markdown/TextContent';
+import { useText } from './markdown/TextContent';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
 
 export default function Editor() {
   const router = useRouter();
   const { text, setText } = useText();
-  const textareaRef = useRef(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
