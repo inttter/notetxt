@@ -20,7 +20,7 @@ A note-taker with a focus on minimalism and simplicity, so you can write down wh
 * `Ctrl+O` - Open Note
 * `Ctrl+N` - New Note
 * `Ctrl+S` - Save Note
-* `Ctrl+C` - Copy Note
+* `Ctrl+Shift+C` - Copy Note
 * `Ctrl+M` - Preview Markdown
 * `Ctrl+I` - Note Summary
 

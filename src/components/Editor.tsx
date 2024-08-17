@@ -199,7 +199,7 @@ export default function Editor() {
   };
 
   useEffect(() => {
-    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+c, ctrl+m, ctrl+i, command+n, command+o, command+s, command+c, command+m, command+i';
+    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+n, command+o, command+s, command+shift+c, command+m, command+i';
 
     const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();
@@ -216,8 +216,8 @@ export default function Editor() {
         case 'command+s':
           handleCommandSelect('save');
           break;
-        case 'ctrl+c':
-        case 'command+c':
+        case 'ctrl+shift+c':
+        case 'command+shift+c':
           handleCommandSelect('copy');
           break;
         case 'ctrl+m':
