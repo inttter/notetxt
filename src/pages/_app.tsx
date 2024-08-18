@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png" />
       <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
       <link rel="shortcut icon" href="/favicon/favicon.ico" />
+      <link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" />
     </Head>
       <TextProvider>
         <div className="selection:bg-neutral-700 selection:text-zinc-300">

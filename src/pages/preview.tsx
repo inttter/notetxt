@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkGemoji from 'remark-gemoji';
+import remarkMath from 'remark-math';
+import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
+import rehypeSlug from 'rehype-slug';
+import rehypeKatex from 'rehype-katex';
 import { rehypeGithubAlerts } from 'rehype-github-alerts';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -56,8 +61,8 @@ const Preview = () => {
       >
         <ReactMarkdown
           children={markdown}
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw, rehypeGithubAlerts]}
+          remarkPlugins={[remarkGfm, remarkGemoji, remarkMath]}
+          rehypePlugins={[rehypeRaw, rehypeGithubAlerts, rehypeSlug, rehypeKatex, [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],]}
           components={markdownStyles}
         />
       </motion.div>
