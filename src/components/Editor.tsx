@@ -5,6 +5,7 @@ import Command from './Command';
 import NoteSummary from './Dialogs/NoteSummary';
 import Download from './Dialogs/Download';
 import ConfirmNew from './Dialogs/ConfirmNew';
+import DragDropOverlay from './DragDropOverlay';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
@@ -129,11 +130,13 @@ export default function Editor() {
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(true);
+    document.body.classList.add('dragging-over');
   };
 
   const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     if (event.currentTarget === event.target || !event.currentTarget.contains(event.relatedTarget as Node)) {
       setIsDraggingOver(false);
+      document.body.classList.remove('dragging-over');
     }
   };
 
@@ -252,9 +255,7 @@ export default function Editor() {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
-      <div
-        className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-300 z-50 pointer-events-none ${isDraggingOver ? 'opacity-50' : 'opacity-0'}`}
-      />
+      <DragDropOverlay isDraggingOver={isDraggingOver} />
       <div className="max-w-2xl w-full space-y-3 flex-col relative z-10 mb-10">
         <div className="relative">
           <div className="-ml-3 px-1">
