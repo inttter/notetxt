@@ -12,12 +12,12 @@ const FeatureCard = ({ imageSrc, title, description, index }) => {
     >
       <Image src={imageSrc} width={1280} height={720} alt={title} className="w-full object-cover border border-neutral-800 rounded-md" />
       <div className="pt-5">
-        <h1 className="text-xl text-zinc-100">
+        <div className="text-xl text-zinc-100">
           {title}
-        </h1>
-        <p className="text-stone-400 text-sm mt-1">
+        </div>
+        <div className="text-stone-400 text-sm mt-1">
           {description}
-        </p>
+        </div>
       </div>
     </motion.div>
   );

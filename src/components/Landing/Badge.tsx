@@ -9,7 +9,7 @@ const Badge = () => (
     transition={{ duration: 0.5, delay: 0.4 }}
   >
     <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-zinc-300 ring-1 ring-zinc-300/20 duration-300 overflow-hidden whitespace-nowrap text-ellipsis">
-      ✨ Notetxt now has a new and improved UI!
+      🚀 Notetxt now supports multiple notes!
     </div>
   </motion.div>
 );

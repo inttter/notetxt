@@ -7,17 +7,17 @@
     {
       "image": "/landing/2.png",
       "title": "Markdown Support",
-      "description": "You can preview your note to see how it would look like in a Markdown format. Includes support for most base Markdown features and supports raw HTML!"
+      "description": "Preview your note to see how it would look like in Markdown! Includes support for most base Markdown features and even a few Remark/Rehype plugins."
     },
     {
       "image": "/landing/3.png",
-      "title": "Simple, but Useful Features",
+      "title": "Simple, But Useful Features",
       "description": "Notetxt includes multiple features that, while small, help improve your workflow while taking notes, such as downloading your note to share on other platforms, viewing metrics about the note's contents, and more!"
     },
     {
       "image": "/landing/4.png",
-      "title": "Open Source",
-      "description": "This project is open-sourced on GitHub under the MIT License! You can view all the source code that makes up this app by visiting the repository, and you can also contribute if you would like."
+      "title": "Multiple Notes",
+      "description": "Store your notes in Notetxt for easy access and management via the note drawer! You can always revisit them at any time to edit, rename, save, or delete them, making sure they're always kept organized."
     }
   ]
   
