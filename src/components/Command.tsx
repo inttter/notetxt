@@ -3,7 +3,6 @@ import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Ho
 import { FaGithub } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
-import * as Tooltip from '@radix-ui/react-tooltip';
 
 const MenuHeader = ({ title }) => (
   <div className="p-2 text-base text-stone-500 ml-0.5">
@@ -152,7 +151,7 @@ const CommandMenuButton = ({ openCommandMenu }) => {
     setCommandMenuOpen(prev => !prev);
   };
 
-  // Not using `hotkeys-js` here so that they can open it from any scenario
+  // Not using `hotkeys-js` here so that user can open it from any scenario
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'k' && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
@@ -169,48 +168,20 @@ const CommandMenuButton = ({ openCommandMenu }) => {
   }, [handleKeyDown]);
 
   return (
-    <Tooltip.Provider>
-      <div>
-        <Tooltip.Root delayDuration={0}>
-          <Tooltip.Trigger>
-            <div className="flex mb-4 px-5 mx-0.5 rounded-lg">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                onClick={toggleCommandMenu}
-                className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
-              >
-                <Command size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
-                <Tooltip.Portal>
-                  <Tooltip.Content side="right">
-                    <AnimatePresence>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ type: 'spring', stiffness: 200, damping: 20, duration: 0.3, mass: 0.5 }}
-                        className="bg-neutral-800 bg-opacity-80 text-zinc-300 text-sm px-2 py-1 rounded-md shadow-xl shadow-neutral-950 -mx-3 mb-2.5"
-                      >
-                        <span className="text-base text-zinc-100">
-                          Command Menu
-                        </span>
-                        <br />
-                        <span className="text-stone-400">
-                          Access various controls and links from here.
-                        </span>
-                      </motion.div>
-                    </AnimatePresence>
-                  </Tooltip.Content>
-                </Tooltip.Portal>
-              </motion.div>
-            </div>
-          </Tooltip.Trigger>
-        </Tooltip.Root>
+    <div className="flex mb-4 px-5 mx-0.5 rounded-lg">
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        onClick={toggleCommandMenu}
+        className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
+        aria-label="Button To Open Command Menu"
+      >
+        <Command size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+      </motion.button>
 
-        <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
-      </div>
-    </Tooltip.Provider>
+      <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
+    </div>
   );
 };
 

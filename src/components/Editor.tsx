@@ -2,40 +2,105 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import Command from './Command';
+import DragDropOverlay from './DragDropOverlay';
+import NoteDrawer from './NoteDrawer';
 import NoteSummary from './Dialogs/NoteSummary';
 import Download from './Dialogs/Download';
-import ConfirmNew from './Dialogs/ConfirmNew';
-import DragDropOverlay from './DragDropOverlay';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
-import { useText } from './markdown/TextContent';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
 
 export default function Editor() {
   const router = useRouter();
-  const { text, setText } = useText();
+  const [notes, setNotes] = useState<{ [key: string]: { name: string; content: string } }>({});
+  const [currentNoteId, setCurrentNoteId] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
-  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    const savedText = localStorage.getItem('text');
-    if (savedText) {
-      setText(savedText);
-      toast.info('Restored the contents of the previous note.');
+    const savedNotes = localStorage.getItem('notes');
+    
+    // Get the current note ID to display the last note the user was on.
+    const savedCurrentNoteId = localStorage.getItem('currentNoteId');
+    
+    if (savedNotes) {
+      const parsedNotes = JSON.parse(savedNotes);
+      setNotes(parsedNotes);
+
+      if (savedCurrentNoteId && parsedNotes[savedCurrentNoteId]) {
+        setCurrentNoteId(savedCurrentNoteId);
+      } else {
+        const firstNoteId = Object.keys(parsedNotes)[0];
+        if (firstNoteId) {
+          setCurrentNoteId(firstNoteId);
+        }
+      }
+    } else {
+      // If no notes exist, automatically create a new one.
+      handleAddNote();
     }
-  }, [setText]);
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem('text', text);
-  }, [text]);
+    localStorage.setItem('notes', JSON.stringify(notes));
+    localStorage.setItem('currentNoteId', currentNoteId);
+  }, [notes, currentNoteId]);
+
+  const handleAddNote = () => {
+    const id = `${Date.now()}`;
+    setNotes((prevNotes) => ({
+      ...prevNotes,
+      [id]: { name: 'New Note', content: '' }
+    }));
+    setCurrentNoteId(id);
+    toast.info('Started a brand new note.')
+  };
+
+  const handleRemoveNote = (id: string) => {
+    setNotes((prevNotes) => {
+      const noteName = prevNotes[id]?.name;
+      const { [id]: _, ...remainingNotes } = prevNotes;
+
+      // If the deleted note was the current ID, 
+      // then update the current ID to a different ID.
+      if (id === currentNoteId) {
+        const remainingNoteIds = Object.keys(remainingNotes);
+        const newCurrentNoteId = remainingNoteIds.length > 0 ? remainingNoteIds[0] : '';
+        setCurrentNoteId(newCurrentNoteId);
+      }
+  
+      toast.success(`The note named '${noteName}' was deleted successfully.`);
+      
+      return remainingNotes;
+    });
+  };
+
+  const handleChangeNote = (id: string) => {
+    setCurrentNoteId(id);
+  };
+
+  const handleUpdateNoteName = (id, newName) => {
+    setNotes(prevNotes => ({
+      ...prevNotes,
+      [id]: {
+        ...prevNotes[id],
+        name: newName
+      }
+    }));
+  };
+
+  const handleDeleteAllNotes = () => {
+    setNotes({});
+    setCurrentNoteId('');
+    toast.success('All notes have been deleted.');
+  };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -44,7 +109,7 @@ export default function Editor() {
       event.target.value = ''; // Clear the file input value
     } else {
       toast.error('File not supported!', {
-        description: `Please select a '.txt' or '.md' file.`
+        description: 'Please select a \'.txt\' or \'.md\' file.'
       });
     }
   };
@@ -57,7 +122,12 @@ export default function Editor() {
       const fileName = fileNameWithExtension.replace(/\.[^/.]+$/, '');
       const fileExtension = fileNameWithExtension.split('.').pop();
 
-      setText(fileContent);
+      const id = `${Date.now()}`;
+      setNotes((prevNotes) => ({
+        ...prevNotes,
+        [id]: { name: fileName, content: fileContent }
+      }));
+      setCurrentNoteId(id);
       setFileName(fileName);
       setFileType(`.${fileExtension}`);
       toast.success('Successfully imported contents!');
@@ -66,7 +136,8 @@ export default function Editor() {
   };
 
   const handleDownload = (fileName, fileType) => {
-    if (!text.trim()) {
+    const note = notes[currentNoteId];
+    if (!note || !note.content.trim()) {
       toast.warning('Cannot download an empty note!', {
         description: 'Please type something and then save your note.',
       });
@@ -75,7 +146,7 @@ export default function Editor() {
 
     const validFileTypes = ['.txt', '.md'];
     const extension = validFileTypes.includes(fileType) ? fileType : '.txt';
-    const sanitizedText = DOMPurify.sanitize(text);
+    const sanitizedText = DOMPurify.sanitize(note.content);
     const blob = new Blob([sanitizedText], { type: 'text/plain' });
 
     const defaultFileName = 'note';
@@ -90,13 +161,13 @@ export default function Editor() {
 
     if (isIOS) {
       toast.info('Check your downloads folder.', {
-        description: `Make sure you clicked 'Download' on the alert that appeared to download the note to your device. If you didn't, the note did not download.`,
+        description: 'Make sure you clicked \'Download\' on the alert that appeared to download the note to your device. If you didn\'t, the note did not download.',
         duration: 5000,
       });
     } else {
       setTimeout(() => {
         toast.success('Saved to your device!', {
-          description: `Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the 'Open Note' option in the command menu and selecting the correct file.`,
+          description: 'Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the \'Open Note\' option in the command menu and selecting the correct file.',
         });
       }, 400);
     }
@@ -121,7 +192,7 @@ export default function Editor() {
         readFileContents(file);
       } else {
         toast.error('File not supported!', {
-          description: `Please drag in a '.txt' or '.md' file.`
+          description: 'Please drag in a \'.txt\' or \'.md\' file.'
         });
       }
     }
@@ -130,36 +201,38 @@ export default function Editor() {
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(true);
-    document.body.classList.add('dragging-over');
   };
 
   const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     if (event.currentTarget === event.target || !event.currentTarget.contains(event.relatedTarget as Node)) {
       setIsDraggingOver(false);
-      document.body.classList.remove('dragging-over');
     }
   };
 
   const handleCopy = async () => {
-    const textarea = document.querySelector('textarea');
-    if (textarea) {
-      if (textarea.value.trim() === '') {
-        toast.warning('There is no content to copy!');
-        return;
-      }
-      try {
-        copy(textarea.value);
-        toast.success('Note copied to your clipboard!');
-      } catch (error) {
-        toast.error('Failed to copy note to your clipboard.');
-      }
+    const note = notes[currentNoteId];
+    if (!note) {
+      toast.warning('No note selected!', {
+        description: 'Create a new note with \'Ctrl+N\' or the \'View All Notes\' button.',
+      });
+      return;
+    }
+    if (note.content.trim() === '') {
+      toast.warning('There is no content to copy!');
+      return;
+    }
+    try {
+      copy(note.content);
+      toast.success('Note copied to your clipboard!');
+    } catch (error) {
+      toast.error('Failed to copy note to your clipboard.');
     }
   };
 
   const handleCommandSelect = (commandId: string) => {
     switch (commandId) {
       case 'new':
-        setConfirmationDialogOpen(true);
+        handleAddNote();
         break;
       case 'open':
         fileInputRef.current.value = '';
@@ -173,7 +246,7 @@ export default function Editor() {
         break;
       case 'preview':
         toast.promise(
-          router.push(`/preview`),
+          router.push('/preview'),
           {
             loading: 'Loading Markdown preview...',
             success: 'Markdown preview ready!',
@@ -189,16 +262,6 @@ export default function Editor() {
       default:
         break;
     }
-  };
-
-  const handleNewNoteConfirm = () => {
-    setText('');
-    toast.info('Started a brand new note.');
-    setConfirmationDialogOpen(false);
-  };
-
-  const handleNewNoteCancel = () => {
-    setConfirmationDialogOpen(false);
   };
 
   useEffect(() => {
@@ -240,7 +303,7 @@ export default function Editor() {
     return () => {
       hotkeys.unbind(hotkeyList);
     };
-  }, []);
+  }, [notes, currentNoteId]);
 
   // Needed for keybinds to work when the `textarea` is focused.
   // https://github.com/jaywcjlove/hotkeys-js/issues/51
@@ -250,32 +313,50 @@ export default function Editor() {
 
   return (
     <div
-      className={`overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 relative`}
+      className="overflow-x-hidden bg-[#111111] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 relative"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
-      <div className="max-w-2xl w-full space-y-3 flex-col relative z-10 mb-10">
-        <div className="relative">
-          <div className="-ml-3 px-1">
-            <Command openCommandMenu={handleCommandSelect} />
-            <input
-              type="file"
-              id="fileInput"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              accept=".txt,.md"
-              onChange={handleFileInputChange}
+      <div className="flex flex-row w-full max-w-2xl mr-4">
+        <div className="flex flex-row w-full">
+          <Command openCommandMenu={handleCommandSelect} />
+          <div className="-mx-3">
+            <NoteDrawer
+              notes={Object.entries(notes).map(([id, note]) => ({ id, ...note }))}
+              currentNoteId={currentNoteId}
+              onChangeNote={handleChangeNote}
+              onAddNote={handleAddNote}
+              onRemoveNote={handleRemoveNote}
+              onUpdateNoteName={handleUpdateNoteName}
+              onDownload={handleDownload}
+              onDeleteAllNotes={handleDeleteAllNotes}
+              onOpenNote={() => handleCommandSelect('open')}
             />
           </div>
+        </div>
+      </div>
+      <div className="max-w-2xl w-full space-y-3 flex-col relative z-10 mb-10">
+        <div className="relative">
+          <input
+            type="file"
+            id="fileInput"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            accept=".txt,.md"
+            onChange={handleFileInputChange}
+          />
           <motion.textarea
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            value={text}
+            value={notes[currentNoteId]?.content || ''}
             placeholder="Start typing here..."
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => setNotes((prevNotes) => ({
+              ...prevNotes,
+              [currentNoteId]: { ...prevNotes[currentNoteId], content: e.target.value }
+            }))}
             className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none mt-3 textarea-custom-scroll"
             aria-label="Note Content"
           />
@@ -284,7 +365,7 @@ export default function Editor() {
       <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
       {isNoteSummaryDialogOpen && (
         <NoteSummary
-          text={text}
+          text={notes[currentNoteId]?.content || ''}
           isDialogOpen={isNoteSummaryDialogOpen}
           onClose={() => setNoteSummaryDialogOpen(false)}
         />
@@ -300,11 +381,6 @@ export default function Editor() {
           setFileType={setFileType}
         />
       )}
-      <ConfirmNew
-        isOpen={isConfirmationDialogOpen}
-        onConfirm={handleNewNoteConfirm}
-        onCancel={handleNewNoteCancel}
-      />
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="absolute bottom-7 md:bottom-5 left-1/2 md:left-2 transform -translate-x-1/2 md:translate-x-0 flex items-center justify-center md:justify-start w-full md:w-auto px-4">
-        <span className="text-sm text-neutral-700 text-center md:text-left flex items-center break-words overflow-hidden">
+        <span className="text-xs text-stone-400 text-center md:text-left flex items-center break-words overflow-hidden">
           <Lightbulb size={17} className="mr-1" /> {randomTip}
         </span>
       </div>

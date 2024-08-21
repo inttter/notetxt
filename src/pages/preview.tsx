@@ -21,9 +21,20 @@ const Preview = () => {
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
-    const savedMarkdown = localStorage.getItem('text');
-    if (savedMarkdown) {
-      setMarkdown(savedMarkdown);
+    const savedCurrentNoteId = localStorage.getItem('currentNoteId');
+    const savedNotes = localStorage.getItem('notes');
+    
+    if (savedNotes && savedCurrentNoteId) {
+      const parsedNotes = JSON.parse(savedNotes);
+      const note = parsedNotes[savedCurrentNoteId];
+      
+      if (note && note.content.trim()) {
+        setMarkdown(note.content);
+      } else {
+        setMarkdown(
+          '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/editor) and try again.'
+        );
+      }
     } else {
       setMarkdown(
         '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/) and try again.'
@@ -43,12 +54,12 @@ const Preview = () => {
         className="w-full max-w-2xl"
       >
         <div className="flex justify-start mb-4 md:pt-0 pt-3">
-          <button className="btn text-sm text-zinc-300 bg-[#282828] bg-opacity-80 border-2 border-neutral-700 border-opacity-40 hover:bg-opacity-60 group">
-            <Link href="/editor" className="flex items-center">
-              <ArrowLeft size={20} className="mr-1 group-hover:-translate-x-0.5 duration-300" /> 
-              Return to Editor
-            </Link>
+        <Link href="/editor" className="flex items-center">
+          <button className="btn text-sm text-zinc-300 bg-[#282828] bg-opacity-80 border-2 border-neutral-700 border-opacity-40 hover:bg-opacity-60 group flex items-center">
+            <ArrowLeft size={20} className="mr-1 group-hover:-translate-x-0.5 duration-300" /> 
+            Return to Editor
           </button>
+          </Link>
         </div>
       </motion.div>
 
