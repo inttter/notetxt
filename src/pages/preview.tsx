@@ -35,12 +35,8 @@ const Preview = () => {
           '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/editor) and try again.'
         );
       }
-    } else {
-      setMarkdown(
-        '<div align="center"><img src="https://us-east-1.tixte.net/uploads/files.iinter.me/no-content-ntxt-black.png" width="450">\n\nSorry! There was **no content** found for this preview. Please [go back](/) and try again.'
-      );
     }
-  }, []);
+  });
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#111111] p-4 sm:p-6 lg:p-8 overflow-x-hidden">
@@ -59,7 +55,7 @@ const Preview = () => {
             <ArrowLeft size={20} className="mr-1 group-hover:-translate-x-0.5 duration-300" /> 
             Return to Editor
           </button>
-          </Link>
+        </Link>
         </div>
       </motion.div>
 

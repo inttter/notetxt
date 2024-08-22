@@ -119,6 +119,17 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                   />
                 </div>
                 <div className="flex flex-col space-y-2">
+                  {filteredNotes.length === 0 && (
+                    <div className="text-stone-500 text-base text-center mt-1 mb-1">
+                      No notes found.
+                      <span 
+                        className="text-stone-400 hover:text-opacity-80 text-base text-center border-b border-neutral-700 ml-1 duration-300 cursor-pointer" 
+                        onClick={onAddNote}
+                      >
+                        Create a new one?
+                      </span>
+                    </div>
+                  )}
                   {filteredNotes.map((note) => (
                     <div
                       key={note.id}
