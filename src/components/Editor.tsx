@@ -212,8 +212,8 @@ export default function Editor() {
   const handleCopy = async () => {
     const note = notes[currentNoteId];
     if (!note) {
-      toast.warning('No note selected!', {
-        description: 'Create a new note with \'Ctrl+N\' or the \'View All Notes\' button.',
+      toast.warning('No notes to copy!', {
+        description: 'Create a note with text first to be able to copy it.',
       });
       return;
     }
