@@ -17,8 +17,11 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
 
   const drawerTitle = 'All Notes';
   const drawerDescription = 'Navigate to and manage each one of your notes from here.';
+  const keybindTip = 'Tip: Use ↑ and ↓ arrow keys to navigate between notes.';
 
   useEffect(() => {
+    const currentIndex = notes.findIndex(note => note.id === currentNoteId);
+
     if (isDrawerOpen) {
       hotkeys('del', (event) => {
         event.preventDefault();
@@ -26,14 +29,32 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
           onRemoveNote(currentNoteId);
         }
       });
+
+      hotkeys('down', (event) => {
+        event.preventDefault();
+        if (currentIndex < notes.length - 1) {
+          onChangeNote(notes[currentIndex + 1].id);
+        }
+      });
+
+      hotkeys('up', (event) => {
+        event.preventDefault();
+        if (currentIndex > 0) {
+          onChangeNote(notes[currentIndex - 1].id);
+        }
+      });
     } else {
       hotkeys.unbind('del');
+      hotkeys.unbind('down');
+      hotkeys.unbind('up');
     }
 
     return () => {
       hotkeys.unbind('del');
+      hotkeys.unbind('down');
+      hotkeys.unbind('up');
     };
-  }, [isDrawerOpen, currentNoteId, onRemoveNote]);
+  }, [isDrawerOpen, currentNoteId, notes, onChangeNote, onRemoveNote]);
 
   const handleEditClick = (note) => {
     setEditingNoteId(note.id);
@@ -97,7 +118,7 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
-          <Drawer.Content className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300" style={{ width: '450px' }}>
+          <Drawer.Content className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300" style={{ width: '450px', outline: 'none', boxShadow: 'none'}}>
             <div className="p-4 flex-1 h-full overflow-y-auto">
               <div className="max-w-md mx-auto">
                 <Drawer.Title className="font-medium text-lg text-zinc-100 flex items-center">
@@ -106,6 +127,7 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                 </Drawer.Title>
                 <div className="text-stone-500 text-sm mb-3">
                   {drawerDescription}
+                  <span className="hidden md:block whitespace-pre-line">{keybindTip}</span>
                 </div>
                 <div className="mb-3 relative">
                   <input
