@@ -45,7 +45,10 @@ export default function Privacy() {
             Data Collection & Usage
           </div>
           <p>
-            Notetxt uses your browser's <code className="code">localStorage</code> solely to save and display your notes. No personal information is collected or transmitted at all, since you don't enter it anywhere here. Still, be sure to not keep sensitive things inside of your notes, just in case.
+            Notetxt uses your browser's <code className="code">localStorage</code> solely to store notes in your browser and display them. No information is collected or transmitted at all, since you don't enter your info anywhere on this website. 
+            <br />
+            <br />
+            As a security measure for yourself, try not to store sensitive information in notes, as Notetxt is not responsible should your notes be exposed by other, external means or individuals.
           </p>
         </motion.div>
 
@@ -54,12 +57,12 @@ export default function Privacy() {
             Deleting your data
           </div>
           <p>
-            To remove the note stored in <code className="code">localStorage</code>, create a brand new note (which clears your <code className="code">localStorage</code> content), or follow
+            To remove notes stored in <code className="code">localStorage</code>, you can navigate to the note drawer and click on the 'Delete All Notes' button (trash icon in the bottom right), which permanently deletes your notes from the browser. If you want to clear <code className="code">localStorage</code> manually, follow
             <Link
               href="https://www.leadshook.com/help/how-to-clear-local-storage-in-google-chrome-browser/"
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-1 text-zinc-300 hover:text-zinc-100 duration-300 border-b border-dashed border-neutral-600"
+              className="ml-1 text-zinc-300 hover:text-zinc-100 duration-300 border-b border-neutral-600"
             >
               this guide
             </Link>.
@@ -73,11 +76,11 @@ export default function Privacy() {
               href="https://vercel.com/analytics"
               target="_blank"
               rel="noopener noreferrer"
-              className="mr-1 text-zinc-300 hover:text-zinc-100 duration-300 border-b border-dashed border-neutral-600"
+              className="mr-1 text-zinc-300 hover:text-zinc-100 duration-300 border-b border-neutral-600"
             >
               ▲ Vercel Analytics
             </Link>
-            is used for anonymized usage data for analytical purposes. This information includes data such as page views and device types. No personal data or note contents will be collected.
+            is used for anonymized usage data for analytical purposes. This information includes data such as page views, device types, and page referrals. No personal data or notes are collected.
           </p>
         </motion.div>
 
