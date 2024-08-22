@@ -22,6 +22,7 @@ export default function Editor() {
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -60,7 +61,8 @@ export default function Editor() {
       [id]: { name: 'New Note', content: '' }
     }));
     setCurrentNoteId(id);
-    toast.info('Started a brand new note.')
+    setSearchQuery('');
+    toast.info('Started a brand new note.');
   };
 
   const handleRemoveNote = (id: string) => {
@@ -333,6 +335,8 @@ export default function Editor() {
               onDownload={handleDownload}
               onDeleteAllNotes={handleDeleteAllNotes}
               onOpenNote={() => handleCommandSelect('open')}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
             />
           </div>
         </div>

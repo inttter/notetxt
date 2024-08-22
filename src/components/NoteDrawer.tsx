@@ -6,8 +6,7 @@ import { motion } from 'framer-motion';
 import DownloadDialog from './Dialogs/Download';
 import ConfirmDeleteAll from './Dialogs/ConfirmDeleteAll'
 
-
-const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote }) => {
+const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
@@ -15,7 +14,6 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false); 
-  const [searchQuery, setSearchQuery] = useState('');
 
   const drawerTitle = 'All Notes';
   const drawerDescription = 'Navigate to and manage each one of your notes from here.';
@@ -126,7 +124,10 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                       No notes found.
                       <span 
                         className="text-stone-400 hover:text-opacity-80 text-base text-center border-b border-neutral-700 ml-1 duration-300 cursor-pointer" 
-                        onClick={onAddNote}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onAddNote();
+                        }}
                       >
                         Create a new one?
                       </span>
@@ -140,7 +141,11 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                           ? 'bg-neutral-800 bg-opacity-50 border-neutral-800'
                           : 'bg-neutral-900 bg-opacity-50 border-neutral-800'
                       }`}
-                      onClick={() => onChangeNote(note.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onChangeNote(note.id);
+                      }}
+                      aria-label="Note List Item"
                     >
                       {editingNoteId === note.id ? (
                         <input
@@ -196,26 +201,35 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                     <button
                       className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
                       aria-label="Create New Note"
-                      onClick={onAddNote}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onAddNote();
+                      }}
                     >
                       <Plus size={20} className="text-zinc-300" />
                     </button>
                     <button
                       className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
                       aria-label="Open Note"
-                      onClick={onOpenNote}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenNote();
+                      }}
                     >
                       <FolderOpen size={20} className="text-zinc-300" />
                     </button>
                     <button
                       className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
                       aria-label="Delete All Notes"
-                      onClick={handleConfirmDeleteAll}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleConfirmDeleteAll();
+                      }}                    
                     >
                       <Trash2 size={20} className="text-red-500" />
                     </button>
                   </div>
-                hr</div>
+                </div>
               </div>
             </div>
           </Drawer.Content>
