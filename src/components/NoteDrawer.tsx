@@ -150,11 +150,11 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                           onBlur={handleSaveName}
                           onKeyDown={handleKeyDown}
                           placeholder="Note Title"
-                          className="bg-transparent text-zinc-300 placeholder:text-stone-500 caret-amber-400 outline-none rounded-md flex-grow min-w-[8rem] text-base"
+                          className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none rounded-md flex-grow min-w-[8rem] text-base duration-300"
                           autoFocus
                         />
                       ) : (
-                        <span className="truncate overflow-ellipsis w-56 md:w-80">
+                        <span className="truncate overflow-ellipsis w-56 md:w-80 text-base">
                           {note.name || 'New Note'}
                         </span>
                       )}
