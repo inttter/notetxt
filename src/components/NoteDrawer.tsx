@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
-import { Plus, Trash2, NotebookPen, BookOpen, Pencil, Download, FolderOpen } from 'lucide-react';
+import { Plus, Trash2, NotebookPen, BookOpen, Pencil, Download, FolderOpen, Search } from 'lucide-react';
 import hotkeys from 'hotkeys-js';
 import { motion } from 'framer-motion';
 import DownloadDialog from './Dialogs/Download';
@@ -109,15 +109,17 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                 <div className="text-stone-500 text-sm mb-3">
                   {drawerDescription}
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 relative">
                   <input
                     type="text"
                     placeholder="Search notes..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-3 py-2 rounded-md bg-neutral-900 placeholder:text-stone-500 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700 duration-300 "
+                    className="w-full pl-9 py-2 rounded-md bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700 duration-300"
                   />
+                  <Search size={20} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-500" />
                 </div>
+                <hr className="w-full border-neutral-800 mb-3 rounded-full" />
                 <div className="flex flex-col space-y-2">
                   {filteredNotes.length === 0 && (
                     <div className="text-stone-500 text-base text-center mt-1 mb-1">
@@ -213,7 +215,7 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                       <Trash2 size={20} className="text-red-500" />
                     </button>
                   </div>
-                </div>
+                hr</div>
               </div>
             </div>
           </Drawer.Content>
