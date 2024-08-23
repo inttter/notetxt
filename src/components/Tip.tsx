@@ -6,16 +6,13 @@ export default function Home() {
 
   useEffect(() => {
     const tips = [
-      'tip: ctrl+o to open a note',
-      'tip: ctrl+n for a brand new note',
-      'tip: ctrl+s to save your note',
-      'tip: ctrl+c to copy the note contents',
-      'tip: ctrl+m to preview your note in markdown',
-      'tip: ctrl+i to view note metrics',
-      'tip: ctrl+k for the command menu',
-      'tip: drop in a .txt or .md file',
-      'tip: notes save when you leave',
-      'tip: find links in the command menu'
+      'Try dragging and dropping existing .txt and .md files.',
+      'Make sure to save your notes.',
+      'Preview notes in Markdown from the command menu.',
+      'View your note\'s metrics from the command menu.',
+      'Visit the command menu for different controls.',
+      'Notes save when you leave.',
+      'Find links in the command menu.'
     ];
 
     const updateTip = () => {
@@ -32,7 +29,7 @@ export default function Home() {
     <div className="relative">
       <div className="absolute bottom-7 md:bottom-5 left-1/2 md:left-2 transform -translate-x-1/2 md:translate-x-0 flex items-center justify-center md:justify-start w-full md:w-auto px-4">
         <span className="text-xs text-stone-400 text-center md:text-left flex items-center break-words overflow-hidden">
-          <Lightbulb size={17} className="mr-1" /> {randomTip}
+          <Lightbulb size={15} className="mr-1" /> {randomTip}
         </span>
       </div>
     </div>

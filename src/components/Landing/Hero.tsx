@@ -13,12 +13,12 @@ const HeroSection = () => (
     transition={{ duration: 0.5, delay: 0.4 }}
     className="text-center"
   >
-    <h1 className="text-4xl font-semibold tracking-tighter md:tracking-normal text-zinc-100 sm:text-6xl">
+    <div className="text-4xl font-semibold tracking-tighter md:tracking-normal text-zinc-100 sm:text-6xl">
       {heroMessage}
-    </h1>
-    <p className="mt-6 text-md md:text-lg leading-6 text-zinc-300">
+    </div>
+    <div className="mt-6 text-md md:text-lg leading-6 text-zinc-300">
       {heroDescription}
-    </p>
+    </div>
     <div className="mt-10 flex items-center justify-center gap-x-6">
       <Link href="/editor" className="btn text-sm text-zinc-100 bg-default bg-opacity-80 border-2 border-neutral-700 border-opacity-40 hover:bg-opacity-60 flex items-center">
         <NotebookPen size={15} className="mr-1 text-stone-400" /> Go to Editor
