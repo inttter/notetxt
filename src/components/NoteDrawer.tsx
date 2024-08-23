@@ -4,7 +4,7 @@ import { Plus, Trash2, NotebookPen, BookOpen, Pencil, Download, FolderOpen, Sear
 import hotkeys from 'hotkeys-js';
 import { motion } from 'framer-motion';
 import DownloadDialog from './Dialogs/Download';
-import ConfirmDeleteAll from './Dialogs/ConfirmDeleteAll'
+import ConfirmDeleteAll from './Dialogs/ConfirmDeleteAll';
 
 const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -13,7 +13,7 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
-  const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false); 
+  const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false);
 
   const drawerTitle = 'All Notes';
   const drawerDescription = 'Navigate to and manage each one of your notes from here.';
@@ -96,7 +96,7 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
     setConfirmDeleteAllOpen(false);
   };
 
-  const filteredNotes = notes.filter((note) => 
+  const filteredNotes = notes.filter((note) =>
     (note.name || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -118,11 +118,11 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
-          <Drawer.Content className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300" style={{ width: '450px', outline: 'none', boxShadow: 'none'}}>
+          <Drawer.Content className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300" style={{ width: '450px', outline: 'none', boxShadow: 'none' }}>
             <div className="p-4 flex-1 h-full overflow-y-auto">
               <div className="max-w-md mx-auto">
                 <Drawer.Title className="font-medium text-lg text-zinc-100 flex items-center">
-                  <BookOpen size={20} className="mr-1.5" /> 
+                  <BookOpen size={20} className="mr-1.5" />
                   {drawerTitle}
                 </Drawer.Title>
                 <div className="text-stone-500 text-sm mb-3">
@@ -144,8 +144,8 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                   {filteredNotes.length === 0 && (
                     <div className="text-stone-500 text-base text-center mt-1 mb-1">
                       No notes found.
-                      <span 
-                        className="text-stone-400 hover:text-opacity-80 text-base text-center border-b border-neutral-700 ml-1 duration-300 cursor-pointer" 
+                      <span
+                        className="text-stone-400 hover:text-opacity-80 text-base text-center border-b border-neutral-700 ml-1 duration-300 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           onAddNote();
@@ -208,7 +208,7 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                         </button>
                         <button
                           aria-label="Delete Note"
-                          className="text-red-500 hover:text-red-700 duration-300"
+                          className="text-stone-500 hover:text-stone-400 duration-300"
                           onClick={(e) => {
                             e.stopPropagation();
                             onRemoveNote(note.id);
@@ -246,13 +246,21 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
                       onClick={(e) => {
                         e.stopPropagation();
                         handleConfirmDeleteAll();
-                      }}                    
+                      }}
                     >
                       <Trash2 size={20} className="text-red-500" />
                     </button>
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex flex-col p-3 mt-auto bg-dark border-t text-xs text-stone-400 border-neutral-800">
+              {searchQuery
+                ? filteredNotes.length === 0
+                  ? `No notes found matching "${searchQuery}"`
+                  : `${filteredNotes.length} note${filteredNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
+                : `${notes.length} note${notes.length > 1 ? 's' : ''} available`
+              }
             </div>
           </Drawer.Content>
         </Drawer.Portal>
