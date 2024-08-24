@@ -181,9 +181,14 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
                           autoFocus
                         />
                       ) : (
-                        <span className="truncate overflow-ellipsis w-56 md:w-80 text-base">
-                          {note.name || 'New Note'}
-                        </span>
+                        <div className="flex-1 truncate">
+                          <span className="block truncate overflow-ellipsis text-base w-full md:w-80">
+                            {note.name || 'New Note'}
+                          </span>
+                          <span className={`block text-xs truncate overflow-ellipsis duration-300 ${currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500 '}`}>
+                            {note.content ? note.content.substring(0, 50) + '...' : ''}
+                          </span>
+                        </div>
                       )}
                       <div className="flex items-center space-x-2">
                         <button
