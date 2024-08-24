@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import Command from './Command';
 import DragDropOverlay from './DragDropOverlay';
-import NoteDrawer from './NoteDrawer';
+import NoteManager from './NoteManager';
 import NoteSummary from './Dialogs/NoteSummary';
 import Download from './Dialogs/Download';
 import copy from 'copy-to-clipboard';
@@ -325,7 +325,7 @@ export default function Editor() {
         <div className="flex flex-row w-full">
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
-            <NoteDrawer
+            <NoteManager
               notes={Object.entries(notes).map(([id, note]) => ({ id, ...note }))}
               currentNoteId={currentNoteId}
               onChangeNote={handleChangeNote}

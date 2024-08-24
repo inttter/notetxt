@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import DownloadDialog from './Dialogs/Download';
 import ConfirmDeleteAll from './Dialogs/ConfirmDeleteAll';
 
-const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery }) => {
+const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
@@ -290,4 +290,4 @@ const NoteDrawer = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNot
   );
 };
 
-export default NoteDrawer;
+export default NoteManager;

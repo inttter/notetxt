@@ -57,7 +57,7 @@ export default function Privacy() {
             Deleting your data
           </div>
           <p>
-            To remove notes stored in <code className="code">localStorage</code>, you can navigate to the note drawer and click on the 'Delete All Notes' button (trash icon in the bottom right), which permanently deletes your notes from the browser. If you want to clear <code className="code">localStorage</code> manually, follow
+            To remove notes stored in <code className="code">localStorage</code>, you can navigate to the note manager and click on the 'Delete All Notes' button (trash icon in the bottom right), which permanently deletes your notes from the browser. If you want to clear <code className="code">localStorage</code> manually, follow
             <Link
               href="https://www.leadshook.com/help/how-to-clear-local-storage-in-google-chrome-browser/"
               target="_blank"
