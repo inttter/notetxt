@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
-import { Plus, Trash2, NotebookPen, BookOpen, Pencil, Download, FolderOpen, Search } from 'lucide-react';
+import { Plus, Trash2, NotebookPen, Pencil, Download, FolderOpen, Search, Edit3 } from 'lucide-react';
 import hotkeys from 'hotkeys-js';
 import { motion } from 'framer-motion';
 import DownloadDialog from './Dialogs/Download';
@@ -15,7 +15,7 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
   const [fileType, setFileType] = useState('.txt');
   const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false);
 
-  const drawerTitle = 'All Notes';
+  const drawerTitle = 'Note Manager';
   const drawerDescription = 'Navigate to and manage each one of your notes from here.';
   const keybindTip = 'Tip: Use ↑ and ↓ arrow keys to navigate between notes.';
 
@@ -122,7 +122,7 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
             <div className="p-4 flex-1 h-full overflow-y-auto">
               <div className="max-w-md mx-auto">
                 <Drawer.Title className="font-medium text-lg text-zinc-100 flex items-center">
-                  <BookOpen size={20} className="mr-1.5" />
+                  <Edit3 size={20} className="mr-1.5" />
                   {drawerTitle}
                 </Drawer.Title>
                 <div className="text-stone-500 text-sm mb-3">
