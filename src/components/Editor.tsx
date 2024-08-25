@@ -398,6 +398,14 @@ export default function Editor() {
             accept=".txt,.md"
             onChange={handleFileInputChange}
           />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}  
+            className="px-3 py-2 text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl text-sm code tracking-tighter"
+          >
+            {notes[currentNoteId]?.name || 'Note Name'}
+          </motion.div>
           {isPreviewMode ? (
             <div>
               <MarkdownPreview content={notes[currentNoteId]?.content || 'No content to preview.'} />
@@ -419,19 +427,21 @@ export default function Editor() {
               </motion.div>
             </div>
           ) : (
+            <div>
             <motion.textarea
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               value={notes[currentNoteId]?.content || ''}
               placeholder="Start typing here..."
               onChange={(e) => setNotes((prevNotes) => ({
                 ...prevNotes,
                 [currentNoteId]: { ...prevNotes[currentNoteId], content: e.target.value }
               }))}
-              className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-base rounded-lg min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
+              className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
               aria-label="Note Content"
             />
+            </div>
           )}
         </div>
       </div>
