@@ -59,7 +59,7 @@ const markdownStyles = {
         <pre className="p-4 rounded-md text-zinc-100 bg-[#1A1A1A] border border-neutral-700 prose-invert code font-medium" {...props} />
     ),
     a: ({ node, ...props }) => (
-        <a className="no-underline text-zinc-100 border-b-2 border-neutral-600 hover:border-neutral-400 duration-300" {...props} />
+        <a className="no-underline text-zinc-100 hover:opacity-80 border-b-2 border-neutral-600 duration-300" {...props} />
     ),
     blockquote: ({ node, ...props }) => (
         <blockquote className="border-l-4 border-neutral-700 pl-4 mb-4 italic prose-blockquote:border-l-4 prose-blockquote:border-neutral-700 prose-blockquote:pl-4 prose-invert" {...props} />
