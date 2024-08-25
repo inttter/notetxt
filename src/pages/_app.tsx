@@ -6,6 +6,7 @@ import Head from 'next/head';
 import '../styles/index.css';
 import '../styles/github-alerts.css';
 import '@fontsource/geist-sans';
+import '@fontsource/ia-writer-duo';
 import '@fontsource/jetbrains-mono';
 import 'github-markdown-css';
 import { TextProvider } from '../components/markdown/TextContent';

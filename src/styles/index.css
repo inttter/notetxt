@@ -15,6 +15,10 @@
   content: none;
 }
 
+.editor-text {
+  font-family: 'iA Writer Duo', sans-serif;
+}
+
 .summary-item {
   position: relative;
   overflow: hidden;

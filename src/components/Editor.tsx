@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import Command from './Command';
 import DragDropOverlay from './DragDropOverlay';
@@ -12,10 +11,11 @@ import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
+import MarkdownPreview from '@/components/markdown/MarkdownPreview';
+import db, { Note } from '../utils/db';
 
 export default function Editor() {
-  const router = useRouter();
-  const [notes, setNotes] = useState<{ [key: string]: { name: string; content: string } }>({});
+  const [notes, setNotes] = useState<{ [key: string]: Note }>({});
   const [currentNoteId, setCurrentNoteId] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -23,85 +23,136 @@ export default function Editor() {
   const [fileType, setFileType] = useState('.txt');
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    const savedNotes = localStorage.getItem('notes');
-    
-    // Get the current note ID to display the last note the user was on.
-    const savedCurrentNoteId = localStorage.getItem('currentNoteId');
-    
-    if (savedNotes) {
-      const parsedNotes = JSON.parse(savedNotes);
-      setNotes(parsedNotes);
-
-      if (savedCurrentNoteId && parsedNotes[savedCurrentNoteId]) {
-        setCurrentNoteId(savedCurrentNoteId);
-      } else {
-        const firstNoteId = Object.keys(parsedNotes)[0];
-        if (firstNoteId) {
-          setCurrentNoteId(firstNoteId);
+    const fetchNotesAndCurrentNoteId = async () => {
+      try {
+        // Fetch all notes
+        const allNotes = await db.notes.toArray();
+        const notesMap = allNotes.reduce((acc, note) => {
+          acc[note.id] = note;
+          return acc;
+        }, {} as { [key: string]: Note });
+  
+        setNotes(notesMap);
+  
+        const savedCurrentNoteId = await db.currentNote.get('current');
+  
+        if (savedCurrentNoteId) {
+          setCurrentNoteId(savedCurrentNoteId.noteId);
+        } else {
+          // If no current note is set and no notes exist, create a new one
+          if (allNotes.length === 0) {
+            await handleAddNote();
+          } else {
+            // If there are notes, set the first one as the current note
+            setCurrentNoteId(allNotes[0].id);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch notes or current note ID:', error);
+        toast.error('Failed to load notes.');
+      }
+    };
+  
+    fetchNotesAndCurrentNoteId();
+  }, []);
+  
+  useEffect(() => {
+    const saveNotes = async () => {
+      try {
+        const notesArray = Object.entries(notes).map(([id, note]) => ({ id, ...note }));
+        await db.notes.bulkPut(notesArray);
+      } catch (error) {
+        console.error('Failed to save notes:', error);
+        toast.error('Failed to save notes.');
+      }
+    };
+  
+    saveNotes();
+  }, [notes]);
+  
+  useEffect(() => {
+    const updateCurrentNoteId = async () => {
+      if (currentNoteId) {
+        try {
+          await db.currentNote.put({ id: 'current', noteId: currentNoteId });
+        } catch (error) {
+          console.error('Failed to update current note ID:', error);
+          toast.error('Failed to update current note ID.');
         }
       }
-    } else {
-      // If no notes exist, automatically create a new one.
-      handleAddNote();
+    };
+  
+    updateCurrentNoteId();
+  }, [currentNoteId]);
+
+  const handleAddNote = async () => {
+    try {
+      const id = `${Date.now()}`;
+      const newNote: Note = { id, name: 'New Note', content: '' };
+      await db.notes.add(newNote);
+      setNotes((prevNotes) => ({ ...prevNotes, [id]: newNote }));
+      setCurrentNoteId(id);
+      setSearchQuery('');
+      toast.info('Started a brand new note.');
+    } catch (error) {
+      console.error('Failed to add note:', error);
+      toast.error('Failed to add a new note.');
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes));
-    localStorage.setItem('currentNoteId', currentNoteId);
-  }, [notes, currentNoteId]);
-
-  const handleAddNote = () => {
-    const id = `${Date.now()}`;
-    setNotes((prevNotes) => ({
-      ...prevNotes,
-      [id]: { name: 'New Note', content: '' }
-    }));
-    setCurrentNoteId(id);
-    setSearchQuery('');
-    toast.info('Started a brand new note.');
   };
 
-  const handleRemoveNote = (id: string) => {
-    setNotes((prevNotes) => {
-      const noteName = prevNotes[id]?.name;
-      const { [id]: _, ...remainingNotes } = prevNotes;
-
-      // If the deleted note was the current ID, 
-      // then update the current ID to a different ID.
-      if (id === currentNoteId) {
-        const remainingNoteIds = Object.keys(remainingNotes);
-        const newCurrentNoteId = remainingNoteIds.length > 0 ? remainingNoteIds[0] : '';
-        setCurrentNoteId(newCurrentNoteId);
-      }
+  const handleRemoveNote = async (id: string) => {
+    try {
+      await db.notes.delete(id);
+      setNotes(prevNotes => {
+        const noteName = prevNotes[id]?.name;
+        const { [id]: _, ...remainingNotes } = prevNotes;
   
-      toast.success(`The note named '${noteName}' was deleted successfully.`);
-      
-      return remainingNotes;
-    });
+        // If the deleted note was the current ID,
+        // then update the current ID to a different ID.
+        const newCurrentNoteId = Object.keys(remainingNotes)[0] || '';
+        setCurrentNoteId(newCurrentNoteId);
+  
+        toast.success(`The note '${noteName}' was deleted successfully.`);
+        return remainingNotes;
+      });
+    } catch (error) {
+      console.error('Failed to remove note:', error);
+      toast.error('Failed to remove note.');
+    }
   };
 
   const handleChangeNote = (id: string) => {
     setCurrentNoteId(id);
   };
 
-  const handleUpdateNoteName = (id, newName) => {
-    setNotes(prevNotes => ({
-      ...prevNotes,
-      [id]: {
-        ...prevNotes[id],
-        name: newName
-      }
-    }));
+  const handleUpdateNoteName = async (id: string, newName: string) => {
+    try {
+      await db.notes.update(id, { name: newName });
+      setNotes(prevNotes => ({
+        ...prevNotes,
+        [id]: { ...prevNotes[id], name: newName }
+      }));
+    } catch (error) {
+      console.error('Failed to update note name:', error);
+      toast.error('Failed to update note name.');
+    }
   };
+  
 
-  const handleDeleteAllNotes = () => {
-    setNotes({});
-    setCurrentNoteId('');
-    toast.success('All notes have been deleted.');
+  const handleDeleteAllNotes = async () => {
+    try {
+      await db.notes.clear();
+      setNotes({});
+      setCurrentNoteId('');
+      toast.success('All notes have been deleted.');
+    } catch (error) {
+      console.error('Failed to delete all notes:', error);
+      toast.error('Failed to delete all notes.');
+    }
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,23 +167,27 @@ export default function Editor() {
     }
   };
 
-  const readFileContents = (file: File) => {
+  const readFileContents = async (file: File) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const fileContent = e.target?.result as string;
-      const fileNameWithExtension = file.name;
-      const fileName = fileNameWithExtension.replace(/\.[^/.]+$/, '');
-      const fileExtension = fileNameWithExtension.split('.').pop();
-
-      const id = `${Date.now()}`;
-      setNotes((prevNotes) => ({
-        ...prevNotes,
-        [id]: { name: fileName, content: fileContent }
-      }));
-      setCurrentNoteId(id);
-      setFileName(fileName);
-      setFileType(`.${fileExtension}`);
-      toast.success('Successfully imported contents!');
+    reader.onload = async (e) => {
+      try {
+        const fileContent = e.target?.result as string;
+        const fileNameWithExtension = file.name;
+        const fileName = fileNameWithExtension.replace(/\.[^/.]+$/, '');
+        const fileExtension = fileNameWithExtension.split('.').pop();
+  
+        const id = `${Date.now()}`;
+        const newNote: Note = { id, name: fileName, content: fileContent };
+        await db.notes.add(newNote);
+        setNotes(prevNotes => ({ ...prevNotes, [id]: newNote }));
+        setCurrentNoteId(id);
+        setFileName(fileName);
+        setFileType(`.${fileExtension}`);
+        toast.success('Successfully imported contents!');
+      } catch (error) {
+        console.error('Failed to import file contents:', error);
+        toast.error('Failed to import contents.');
+      }
     };
     reader.readAsText(file);
   };
@@ -247,16 +302,7 @@ export default function Editor() {
         handleCopy();
         break;
       case 'preview':
-        toast.promise(
-          router.push('/preview'),
-          {
-            loading: 'Loading Markdown preview...',
-            success: 'Markdown preview ready!',
-            error: 'Failed to load Markdown preview.',
-            closeButton: false,
-            className: 'toast-container',
-          }
-        );
+        setIsPreviewMode(prevMode => !prevMode);
         break;
       case 'summary':
         setNoteSummaryDialogOpen(true);
@@ -295,6 +341,7 @@ export default function Editor() {
         case 'ctrl+i':
         case 'command+i':
           handleCommandSelect('summary');
+          break;
         default:
           break;
       }
@@ -321,7 +368,7 @@ export default function Editor() {
       onDragLeave={handleDragLeave}
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
-      <div className="flex flex-row w-full max-w-2xl mr-4">
+      <div className="flex flex-row w-full max-w-2xl mr-10 mt-3 md:mt-0">
         <div className="flex flex-row w-full">
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
@@ -351,19 +398,41 @@ export default function Editor() {
             accept=".txt,.md"
             onChange={handleFileInputChange}
           />
-          <motion.textarea
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            value={notes[currentNoteId]?.content || ''}
-            placeholder="Start typing here..."
-            onChange={(e) => setNotes((prevNotes) => ({
-              ...prevNotes,
-              [currentNoteId]: { ...prevNotes[currentNoteId], content: e.target.value }
-            }))}
-            className="bg-transparent text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-lg rounded-md min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tight md:tracking-normal resize-none mt-3 textarea-custom-scroll"
-            aria-label="Note Content"
-          />
+          {isPreviewMode ? (
+            <div>
+              <MarkdownPreview content={notes[currentNoteId]?.content || 'No content to preview.'} />
+              <motion.div
+                className="flex justify-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                <div className="absolute bottom-0 rounded-lg px-3 py-2 text-sm leading-6 text-zinc-300 border border-zinc-300/20 bg-neutral-900 shadow-lg shadow-neutral-950 duration-300 overflow-hidden whitespace-pre-wrap text-ellipsis mt-5 mb-5 flex items-center">
+                  You're previewing a note in Markdown.
+                  <button
+                    className="bg-neutral-800 text-zinc-100 border border-neutral-700 hover:opacity-80 px-1 rounded-md ml-2 duration-300"
+                    onClick={() => setIsPreviewMode(prevMode => !prevMode)}
+                  >
+                    Return
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          ) : (
+            <motion.textarea
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              value={notes[currentNoteId]?.content || ''}
+              placeholder="Start typing here..."
+              onChange={(e) => setNotes((prevNotes) => ({
+                ...prevNotes,
+                [currentNoteId]: { ...prevNotes[currentNoteId], content: e.target.value }
+              }))}
+              className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-base rounded-lg min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
+              aria-label="Note Content"
+            />
+          )}
         </div>
       </div>
       <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
