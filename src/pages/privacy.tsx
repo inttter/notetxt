@@ -4,6 +4,7 @@ import { FaGithub } from 'react-icons/fa';
 import Link from 'next/link';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
+import privacyData from '@/data/privacyData.json';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -40,49 +41,17 @@ export default function Privacy() {
           </h1>
         </motion.div>
 
-        <motion.div className="text-stone-400 tracking-tight text-md max-w-lg pt-2" variants={fadeInUp}>
-          <div className="text-zinc-300 text-lg py-1">
-            Data Collection & Usage
-          </div>
-          <p>
-            Notetxt uses your browser's <code className="code">localStorage</code> solely to store notes in your browser and display them. No information is collected or transmitted at all, since you don't enter your info anywhere on this website. 
-            <br />
-            <br />
-            As a security measure for yourself, try not to store sensitive information in notes, as Notetxt is not responsible should your notes be exposed by other, external means or individuals.
-          </p>
-        </motion.div>
-
-        <motion.div className="text-stone-400 tracking-tight text-md max-w-lg pt-2" variants={fadeInUp}>
-          <div className="text-zinc-300 text-lg py-1">
-            Deleting your data
-          </div>
-          <p>
-            To remove notes stored in <code className="code">localStorage</code>, you can navigate to the note manager and click on the 'Delete All Notes' button (trash icon in the bottom right), which permanently deletes your notes from the browser. If you want to clear <code className="code">localStorage</code> manually, follow
-            <Link
-              href="https://www.leadshook.com/help/how-to-clear-local-storage-in-google-chrome-browser/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 text-zinc-300 hover:text-zinc-100 duration-300 border-b border-neutral-600"
-            >
-              this guide
-            </Link>.
-          </p>
-        </motion.div>
-
-        <motion.div className="text-stone-400 tracking-tight text-md max-w-lg pb-2" variants={fadeInUp}>
-          <div className="text-zinc-300 text-lg py-1">Analytics</div>
-          <p>
-            <Link
-              href="https://vercel.com/analytics"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mr-1 text-zinc-300 hover:text-zinc-100 duration-300 border-b border-neutral-600"
-            >
-              ▲ Vercel Analytics
-            </Link>
-            is used for anonymized usage data for analytical purposes. This information includes data such as page views, device types, and page referrals. No personal data or notes are collected.
-          </p>
-        </motion.div>
+        {privacyData.map((item, index) => (
+          <motion.div key={index} className="text-stone-400 tracking-tight text-md max-w-lg pt-2" variants={fadeInUp}>
+            <div className="text-zinc-300 text-lg py-1">{item.header}</div>
+            {item.content.split('\n').map((line, lineIndex) => (
+              <React.Fragment key={lineIndex}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
+          </motion.div>
+        ))}
 
         <motion.button
           initial={{ opacity: 0 }}
