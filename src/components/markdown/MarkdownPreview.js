@@ -9,6 +9,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeKatex from 'rehype-katex';
 import { rehypeGithubAlerts } from 'rehype-github-alerts';
 import markdownStyles from './MarkdownStyles';
+import 'katex/dist/katex.min.css';
 import { motion } from 'framer-motion';
 
 const MarkdownPreview = ({ content }) => {
