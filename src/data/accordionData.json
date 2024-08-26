@@ -1,0 +1,22 @@
+[
+    {
+      "title": "Can I import my own notes from a file on my device?",
+      "content": "Yes! You can drag and drop them or select 'Open Note' from the command (⌘) menu."
+    },
+    {
+      "title": "What file types are supported?",
+      "content": "Currently, Notetxt supports plain text (.txt) and Markdown (.md) files."
+    },
+    {
+      "title": "How can I manage all of my notes?",
+      "content": "The note manager. Use the button next to the command menu button to open the note manager. From there, you can navigate to, rename, save, create, or delete notes."
+    },
+    {
+        "title": "Are there keyboard shortcuts?",
+        "content": "Yes, there are various keyboard shortcuts you can use which are binded to do certain things. Visit the GitHub repository for a list of them, or view them in the command menu."
+    },
+    {
+      "title": "How do I view my note in Markdown?",
+      "content": "You can toggle the Markdown preview mode by using the 'Preview Markdown' option from the command menu or the keyboard shortcut for it (Ctrl/⌘+M)."
+    }
+]  

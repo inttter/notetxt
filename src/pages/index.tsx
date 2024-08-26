@@ -2,6 +2,7 @@ import React from 'react';
 import Badge from '@/components/Landing/Badge';
 import HeroSection from '@/components/Landing/Hero';
 import FeatureCards from '@/components/Landing/Card';
+import FAQSection from '@/components/Landing/FAQ';
 import Footer from '@/components/Landing/Footer';
 
 export function LandingPage() {
@@ -14,6 +15,7 @@ export function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             <FeatureCards />
           </div>
+          <FAQSection />
         </div>
       </main>
       <Footer />
