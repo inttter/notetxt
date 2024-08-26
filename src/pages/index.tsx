@@ -1,9 +1,8 @@
 import React from 'react';
-import FeatureCard from '@/components/Landing/Card';
 import Badge from '@/components/Landing/Badge';
 import HeroSection from '@/components/Landing/Hero';
+import FeatureCards from '@/components/Landing/Card';
 import Footer from '@/components/Landing/Footer';
-import featureCardsData from '@/data/featureCards.json';
 
 export function LandingPage() {
   return (
@@ -13,15 +12,7 @@ export function LandingPage() {
           <Badge />
           <HeroSection />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-            {featureCardsData.map((card, index) => (
-              <FeatureCard
-                key={index}
-                imageSrc={card.image}
-                title={card.title}
-                description={card.description}
-                index={index}
-              />
-            ))}
+            <FeatureCards />
           </div>
         </div>
       </main>
