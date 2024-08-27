@@ -65,17 +65,17 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                           animate={{ opacity: 1, scale: 1.0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="bg-dark border border-neutral-800 rounded-md p-1.5 space-y-2 shadow-lg z-50"
+                          className="bg-dark border border-neutral-800 rounded-md p-1.5 space-y-2 shadow-2xl shadow-neutral-950 z-50"
                         >
                           {fileTypes.map((type) => (
                             <DropdownMenu.Item
                               key={type.value}
                               onSelect={() => setFileType(type.value)}
-                              className={`text-zinc-100 hover:bg-neutral-800 px-2 py-0.5 rounded-md cursor-pointer duration-300 ${
-                                fileType === type.value ? 'bg-neutral-800 bg-opacity-70' : ''
+                              className={`text-zinc-100 text-sm hover:bg-neutral-800/70 border border-transparent hover:border-neutral-700/70 px-2 py-1 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 ${
+                                fileType === type.value ? 'bg-neutral-800/70 border-neutral-700/70 bg-opacity-70' : ''
                               }`}
                             >
-                              {type.name}
+                              {type.name} ({type.value})
                             </DropdownMenu.Item>
                           ))}
                         </motion.div>
