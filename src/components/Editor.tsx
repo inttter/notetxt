@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast, Toaster } from 'sonner';
-import Command from './Command';
-import DragDropOverlay from './DragDropOverlay';
-import NoteManager from './NoteManager';
-import NoteSummary from './Dialogs/NoteSummary';
-import Download from './Dialogs/Download';
+import Command from '@/components/Command';
+import DragDropOverlay from '@/components/DragDropOverlay';
+import NoteManager from '@/components/Manager/DrawerLayout';
+import NoteSummary from '@/components/Dialogs/NoteSummary';
+import Download from '@/components/Dialogs/Download';
+import MarkdownPreview from '@/components/markdown/MarkdownPreview';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
-import MarkdownPreview from '@/components/markdown/MarkdownPreview';
-import db, { Note } from '../utils/db';
+import db, { Note } from '@/utils/db';
 
 export default function Editor() {
   const [notes, setNotes] = useState<{ [key: string]: Note }>({});
