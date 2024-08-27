@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
-import { Plus, Trash2, NotebookPen, Pencil, Download, FolderOpen, Search, Edit3 } from 'lucide-react';
+import { Plus, Trash2, NotebookPen, Pencil, Download, FolderOpen, Search, Edit3, ChevronDown, FileArchive } from 'lucide-react';
 import hotkeys from 'hotkeys-js';
 import { motion } from 'framer-motion';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { toast } from 'sonner';
 import DownloadDialog from './Dialogs/Download';
 import ConfirmDeleteAll from './Dialogs/ConfirmDeleteAll';
 
@@ -18,6 +22,11 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
   const drawerTitle = 'Note Manager';
   const drawerDescription = 'Navigate to and manage each one of your notes from here.';
   const keybindTip = 'Tip: Use ↑ and ↓ arrow keys to navigate between notes.';
+
+  const fileTypes = [
+    { name: 'Rich Text', value: '.txt' },
+    { name: 'Markdown', value: '.md' }
+  ];
 
   useEffect(() => {
     const currentIndex = notes.findIndex(note => note.id === currentNoteId);
@@ -96,6 +105,33 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
     setConfirmDeleteAllOpen(false);
   };
 
+  const handleFileTypeChange = type => {
+    setFileType(type);
+    exportAllNotes(type);
+  };
+
+  const exportAllNotes = async (type) => {
+    if (notes.length === 0) {
+      toast.warning('No notes available to export!', {
+        description: 'Please create a note first to be able to export.',
+      });      
+      return;
+    }
+  
+    try {
+      const zip = new JSZip();
+      notes.forEach(note => {
+        zip.file(`${note.name || 'Untitled'}${type}`, note.content || '');
+      });
+  
+      const content = await zip.generateAsync({ type: 'blob' });
+      saveAs(content, `notes-${new Date().toISOString()}.zip`);
+    } catch (error) {
+      console.error(`Failed to export notes: ${error.message}`);
+      toast.error(`Failed to export notes: ${error.message}`);
+    }
+  };
+
   const filteredNotes = notes.filter((note) =>
     (note.name || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -118,7 +154,10 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
-          <Drawer.Content className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300" style={{ width: '450px', outline: 'none', boxShadow: 'none' }}>
+          <Drawer.Content
+            className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
+            style={{ width: '450px', outline: 'none', boxShadow: 'none' }}
+          >
             <div className="p-4 flex-1 h-full overflow-y-auto">
               <div className="max-w-md mx-auto">
                 <Drawer.Title className="font-medium text-lg text-zinc-100 flex items-center">
@@ -185,7 +224,11 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
                           <span className="block truncate overflow-ellipsis text-base w-full md:w-80">
                             {note.name || 'New Note'}
                           </span>
-                          <span className={`block text-xs truncate overflow-ellipsis duration-300 ${currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500 '}`}>
+                          <span
+                            className={`block text-xs truncate overflow-ellipsis duration-300 ${
+                              currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500 '
+                            }`}
+                          >
                             {note.content ? note.content.substring(0, 50) + '...' : ''}
                           </span>
                         </div>
@@ -225,6 +268,46 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
                     </div>
                   ))}
                   <div className="flex space-x-2 justify-end">
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild>
+                        <button
+                          className="p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 text-xs rounded-md hover:bg-neutral-900 duration-300 flex items-center"
+                          aria-label="Export All Notes"
+                        >
+                         <FileArchive size={15} className="mr-1" /> Export Notes
+                         <ChevronDown size={15} className="ml-1 text-stone-500" />
+                        </button>
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Portal>
+                        <DropdownMenu.Content
+                          align="end"
+                          sideOffset={5}
+                          asChild
+                        >
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1.0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="bg-dark border border-neutral-800 rounded-md p-1.5 space-y-2 shadow-2xl shadow-neutral-950 z-50"
+                          >
+                            {fileTypes.map(fileTypeItem => (
+                              <DropdownMenu.Item
+                                key={fileTypeItem.value}
+                                className="text-zinc-100 text-sm hover:bg-neutral-800/70 border border-transparent hover:border-neutral-700/70 px-2 py-1 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  handleFileTypeChange(fileTypeItem.value);
+                                }}
+                                aria-label="File Type Export Option"
+                              >
+                                {fileTypeItem.name} ({fileTypeItem.value})
+                              </DropdownMenu.Item>
+                            ))}
+                          </motion.div>
+                        </DropdownMenu.Content>
+                      </DropdownMenu.Portal>
+                    </DropdownMenu.Root>
                     <button
                       className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
                       aria-label="Create New Note"
@@ -253,19 +336,20 @@ const NoteManager = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNo
                         handleConfirmDeleteAll();
                       }}
                     >
-                      <Trash2 size={20} className="text-red-500" />
+                      <Trash2 size={20} className="text-destructive" />
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col p-3 mt-auto bg-dark border-t text-xs text-stone-400 border-neutral-800">
+            <hr className="border border-neutral-800" />
+            <div className="flex flex-col p-3 mt-auto bg-dark text-xs text-stone-400">
               {searchQuery
-                ? filteredNotes.length === 0
-                  ? `No notes found matching "${searchQuery}"`
-                  : `${filteredNotes.length} note${filteredNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
-                : `${notes.length} note${notes.length > 1 ? 's' : ''} available`
-              }
+                  ? filteredNotes.length === 0
+                    ? `No notes found matching "${searchQuery}"`
+                    : `${filteredNotes.length} note${filteredNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
+                  : `${notes.length} note${notes.length > 1 ? 's' : ''} available`
+                }
             </div>
           </Drawer.Content>
         </Drawer.Portal>
