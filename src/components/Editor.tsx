@@ -38,16 +38,16 @@ export default function Editor() {
   
         setNotes(notesMap);
   
-        const savedCurrentNoteId = await db.currentNote.get('current');
-  
-        if (savedCurrentNoteId) {
-          setCurrentNoteId(savedCurrentNoteId.noteId);
+        if (allNotes.length === 0) {
+          // Create a new note if there are none in `allNotes`
+          await handleAddNote();
         } else {
-          // If no current note is set and no notes exist, create a new one
-          if (allNotes.length === 0) {
-            await handleAddNote();
+          const savedCurrentNoteId = await db.currentNote.get('current');
+          if (savedCurrentNoteId) {
+            setCurrentNoteId(savedCurrentNoteId.noteId);
           } else {
-            // If there are notes, set the first one as the current note
+            // If there are notes but no current note is set
+            // set the first note in `allNotes` as the current note
             setCurrentNoteId(allNotes[0].id);
           }
         }
@@ -94,10 +94,10 @@ export default function Editor() {
       const id = `${Date.now()}`;
       const newNote: Note = { id, name: 'New Note', content: '' };
       await db.notes.add(newNote);
-      setNotes((prevNotes) => ({ ...prevNotes, [id]: newNote }));
-      setCurrentNoteId(id);
+      setNotes(prevNotes => ({ ...prevNotes, [id]: newNote }));
+      setCurrentNoteId(newNote.id);
       setSearchQuery('');
-      toast.info('Started a brand new note.');
+      await db.currentNote.put({ id: 'current', noteId: id });
     } catch (error) {
       console.error('Failed to add note:', error);
       toast.error('Failed to add a new note.');
@@ -112,9 +112,18 @@ export default function Editor() {
         const { [id]: _, ...remainingNotes } = prevNotes;
   
         // If the deleted note was the current ID,
-        // then update the current ID to a different ID.
+        // then update the current ID to a different ID
         const newCurrentNoteId = Object.keys(remainingNotes)[0] || '';
-        setCurrentNoteId(newCurrentNoteId);
+
+        // If there are no notes left in `remainingNotes`, 
+        // create a new note to prevent `allNotes` from becoming 0
+        if (Object.keys(remainingNotes).length === 0) {
+          setTimeout(async () => {
+            await handleAddNote();
+          }, 200); // Wait 200ms before making a new note to prevent flickering
+        } else {
+          setCurrentNoteId(newCurrentNoteId);
+        }
   
         toast.success(`The note '${noteName}' was deleted successfully.`);
         return remainingNotes;
@@ -148,11 +157,28 @@ export default function Editor() {
       await db.notes.clear();
       setNotes({});
       setCurrentNoteId('');
-      toast.success('All notes have been deleted.');
+  
+      // Create a new note to prevent `allNotes` from becoming 0
+      setTimeout(async () => {
+        await handleAddNote();
+      }, 200);
+  
+      toast.success('All of your current notes have been deleted.');
     } catch (error) {
       console.error('Failed to delete all notes:', error);
       toast.error('Failed to delete all notes.');
     }
+  };
+  
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNotes(prevNotes => {
+      const updatedNote = {
+        ...prevNotes[currentNoteId],
+        content: e.target.value
+      };
+      return { ...prevNotes, [currentNoteId]: updatedNote };
+    });
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -404,7 +430,7 @@ export default function Editor() {
             transition={{ duration: 0.5, delay: 0.1 }}  
             className="px-3 py-2 text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl text-sm code tracking-tighter"
           >
-            {notes[currentNoteId]?.name || 'Note Name'}
+            {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
           </motion.div>
           {isPreviewMode ? (
             <div>
@@ -434,10 +460,7 @@ export default function Editor() {
               transition={{ duration: 0.5, delay: 0.1 }}
               value={notes[currentNoteId]?.content || ''}
               placeholder="Start typing here..."
-              onChange={(e) => setNotes((prevNotes) => ({
-                ...prevNotes,
-                [currentNoteId]: { ...prevNotes[currentNoteId], content: e.target.value }
-              }))}
+              onChange={handleTextareaChange}
               className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
               aria-label="Note Content"
             />
