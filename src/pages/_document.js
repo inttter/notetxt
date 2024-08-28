@@ -19,6 +19,7 @@ export default function Document() {
         <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png" />
         <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
+        <link rel="preconnect" href="https://api.github.com" />
       </Head>
       <body>
         <Main />

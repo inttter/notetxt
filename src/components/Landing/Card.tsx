@@ -16,8 +16,10 @@ const FeatureCard = () => {
         >
           <Image
             src={card.image}
+            layout="responsive"
             width={1280}
             height={720}
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
             alt={card.title}
             className="w-full object-cover border border-neutral-800 rounded-md"
           />
