@@ -25,6 +25,7 @@ export default function Editor() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     const fetchNotesAndCurrentNoteId = async () => {
@@ -87,6 +88,14 @@ export default function Editor() {
     };
   
     updateCurrentNoteId();
+  }, [currentNoteId]);
+
+  // Auto-focus the textarea when a user opens a note
+  // or when the editor loads an existing note (ie. when refreshing)
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
   }, [currentNoteId]);
 
   const handleAddNote = async () => {
@@ -458,6 +467,7 @@ export default function Editor() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
+              ref={textareaRef}
               value={notes[currentNoteId]?.content || ''}
               placeholder="Start typing here..."
               onChange={handleTextareaChange}
