@@ -1,7 +1,7 @@
 [
     {
       "header": "Data Collection & Usage",
-      "content": "Notetxt uses IndexedDB to store notes in your browser along with some metaadata and also to display them. No information is collected or shared at all, since you don't enter your info anywhere on this website.\n\n As a security measure for yourself, try not to store sensitive information in notes, as Notetxt is not responsible should your notes be exposed by other, external means or individuals."
+      "content": "Notetxt uses IndexedDB to store notes in your browser along with some metadata and also to display them. No information is collected or shared at all, since you don't enter your info anywhere on this website.\n\n As a security measure for yourself, try not to store sensitive information in notes, as Notetxt is not responsible should your notes be exposed by other, external means or individuals."
     },
     {
       "header": "Deleting your data",
