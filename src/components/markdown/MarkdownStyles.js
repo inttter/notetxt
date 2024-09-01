@@ -1,4 +1,5 @@
 import React from 'react';
+import { Check } from 'lucide-react';
 
 const markdownStyles = {
     h1: ({ node, ...props }) => (
@@ -8,7 +9,7 @@ const markdownStyles = {
         <h2 className="relative text-2xl md:text-3xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h3: ({ node, ...props }) => (
-        <h3 className="relative text-xl md:text-2xl font-boldmd:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
+        <h3 className="relative text-xl md:text-2xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
     ),
     h4: ({ node, ...props }) => (
         <h4 className="relative text-lg md:text-xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
@@ -23,13 +24,31 @@ const markdownStyles = {
         <p className="mb-4 prose-p:text-zinc-300 prose-invert" {...props} />
     ),
     ul: ({ node, ...props }) => (
-      <ul className="prose-ul:pl-5 prose-ul:mb-4" {...props} />
+        <ul className="prose-ul:pl-5 prose-ul:mb-4" {...props} />
     ),
     ol: ({ node, ...props }) => (
         <ol className="prose-ol:pl-5 prose-ol:mb-4" {...props} />
     ),
-    li: ({ node, ...props }) => (
-        <li className="mb-2 prose-li:mb-2 marker:text-neutral-600" {...props} />
+    li: ({ node, children, ...props }) => (
+        <li className="mb-2 prose-li:mb-2 marker:text-stone-600" {...props}>
+            {React.Children.map(children, (child, index) => {
+                if (React.isValidElement(child) && child.type === 'input' && child.props.type === 'checkbox') {
+                    return (
+                        <div key={index} className="relative inline-block">
+                            <input
+                                type="checkbox"
+                                className="appearance-none w-4 h-4 mr-1 -mb-0.5 rounded bg-neutral-800 border border-neutral-700 checked:border-neutral-800 accent-neutral-800"
+                                {...child.props}
+                            />
+                            {child.props.checked && (
+                                <Check className="absolute top-[4px] left-0 w-4 h-4 text-stone-400 pointer-events-none" />
+                            )}
+                        </div>
+                    );
+                }
+                return child;
+            })}
+        </li>
     ),
     table: ({ node, ...props }) => (
         <table className="table-auto w-full overflow-x-auto rounded-md border-collapse my-4 prose-table:my-4 prose-invert" {...props} />
@@ -71,15 +90,15 @@ const markdownStyles = {
         <hr className="border-t-2 border-neutral-800 my-4 prose-hr:border-t prose-hr:border-neutral-800 prose-invert" {...props} />
     ),
     video: ({ node, ...props }) => (
-      <div className="relative">
-          <video className="w-full h-auto mb-4 rounded-lg border border-neutral-800 prose-invert" controls {...props}>
-              Your browser does not support the video tag.
-          </video>
-      </div>
-  ),
+        <div className="relative">
+            <video className="w-full h-auto mb-4 rounded-lg border border-neutral-800 prose-invert" controls {...props}>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    ),
     kbd: ({ node, ...props }) => (
-      <kbd className="px-1 py-0.5 text-sm bg-neutral-800 text-zinc-300 border border-neutral-700 rounded-md prose-invert code" {...props} />
-  ),
+        <kbd className="px-1 py-0.5 text-sm bg-neutral-800 text-zinc-300 border border-neutral-700 rounded-md prose-invert code" {...props} />
+    ),
 };
 
 export default markdownStyles;
