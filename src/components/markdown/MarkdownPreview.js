@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkGemoji from 'remark-gemoji';
 import remarkMath from 'remark-math';
+import remarkFrontmatter from 'remark-frontmatter'
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
@@ -25,7 +26,12 @@ const MarkdownPreview = ({ content }) => {
         <ReactMarkdown
           children={content}
           components={markdownStyles}
-          remarkPlugins={[remarkGfm, remarkGemoji, remarkMath]}
+          remarkPlugins={[
+            remarkGfm,
+            remarkGemoji,
+            remarkMath,
+            [remarkFrontmatter, { type: 'yaml', marker: '-' }],
+          ]}
           rehypePlugins={[
             rehypeRaw,
             rehypeGithubAlerts,
