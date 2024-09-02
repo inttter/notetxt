@@ -69,7 +69,7 @@ const markdownStyles = {
         <del className="prose-del:line-through prose-invert" {...props} />
     ),
     iframe: ({ node, ...props }) => (
-        <iframe className="w-full aspect-video mb-4 prose-invert" {...props} />
+        <iframe width={props.width} height={props.height} className="aspect-video mb-4 prose-invert" {...props} />
     ),
     code: ({ node, ...props }) => (
         <code className="text-zinc-200 p-1 bg-[#1A1A1A] rounded-md code tracking-tighter font-medium" {...props} />
