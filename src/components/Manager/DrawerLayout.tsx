@@ -6,10 +6,11 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import hotkeys from 'hotkeys-js';
 import { toast } from 'sonner';
-import NoteList from './NoteList';
-import NoteControls from './NoteControls';
-import DownloadDialog from '../Dialogs/Download';
-import ConfirmDeleteAll from '../Dialogs/ConfirmDeleteAll';
+import NoteList from '@/components/Manager/NoteList';
+import NoteControls from '@/components/Manager/NoteControls';
+import DownloadDialog from '@/components/Dialogs/Download';
+import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
+import SortDropdown from '@/components/Manager/NoteSortDropdown';
 
 const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -19,13 +20,35 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false);
+  const [sortCriteria, setSortCriteria] = useState('newest');
 
   const drawerTitle = 'Note Manager';
   const drawerDescription = 'Navigate to and manage each one of your notes from here.';
   const keybindTip = 'Tip: Use ↑ and ↓ arrow keys to navigate between notes.';
 
+  // Side note for 'Oldest' and 'Newest':
+  // Notes get their ID's by using Date.now() (see handleAddNotes), 
+  // hence we can use the ID of the notes to filter by oldest and newest
+  const sortOptions = [
+    { value: 'newest', label: 'Newest', compareFn: (a, b) => parseInt(b.id) - parseInt(a.id) },
+    { value: 'oldest', label: 'Oldest', compareFn: (a, b) => parseInt(a.id) - parseInt(b.id) },
+    { value: 'longest', label: 'Longest', compareFn: (a, b) => b.content.length - a.content.length },
+    { value: 'shortest', label: 'Shortest', compareFn: (a, b) => a.content.length - b.content.length },
+  ];
+
+  const sortNotes = (notes, criteria) => {
+    const option = sortOptions.find(o => o.value === criteria);
+    return option ? [...notes].sort(option.compareFn) : notes;
+  };
+
+  const sortedNotes = sortNotes(
+    notes.filter(note => (note.name || '').toLowerCase().includes(searchQuery.toLowerCase())), sortCriteria
+  );
+
+  const handleSortChange = (event) => setSortCriteria(event.target.dataset.value);
+
   useEffect(() => {
-    const currentIndex = notes.findIndex(note => note.id === currentNoteId);
+    const currentIndex = sortedNotes.findIndex(note => note.id === currentNoteId);
 
     if (isDrawerOpen) {
       hotkeys('del', (event) => {
@@ -38,14 +61,14 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
       hotkeys('down', (event) => {
         event.preventDefault();
         if (currentIndex < notes.length - 1) {
-          onChangeNote(notes[currentIndex + 1].id);
+          onChangeNote(sortedNotes[currentIndex + 1].id);
         }
       });
 
       hotkeys('up', (event) => {
         event.preventDefault();
         if (currentIndex > 0) {
-          onChangeNote(notes[currentIndex - 1].id);
+          onChangeNote(sortedNotes[currentIndex - 1].id);
         }
       });
     } else {
@@ -128,10 +151,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
     }
   };
 
-  const filteredNotes = notes.filter((note) =>
-    (note.name || '').toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <>
       <Drawer.Root direction="right" open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -176,7 +195,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 </div>
                 <hr className="w-full border-neutral-800 mb-3 rounded-full" />
                 <NoteList
-                  notes={filteredNotes}
+                  notes={sortedNotes}
                   currentNoteId={currentNoteId}
                   onChangeNote={onChangeNote}
                   onAddNote={onAddNote}
@@ -198,13 +217,20 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
               </div>
             </div>
             <hr className="border border-neutral-800" />
-            <div className="flex flex-col p-3 mt-auto bg-dark text-xs text-stone-400">
-              {searchQuery
-                  ? filteredNotes.length === 0
+            <div className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400">
+              <div>
+                {searchQuery
+                  ? sortedNotes.length === 0
                     ? `No notes found matching "${searchQuery}"`
-                    : `${filteredNotes.length} note${filteredNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
+                    : `${sortedNotes.length} note${sortedNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
                   : `${notes.length} note${notes.length > 1 ? 's' : ''} available`
                 }
+              </div>
+              <SortDropdown
+                sortOptions={sortOptions}
+                sortCriteria={sortCriteria}
+                handleSortChange={handleSortChange}
+              />
             </div>
           </Drawer.Content>
         </Drawer.Portal>
