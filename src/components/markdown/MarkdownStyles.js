@@ -71,11 +71,18 @@ const markdownStyles = {
     iframe: ({ node, ...props }) => (
         <iframe width={props.width} height={props.height} className="aspect-video mb-4 prose-invert" {...props} />
     ),
-    code: ({ node, ...props }) => (
-        <code className="text-zinc-200 p-1 bg-[#1A1A1A] rounded-md code tracking-tighter font-medium" {...props} />
+    code: ({ node, inline, className, children, ...props }) => (
+        // * WARNING: These styles affect both code blocks with and 
+        // * without languages and also affects inline code.
+        <code className={`text-zinc-200 code ${className}`} {...props}>
+          {children}
+        </code>
     ),
-    pre: ({ node, ...props }) => (
-        <pre className="p-4 rounded-md text-zinc-100 bg-[#1A1A1A] border border-neutral-700 prose-invert code font-medium" {...props} />
+    pre: ({ node, children, className, ...props }) => (
+        // * WARNING: These styles affect both code blocks with and without languages
+        <pre className="px-4 rounded-md text-zinc-300 bg-neutral-900 border border-neutral-800 prose-invert font-medium code" {...props}>
+            {children}
+        </pre>
     ),
     a: ({ node, ...props }) => (
         <a className="no-underline text-zinc-100 hover:opacity-80 border-b-2 border-neutral-600 duration-300" {...props} />

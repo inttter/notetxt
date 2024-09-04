@@ -16,7 +16,6 @@ const FeatureCard = () => {
         >
           <Image
             src={card.image}
-            layout="responsive"
             width={1280}
             height={720}
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
