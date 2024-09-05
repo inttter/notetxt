@@ -11,12 +11,6 @@ import '@fontsource/jetbrains-mono';
 import 'github-markdown-css';
 import { TextProvider } from '../components/markdown/TextContent';
 
-
-// Prevents 'useEffectLayout does nothing on the server' warning that comes from Vaul
-// Source: https://github.com/emilkowalski/vaul/issues/367 and https://github.com/emilkowalski/vaul/pull/368
-// https://stackoverflow.com/questions/58070996/how-to-fix-the-warning-uselayouteffect-does-nothing-on-the-server
-React.useLayoutEffect = React.useEffect 
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
