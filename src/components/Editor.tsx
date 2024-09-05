@@ -12,6 +12,7 @@ import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
+import { FaMarkdown } from 'react-icons/fa';
 import db, { Note } from '@/utils/db';
 
 export default function Editor() {
@@ -456,43 +457,39 @@ export default function Editor() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}  
-            className="px-3 py-2 text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl text-sm code tracking-tighter"
+            className="px-3 py-2 text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex items-center justify-between"
           >
-            {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
+            <span className="code text-xs md:text-sm tracking-tighter truncate overflow-ellipsis">
+              {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
+            </span>
+            {isPreviewMode && (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="ml-2 text-xs text-stone-400 flex items-center"
+              >
+                <FaMarkdown size={15} className="mr-1" /> Markdown
+              </motion.span>
+            )}
           </motion.div>
           {isPreviewMode ? (
             <div>
               <MarkdownPreview content={notes[currentNoteId]?.content || 'No content to preview.'} />
-              <motion.div
-                className="flex justify-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-              >
-                <div className="absolute bottom-0 rounded-lg px-3 py-2 text-sm leading-6 text-zinc-300 border border-zinc-300/20 bg-neutral-900 shadow-lg shadow-neutral-950 duration-300 overflow-hidden whitespace-pre-wrap text-ellipsis mt-5 mb-5 flex items-center">
-                  You're previewing a note in Markdown.
-                  <button
-                    className="bg-neutral-800 text-zinc-100 border border-neutral-700 hover:opacity-80 px-1 rounded-md ml-2 duration-300"
-                    onClick={() => setIsPreviewMode(prevMode => !prevMode)}
-                  >
-                    Return
-                  </button>
-                </div>
-              </motion.div>
             </div>
           ) : (
             <div>
-            <motion.textarea
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              ref={textareaRef}
-              value={notes[currentNoteId]?.content || ''}
-              placeholder="Start typing here..."
-              onChange={handleTextareaChange}
-              className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
-              aria-label="Note Content"
-            />
+              <motion.textarea
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                ref={textareaRef}
+                value={notes[currentNoteId]?.content || ''}
+                placeholder="Start typing here..."
+                onChange={handleTextareaChange}
+                className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
+                aria-label="Note Content"
+              />
             </div>
           )}
         </div>
