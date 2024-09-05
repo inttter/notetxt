@@ -115,22 +115,41 @@ export default function Editor() {
 
   const handleRemoveNote = async (id: string) => {
     try {
+      const noteIds = Object.keys(notes);
+      const noteIndex = noteIds.indexOf(id);
+  
+      // If the note isn't found, return early
+      if (noteIndex === -1) return;
+  
       await db.notes.delete(id);
+  
       setNotes(prevNotes => {
         const noteName = prevNotes[id]?.name;
         const { [id]: _, ...remainingNotes } = prevNotes;
   
-        // If the deleted note was the current ID,
-        // then update the current ID to a different ID
-        const newCurrentNoteId = Object.keys(remainingNotes)[0] || '';
-
         // If there are no notes left in `remainingNotes`, 
         // create a new note to prevent `allNotes` from becoming 0
         if (Object.keys(remainingNotes).length === 0) {
           setTimeout(async () => {
             await handleAddNote();
           }, 200); // Wait 200ms before making a new note to prevent flickering
-        } else {
+          return remainingNotes;
+        }
+  
+        // Only change the current note the user is on 
+        // if the deleted note is the one the user was on
+        if (id === currentNoteId) {
+          let newCurrentNoteId = '';
+  
+          // If a note exists below, move to that one
+          if (noteIndex < noteIds.length - 1) {
+            newCurrentNoteId = noteIds[noteIndex + 1];
+          } 
+          // If it does not exist, move to the note above
+          else if (noteIndex > 0) {
+            newCurrentNoteId = noteIds[noteIndex - 1];
+          }
+  
           setCurrentNoteId(newCurrentNoteId);
         }
   
