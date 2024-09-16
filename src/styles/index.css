@@ -111,3 +111,11 @@
   background: #262626;
   border-radius: 20px;
 }
+
+/* Gives all textareas/inputs a ...-amber-400 caret */
+input::placeholder,
+textarea::placeholder,
+input,
+textarea {
+  caret-color: #fbbf24;
+}
