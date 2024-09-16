@@ -3,25 +3,25 @@ import { Check } from 'lucide-react';
 
 const markdownStyles = {
     h1: ({ node, ...props }) => (
-        <div className="relative text-3xl md:text-4xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
+        <div className="relative text-3xl md:text-4xl font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h2: ({ node, ...props }) => (
-        <h2 className="relative text-2xl md:text-3xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
+        <h2 className="relative text-2xl md:text-3xl font-bold md:tracking-normal tracking-tighter mt-5 mb-4 text-zinc-100 prose-invert" {...props} />
     ),
     h3: ({ node, ...props }) => (
-        <h3 className="relative text-xl md:text-2xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
+        <h3 className="relative text-xl md:text-2xl font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h4: ({ node, ...props }) => (
-        <h4 className="relative text-lg md:text-xl font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
+        <h4 className="relative text-lg md:text-xl font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h5: ({ node, ...props }) => (
-        <h5 className="relative text-base md:text-lg font-bold md:tracking-normal tracking-tighter mt-5 text-zinc-100 prose-invert" {...props} />
+        <h5 className="relative text-base md:text-lg font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h6: ({ node, ...props }) => (
-        <h6 className="relative text-sm md:text-base font-bold md:tracking-normal tracking-tighter mt-5 text-neutral-500 prose-invert" {...props} />
+        <h6 className="relative text-sm md:text-base font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-neutral-500 prose-invert" {...props} />
     ),
     p: ({ node, ...props }) => (
-        <p className="mb-4 prose-p:text-zinc-300 prose-invert" {...props} />
+        <p className="mb-4 prose-p:text-neutral-200 opacity-95 prose-invert" {...props} />
     ),
     ul: ({ node, ...props }) => (
         <ul className="prose-ul:pl-5 prose-ul:mb-4" {...props} />
@@ -85,7 +85,7 @@ const markdownStyles = {
         </pre>
     ),
     a: ({ node, ...props }) => (
-        <a className="no-underline text-zinc-100 hover:opacity-80 border-b-2 border-neutral-600 duration-300" {...props} />
+        <a className="no-underline text-sky-300 hover:text-opacity-80 border-b border-sky-300 duration-300" {...props} />
     ),
     blockquote: ({ node, ...props }) => (
         <blockquote className="border-l-4 border-neutral-700 pl-4 mb-4 italic prose-blockquote:border-l-4 prose-blockquote:border-neutral-700 prose-blockquote:pl-4 prose-invert" {...props} />

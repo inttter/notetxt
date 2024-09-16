@@ -39,7 +39,7 @@ const MarkdownPreview = ({ content }) => {
             rehypeKatex,
             [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
           ]}
-          className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full px-4 duration-300 text-base rounded-b-lg min-h-96 h-[557px] max-w-screen overflow-auto caret-amber-400 resize-none mt-3 textarea-custom-scroll"
+          className="bg-transparent border border-neutral-800 text-stone-200 text-opacity-90 placeholder:text-neutral-600 outline-none w-full px-4 duration-300 text-base rounded-b-lg min-h-96 h-[557px] max-w-screen overflow-auto caret-amber-400 resize-none mt-3 textarea-custom-scroll"
         />
       </motion.div>
     </div>
