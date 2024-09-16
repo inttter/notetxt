@@ -218,13 +218,12 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             </div>
             <hr className="border border-neutral-800" />
             <div className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400">
-              <div>
+              <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap mr-4">
                 {searchQuery
                   ? sortedNotes.length === 0
                     ? `No notes found matching "${searchQuery}"`
                     : `${sortedNotes.length} note${sortedNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
-                  : `${notes.length} note${notes.length > 1 ? 's' : ''} available`
-                }
+                  : `${notes.length} note${notes.length > 1 ? 's' : ''} available`}
               </div>
               <SortDropdown
                 sortOptions={sortOptions}
