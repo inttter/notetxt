@@ -23,8 +23,8 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
             key={note.id}
             className={`flex justify-between items-center p-2 rounded-md border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
               currentNoteId === note.id
-                ? 'bg-neutral-800 bg-opacity-50 border-neutral-800'
-                : 'bg-neutral-900 bg-opacity-50 border-neutral-800'
+                ? 'bg-neutral-800/50 border-neutral-700'
+                : 'bg-neutral-900/50 border-neutral-800'
             }`}
             onClick={(e) => {
               e.stopPropagation();
