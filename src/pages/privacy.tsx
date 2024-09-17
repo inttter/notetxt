@@ -23,7 +23,7 @@ const staggerContainer = {
 
 export default function Privacy() {
   return (
-    <div className="bg-[#101010] min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8">
+    <div className="bg-dark min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8">
       <Head>
         <title>Privacy • Notetxt</title>
       </Head>
