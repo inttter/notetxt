@@ -26,7 +26,7 @@
     "hotkeys-js": "^3.13.7",
     "jszip": "^3.10.1",
     "lucide-react": "^0.438.0",
-    "next": "14.2.8",
+    "next": "14.2.12",
     "react": "18.3.1",
     "react-countup": "^6.5.3",
     "react-device-detect": "^2.2.3",
