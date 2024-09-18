@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@radix-ui/react-accordion';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import accordionData from '@/data/accordionData.json';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@radix-ui/react-accordion';
+import faqQuestions from '@/data/faqQuestions.json';
 
 const faqHeader = 'Frequently Asked Questions';
 
@@ -26,7 +26,7 @@ const FAQ = () => {
       </motion.div>
 
       <Accordion type="single" collapsible>
-        {accordionData.map((item, index) => (
+        {faqQuestions.map((faq, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: -20 }}
@@ -36,22 +36,22 @@ const FAQ = () => {
           >
             <AccordionItem
               value={index.toString()}
-              className={`p-2 bg-default/20 border border-neutral-800 hover:border-neutral-700 text-zinc-300 rounded-lg duration-300  ${index < accordionData.length - 1 ? 'mb-4' : ''}`}
+              className={`text-stone-200 duration-300 group ${index > 0 ? 'border-t border-neutral-800' : ''}`}
             >
               <AccordionTrigger
-                className="w-full p-2 text-left cursor-pointer flex items-center justify-between"
+                className="w-full py-4 text-left text-sm md:text-base cursor-pointer flex items-center justify-between"
                 onClick={() => handleToggle(index)}
               >
                 <span aria-label="FAQ Question Title">
-                  {item.title}
+                  {faq.question}
                 </span>
                 <div
-                  className={`transform transition-transform duration-300 ${openIndex === index ? 'rotate-180 text-emerald-300' : 'rotate-0 text-stone-600'}`}
+                  className={`transform transition-transform duration-200 group-data-[state=open]:rotate-180 ${openIndex === index ? 'text-yellow-400' : 'text-stone-400 group-hover:text-stone-300'}`}
                 >
-                  <ChevronDown />
+                  <ChevronDown size={18} />
                 </div>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp">
                 <AnimatePresence>
                   {openIndex === index && (
                     <motion.div
@@ -59,10 +59,10 @@ const FAQ = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="text-stone-400 p-2"
+                      className="text-stone-400 text-sm pb-5"
                       aria-label="FAQ Item Content"
                     >
-                      {item.content}
+                      {faq.answer}
                     </motion.div>
                   )}
                 </AnimatePresence>

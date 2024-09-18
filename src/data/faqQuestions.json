@@ -1,0 +1,22 @@
+[
+    {
+      "question": "Can I import my own notes from my device?",
+      "answer": "Yes, you can drag and drop them into Notetxt or select the 'Open Note' option from the Command Menu."
+    },
+    {
+      "question": "Can I save/export these notes to my device?",
+      "answer": "Yes, you can save any of your current notes from the note manager in plain text (.txt) or Markdown (.md). When exporting your notes, they will be bundled into a singular ZIP file."
+    },
+    {
+      "question": "What file types are supported?",
+      "answer": "Currently, Notetxt supports plain text (.txt) and Markdown (.md) files. For ZIP (.zip) files, if they contain any files with the supported file formats, those files will be imported into Notetxt."
+    },
+    {
+      "question": "How can I manage all of my notes?",
+      "answer": "To manage all of your notes in one place, use the Note Manager. From there, you can peform various actions on your notes, such as navigating to, renaming, downloading, or creating them."
+    },
+    {
+      "question": "How do I view my note in Markdown?",
+      "answer": "To view your note in Markdown, you can toggle the Markdown Preview mode by using the keyboard shortcut 'Ctrl/⌘+M', or the 'Preview Markdown' option from the Command Menu."
+    }
+]  
