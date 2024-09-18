@@ -176,6 +176,7 @@ const CommandMenuButton = ({ openCommandMenu }) => {
         onClick={toggleCommandMenu}
         className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
         aria-label="Button To Open Command Menu"
+        title="Command Menu"
       >
         <Command size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
       </motion.button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
 import { motion } from 'framer-motion';
-import { NotebookPen, Edit3, Search } from 'lucide-react';
+import { Edit3, Search, NotebookText } from 'lucide-react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import hotkeys from 'hotkeys-js';
@@ -161,8 +161,9 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
             aria-label="Button To Open Note Drawer Menu"
+            title="Note Manager"
           >
-            <NotebookPen size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+            <NotebookText size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
           </motion.button>
         </Drawer.Trigger>
 
