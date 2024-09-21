@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
 import { FaMarkdown } from 'react-icons/fa';
 import db, { Note } from '@/utils/db';
+import commands from '@/utils/commands';
 
 export default function Editor() {
   const [notes, setNotes] = useState<{ [key: string]: Note }>({});
@@ -201,11 +202,44 @@ export default function Editor() {
   
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const lines = value.split('\n');
+
+    // Normal input handling
     setNotes(prevNotes => {
       const updatedNote = {
         ...prevNotes[currentNoteId],
-        content: e.target.value
+        content: value
       };
+
+      const commandLineIndex = lines.findIndex(line => line.startsWith('/'));
+
+      if (commandLineIndex !== -1) {
+        const command = lines[commandLineIndex].slice(1); // Get the command after the '/'
+        const foundCommand = Object.entries(commands).find(([cmd, { aliases }]) =>
+          cmd === command || aliases.includes(command)
+        );
+
+        if (foundCommand) {
+          const commandOutput = foundCommand[1].content;
+          lines[commandLineIndex] = commandOutput;
+          const newContent = lines.join('\n');
+
+          updatedNote.content = newContent;
+
+          if (textareaRef.current) {
+            textareaRef.current.value = newContent;
+
+            // Move the cursor to the end of the inserted command's content
+            const positionBeforeCommand = lines
+              .slice(0, commandLineIndex)
+              .join('\n').length + commandOutput.length + 1;
+            textareaRef.current.setSelectionRange(positionBeforeCommand, positionBeforeCommand);
+            textareaRef.current.focus();
+          }
+        }
+      }
+
       return { ...prevNotes, [currentNoteId]: updatedNote };
     });
   };
