@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Home, Lock, Heart } from 'lucide-react';
+import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Home, Lock, Heart, Terminal } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
@@ -54,6 +54,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
 
   const links = [
     { id: 'landing', name: 'Landing Page', icon: <Home size={20} />, url: '/', keybind: '' },
+    { id: 'slash', name: 'Slash (/) Commands', icon: <Terminal size={20} />, url: 'https://github.com/inttter/notetxt?tab=readme-ov-file#supported-slash--commands' },
     { id: 'privacy', name: 'Privacy', icon: <Lock size={20} />, url: '/privacy' },
     { id: 'github', name: 'GitHub', icon: <FaGithub size={20} />, url: 'https://github.com/inttter/notetxt' },
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
@@ -101,42 +102,44 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
                 <Search size={20} className="text-stone-500 ml-1 mb-0.5" />
               </div>
             </div>
-            <CmdCommand.List className="p-2 rounded-b-xl">
-              <CmdCommand.Group>
-                <MenuHeader title="Controls" />
-                {controls.map((command) => (
-                  <MenuItem
-                    key={command.id}
-                    id={command.id}
-                    icon={command.icon}
-                    name={command.name}
-                    keybind={command.keybind}
-                    url={command.url} // DON'T REMOVE
-                    onSelect={() => {
-                      onCommandSelect(command.id);
-                      toggleMenu(false);
-                    }}
-                  />
-                ))}
-              </CmdCommand.Group>
-              <CmdCommand.Group>
-                <MenuHeader title="Links" />
-                {links.map((link) => (
-                  <MenuItem
-                    key={link.id}
-                    id={link.id}
-                    icon={link.icon}
-                    name={link.name}
-                    keybind={link.keybind}
-                    url={link.url}
-                    onSelect={() => {}} // DON'T REMOVE
-                  />
-                ))}
-              </CmdCommand.Group>
-              <CmdCommand.Empty className="p-2 text-stone-400 text-center flex justify-center items-center">
-                No results found
-              </CmdCommand.Empty>
-            </CmdCommand.List>
+            <div className="max-h-[520px] overflow-y-auto textarea-custom-scroll">
+              <CmdCommand.List className="p-2 rounded-b-xl">
+                <CmdCommand.Group>
+                  <MenuHeader title="Controls" />
+                  {controls.map((command) => (
+                    <MenuItem
+                      key={command.id}
+                      id={command.id}
+                      icon={command.icon}
+                      name={command.name}
+                      keybind={command.keybind}
+                      url={command.url}  // DON'T REMOVE
+                      onSelect={() => {
+                        onCommandSelect(command.id);
+                        toggleMenu(false);
+                      }}
+                    />
+                  ))}
+                </CmdCommand.Group>
+                <CmdCommand.Group>
+                  <MenuHeader title="Links" />
+                  {links.map((link) => (
+                    <MenuItem
+                      key={link.id}
+                      id={link.id}
+                      icon={link.icon}
+                      name={link.name}
+                      keybind={link.keybind}
+                      url={link.url}
+                      onSelect={() => {}} // DON'T REMOVE
+                    />
+                  ))}
+                </CmdCommand.Group>
+                <CmdCommand.Empty className="p-2 text-stone-400 text-center flex justify-center items-center">
+                  No results found
+                </CmdCommand.Empty>
+              </CmdCommand.List>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
