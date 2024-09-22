@@ -451,13 +451,13 @@ export default function Editor() {
 
   return (
     <div
-      className="overflow-x-hidden bg-dark min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8 relative"
+      className="overflow-x-hidden bg-dark min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth px-4 md:px-8 relative"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
-      <div className="flex flex-row w-full max-w-2xl mr-10 mt-3 md:mt-0">
+      <div className="flex flex-row w-full max-w-2xl mr-10 mt-3">
         <div className="flex flex-row w-full">
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">

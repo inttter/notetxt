@@ -54,7 +54,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
 
   const links = [
     { id: 'landing', name: 'Landing Page', icon: <Home size={20} />, url: '/', keybind: '' },
-    { id: 'slash', name: 'Slash (/) Commands', icon: <Terminal size={20} />, url: 'https://github.com/inttter/notetxt?tab=readme-ov-file#supported-slash--commands' },
+    { id: 'slash', name: 'Slash Commands', icon: <Terminal size={20} />, url: 'https://github.com/inttter/notetxt?tab=readme-ov-file#supported-slash--commands' },
     { id: 'privacy', name: 'Privacy', icon: <Lock size={20} />, url: '/privacy' },
     { id: 'github', name: 'GitHub', icon: <FaGithub size={20} />, url: 'https://github.com/inttter/notetxt' },
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
