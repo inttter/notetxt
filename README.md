@@ -37,16 +37,17 @@ You can use these slash commands to quickly insert different types of Markdown s
 | Command        | Description                                               | Aliases                                    |
 |----------------|-----------------------------------------------------------|--------------------------------------------|
 | `table`        | Creates a table with two rows and columns.                | `tb`                                       |
-| `list`         | Creates a list with dashes.                               | N/A                                        |
+| `list`         | Creates a list with dashes.                               | `dashedlist`, `dlist`                      |
 | `numberedlist` | Creates a list with numbers.                              | `numlist`, `nlist`                         |
 | `bulletList`   | Creates a list with bullet points.                        | `blist`                                    |
-| `code`         | Inserts a code block for snippets of code.                | N/A                                        |
+| `code`         | Inserts a code block for snippets of code.                |  `snippet`                                 |
 | `quote`        | Inserts a blockquote for displaying quotes.               | `blockquote`                               |
 | `image`        | Inserts an image with alt text and a placeholder URL.     | `img`, `picture`                           |
 | `link`         | Creates a clickable link with text and a placeholder URL. | `url`                                      |
 | `tasklist`     | Creates  a template list with checkable tasks.            | `tlist`, `todo`                            |
 | `line`         | Inserts a horizontal line to separate content.            | `horizontal`, `hr`, `separator`, `section` |
 | `footnote`     | Adds a footnote for adding references to content.         | `fn`, `reference`                          |
+| `metadata`     | Adds some sample hidden YAML metadata.                    | `mdata`, `yaml`                            |
 
 ## License
 

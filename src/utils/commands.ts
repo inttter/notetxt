@@ -5,7 +5,7 @@ const commands = {
     },
     list: {
         content: `- Item 1\n- Item 2\n- Item 3`,
-        aliases: [],
+        aliases: ['dashedlist', 'dlist'],
     },
     numberedlist: {
         content: `1. Item 1\n2. Item 2\n3. Item 3`,
@@ -17,7 +17,7 @@ const commands = {
     },
     code: {
         content: '```\n// Your code here\n```',
-        aliases: [],
+        aliases: ['snippet'],
     },
     quote: {
         content: `> Your quoted text here`,
@@ -42,6 +42,10 @@ const commands = {
     footnote: {
         content: `This is some text[^1].\n\n[^1]: Footnote text here.`,
         aliases: ['fn', 'reference'],
+    },
+    metadata: {
+        content: `---\ntitle: Note Title\ndate: ${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getDate()}, ${new Date().getFullYear()}\n---`,
+        aliases: ['mdata', 'yaml']
     },
 };
 
