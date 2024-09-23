@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
 import { motion } from 'framer-motion';
 import { Edit3, Search, NotebookText } from 'lucide-react';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
-import hotkeys from 'hotkeys-js';
 import { toast } from 'sonner';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+import hotkeys from 'hotkeys-js';
 import NoteList from '@/components/Manager/NoteList';
 import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
@@ -23,12 +23,10 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   const [sortCriteria, setSortCriteria] = useState('newest');
 
   const drawerTitle = 'Note Manager';
-  const drawerDescription = 'Navigate to and manage each one of your notes from here.';
-  const keybindTip = 'Tip: Use ↑ and ↓ arrow keys to navigate between notes.';
+  const drawerDescription = 'Access and manage every single one of your notes from here.';
 
-  // Side note for 'Oldest' and 'Newest':
   // Notes get their ID's by using Date.now() (see handleAddNotes), 
-  // hence we can use the ID of the notes to filter by oldest and newest
+  // so for 'Oldest' and 'Newest', we can use the ID of the notes to filter by Oldest and Newest
   const sortOptions = [
     { value: 'newest', label: 'Newest', compareFn: (a, b) => parseInt(b.id) - parseInt(a.id) },
     { value: 'oldest', label: 'Oldest', compareFn: (a, b) => parseInt(a.id) - parseInt(b.id) },
@@ -182,7 +180,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 </Drawer.Title>
                 <div className="text-stone-500 text-sm mb-3">
                   {drawerDescription}
-                  <span className="hidden md:block whitespace-pre-line">{keybindTip}</span>
                 </div>
                 <div className="mb-3 relative">
                   <input
