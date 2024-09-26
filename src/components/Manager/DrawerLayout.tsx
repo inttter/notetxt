@@ -151,7 +151,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
 
   return (
     <>
-      <Drawer.Root direction="right" open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+      <Drawer.Root direction="right" open={isDrawerOpen} onOpenChange={setIsDrawerOpen} repositionInputs={false}>
         <Drawer.Trigger asChild>
           <motion.button
             initial={{ opacity: 0 }}
@@ -169,7 +169,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
           <Drawer.Content
-            className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md mt-24 fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
+            className="bg-dark border border-neutral-800 rounded-xl flex flex-col h-full max-w-xs md:max-w-md fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
             style={{ width: '450px', outline: 'none', boxShadow: 'none' }}
           >
             <div className="p-4 flex-1 h-full overflow-y-auto">
@@ -187,9 +187,9 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                     placeholder="Search notes..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 py-2 rounded-md bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700 duration-300"
+                    className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700 duration-300"
                   />
-                  <Search size={20} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-500" />
+                  <Search size={18} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-500" />
                 </div>
                 <hr className="w-full border-neutral-800 mb-3 rounded-full" />
                 <NoteList
