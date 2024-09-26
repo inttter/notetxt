@@ -1,7 +1,7 @@
 import React from 'react';
-import { Plus, FolderOpen, Trash2, FileArchive, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Plus, FolderOpen, Trash2, ChevronDown, FolderArchive } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote, onAddNote }) => {
   const fileTypes = [
@@ -14,10 +14,11 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button
-            className="p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 text-xs rounded-md hover:bg-neutral-900 duration-300 flex items-center"
-            aria-label="Export All Notes"
+            className="px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 text-xs rounded-md hover:bg-neutral-800/60 duration-300 flex items-center"
+            aria-label="Export All Current Notes"
+            title="Export All Current Notes"
           >
-            <FileArchive size={15} className="mr-1" /> Export Notes
+            <FolderArchive size={15} className="mr-1" /> Export Notes
             <ChevronDown size={15} className="ml-1 text-stone-500" />
           </button>
         </DropdownMenu.Trigger>
@@ -52,34 +53,37 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
       <button
-        className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
+        className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-100 rounded-md hover:bg-neutral-800/60 duration-300"
         aria-label="Create New Note"
+        title="Create A New Note"
         onClick={(e) => {
           e.stopPropagation();
           onAddNote();
         }}
       >
-        <Plus size={20} className="text-zinc-300" />
+        <Plus size={19} className="text-zinc-300" />
       </button>
       <button
-        className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
+        className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-100 rounded-md hover:bg-neutral-800/60 duration-300"
         aria-label="Open Note"
+        title="Open Note"
         onClick={(e) => {
           e.stopPropagation();
           onOpenNote();
         }}
       >
-        <FolderOpen size={20} className="text-zinc-300" />
+        <FolderOpen size={19} className="text-zinc-300" />
       </button>
       <button
-        className="flex items-center p-2 border border-neutral-800 bg-neutral-950 text-zinc-100 rounded-md hover:bg-neutral-900 duration-300"
+        className="flex items-center p-1.5 border border-neutral-800 bg-neutral-900 text-zinc-100 rounded-md hover:bg-neutral-800/60 duration-300"
         aria-label="Delete All Notes"
+        title="Delete All Notes"
         onClick={(e) => {
           e.stopPropagation();
           handleConfirmDeleteAll();
         }}
       >
-        <Trash2 size={20} className="text-destructive" />
+        <Trash2 size={19} className="text-destructive" />
       </button>
     </div>
   );

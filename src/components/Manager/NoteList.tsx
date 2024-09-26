@@ -21,10 +21,10 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
         notes.map((note) => (
           <div
             key={note.id}
-            className={`flex justify-between items-center p-2 rounded-md border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
+            className={`flex justify-between items-center p-2 rounded-lg border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
               currentNoteId === note.id
-                ? 'bg-neutral-800/50 border-neutral-700'
-                : 'bg-neutral-900/50 border-neutral-800'
+                ? 'bg-neutral-700/35 border-neutral-700/50'
+                : 'bg-neutral-900 border-neutral-800'
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -45,22 +45,23 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
               />
             ) : (
               <div className="flex-1 truncate">
-                <span className="block truncate overflow-ellipsis text-base w-full md:w-80">
+                <span className="block truncate overflow-ellipsis text-sm md:text-base w-full md:w-80">
                   {note.name || 'New Note'}
                 </span>
                 <span
                   className={`block text-xs truncate overflow-ellipsis duration-300 ${
-                    currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500 '
+                    currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500'
                   }`}
                 >
-                  {note.content ? note.content.substring(0, 50) + '...' : ''}
+                  {note.content ? note.content.substring(0, 55) + '...' : ''}
                 </span>
               </div>
             )}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 ml-1">
               <button
                 className="text-stone-500 hover:text-stone-400 duration-300"
                 aria-label="Rename Note"
+                title="Rename Note"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleEditClick(note);
@@ -71,6 +72,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
               <button
                 className="text-stone-500 hover:text-stone-400 duration-300"
                 aria-label="Download Note"
+                title="Download Note"
                 onClick={(e) => {
                   e.stopPropagation();
                   openDownloadDialog(note);
@@ -79,8 +81,9 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                 <Download size={20} />
               </button>
               <button
-                aria-label="Delete Note"
                 className="text-stone-500 hover:text-stone-400 duration-300"
+                aria-label="Delete Note"
+                title="Delete Note"
                 onClick={(e) => {
                   e.stopPropagation();
                   onRemoveNote(note.id);

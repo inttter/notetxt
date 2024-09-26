@@ -7,9 +7,9 @@ const SortDropdown = ({ sortOptions, sortCriteria, handleSortChange }) => {
   return (
     <Dropdown.Root>
       <Dropdown.Trigger asChild>
-        <button className="px-2 py-1.5 border border-neutral-700 bg-neutral-900 text-zinc-100 text-xs rounded-md hover:bg-neutral-800 hover:border-neutral-600 duration-300 flex items-center">
+        <button className="px-2 py-1.5 border border-neutral-700/70 bg-neutral-900 text-zinc-100 text-xs rounded-md hover:bg-neutral-800/60 hover:border-neutral-700 duration-300 flex items-center">
           <ArrowDownWideNarrow size={15} className="mr-1 text-stone-400" /> 
-          Sort by: {sortOptions.find(o => o.value === sortCriteria)?.label || 'Sort'}
+          Sort by: {sortOptions.find(o => o.value === sortCriteria)?.label || 'N/A'}
           <ChevronUp size={15} className="ml-1 text-stone-500" />
         </button>
       </Dropdown.Trigger>
