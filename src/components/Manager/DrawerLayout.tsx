@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Edit3, Search, NotebookText } from 'lucide-react';
 import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
+import { useRouter } from 'next/router';
 import JSZip from 'jszip';
 import hotkeys from 'hotkeys-js';
 import NoteList from '@/components/Manager/NoteList';
@@ -24,6 +25,17 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
 
   const drawerTitle = 'Note Manager';
   const drawerDescription = 'Access and manage all of your notes from here.';
+
+  const router = useRouter();
+
+  // When the URL contains `?manager=open`, 
+  // the Note Manager will be automatically opened
+  useEffect(() => {
+    if (router.query.manager === 'open') {
+      setIsDrawerOpen(true);
+    }
+  }, [router.query.manager]);
+
 
   // Notes get their ID's by using Date.now() (see handleAddNotes),
   // so for 'Oldest' and 'Newest', we can use the ID of the notes to filter by Oldest and Newest

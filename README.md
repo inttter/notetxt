@@ -6,14 +6,14 @@ A note-taker with a focus on minimalism and simplicity, so you can write down wh
 
 ## ✨ Features
 
-- Manage multiple notes in the Note Manager
+- Manage multiple notes in the [Note Manager](https://notetxt.xyz/editor?manager=open)
 - Support for `.txt` and `.md` files
 - Drag/drop or open existing files in the Editor
 - Automatically retrieve the last note you were working on
 - Download notes to your computer
 - View various metrics/information about your notes
 - Preview your notes in Markdown
-  - Supports a few additional [remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md)/[rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md) plugins, full list of those used can be found in [this file](src/components/markdown/MarkdownPreview.js).
+  - Supports a few additional [Remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md)/[Rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md) plugins, the full list of plugins used can be seen in [this file](src/components/markdown/MarkdownPreview.js)
 - **No account required!**
 
 ## Keybinds
