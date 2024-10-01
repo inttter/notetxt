@@ -26,6 +26,7 @@ export default function Editor() {
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -91,6 +92,12 @@ export default function Editor() {
   
     updateCurrentNoteId();
   }, [currentNoteId]);
+
+  useEffect(() => {
+    if (currentNoteId && notes[currentNoteId]?.tags) {
+      setTags(notes[currentNoteId].tags || []);
+    }
+  }, [currentNoteId, notes]);
 
   // Auto-focus the textarea when a user opens a note
   // or when the editor loads an existing note (ie. when refreshing)
@@ -253,6 +260,19 @@ export default function Editor() {
       toast.error('File not supported!', {
         description: 'Please select a \'.txt\' or \'.md\' file.'
       });
+    }
+  };
+
+  const handleUpdateNoteTags = async (noteId: string, updatedTags: string[]) => {
+    try {
+      await db.notes.update(noteId, { tags: updatedTags });
+      setNotes(prevNotes => ({
+        ...prevNotes,
+        [noteId]: { ...prevNotes[noteId], tags: updatedTags }
+      }));
+    } catch (error) {
+      console.error('Failed to update tags:', error);
+      toast.error('Failed to update tags.');
     }
   };
 
@@ -457,7 +477,7 @@ export default function Editor() {
       onDragLeave={handleDragLeave}
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
-      <div className="flex flex-row w-full max-w-2xl mr-10 mt-3">
+      <div className="flex flex-row w-full max-w-2xl mr-10 mt-4">
         <div className="flex flex-row w-full">
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
@@ -471,6 +491,7 @@ export default function Editor() {
               onDownload={handleDownload}
               onDeleteAllNotes={handleDeleteAllNotes}
               onOpenNote={() => handleCommandSelect('open')}
+              onUpdateNoteTags={handleUpdateNoteTags}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
             />
@@ -490,22 +511,26 @@ export default function Editor() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}  
-            className="px-3 py-2 text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex items-center justify-between"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="px-3 py-[0.6rem] text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex flex-col justify-between"
           >
-            <span className="code text-xs md:text-sm tracking-tighter truncate overflow-ellipsis">
-              {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
-            </span>
-            {isPreviewMode && (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="ml-2 text-xs text-stone-400 flex items-center"
-              >
-                <FaMarkdown size={15} className="mr-1" /> Markdown
-              </motion.span>
-            )}
+            {/* Note Title */}
+            <div className="flex justify-between items-center">
+              <span className="text-xs md:text-sm truncate overflow-ellipsis">
+                {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
+              </span>
+              {/* Markdown Preview Mode Indicator */}
+              {isPreviewMode && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="ml-2 text-xs text-stone-400 flex items-center"
+                >
+                  <FaMarkdown size={15} className="mr-1" /> Markdown
+                </motion.span>
+              )}
+            </div>
           </motion.div>
           {isPreviewMode ? (
             <div>
@@ -521,7 +546,7 @@ export default function Editor() {
                 value={notes[currentNoteId]?.content || ''}
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
-                className="bg-transparent border border-neutral-800 text-neutral-200 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 h-[550px] max-w-screen overflow-auto caret-amber-400 tracking-tighter resize-none mt-3 textarea-custom-scroll editor-text"
+                className="bg-transparent border border-neutral-800 text-stone-200 text-opacity-90 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 md:h-[550px] h-[520px] max-w-screen overflow-auto caret-amber-400 tracking-tight resize-none mt-3 textarea-custom-scroll editor-text"
                 aria-label="Note Content"
               />
             </div>

@@ -13,7 +13,7 @@ import DownloadDialog from '@/components/Dialogs/Download';
 import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
 
-const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery }) => {
+const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
@@ -52,7 +52,15 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   };
 
   const sortedNotes = sortNotes(
-    notes.filter(note => (note.name || '').toLowerCase().includes(searchQuery.toLowerCase())), sortCriteria
+    notes.filter(note => {
+      // Search by note name
+      const noteNameMatches = (note.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+      // Search by the tags associated with a note
+      const tagsMatch = note.tags && note.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      // Return the results
+      return noteNameMatches || tagsMatch;
+    }),
+    sortCriteria
   );
 
   const handleSortChange = (event) => setSortCriteria(event.target.dataset.value);
@@ -217,6 +225,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   handleSaveName={handleSaveName}
                   handleKeyDown={handleKeyDown}
                   openDownloadDialog={openDownloadDialog}
+                  handleUpdateNoteTags={onUpdateNoteTags}
                 />
                 <NoteControls
                   handleFileTypeChange={handleFileTypeChange}
