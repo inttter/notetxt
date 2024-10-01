@@ -2,22 +2,22 @@
     {
       "image": "/landing/1.png",
       "title": "Minimal and Functional",
-      "description": "Notetxt is designed to have a minimal user interface, while minimizing any unwanted distractions, letting you focus on your thoughts."
+      "description": "Notetxt is designed with a minimal user interface, while also minimizing any unwanted distractions, letting you focus on your thoughts."
     },
     {
       "image": "/landing/2.png",
       "title": "Markdown Support",
-      "description": "Preview your note to see how it would look like in Markdown! Includes support for most base Markdown features and even a few Remark/Rehype plugins."
+      "description": "You can preview your notes to see how they would look like in Markdown! Notetxt supports most base Markdown syntax and a few Remark/Rehype plugins."
     },
     {
       "image": "/landing/3.png",
-      "title": "Simple, But Useful Features",
-      "description": "Notetxt includes multiple features that, while small, help improve your workflow while taking notes, such as downloading your note to share on other platforms, viewing metrics about the note's contents, and more!"
+      "title": "Simple, Yet Useful Features",
+      "description": "Notetxt includes multiple features that can help you improve your workflow while taking notes, such as slash commands, which help insert Markdown syntax into your notes faster, and note metric summaries!"
     },
     {
       "image": "/landing/4.png",
-      "title": "Multiple Notes",
-      "description": "Store your notes in Notetxt for easy access and management via the note manager! You can always revisit them at any time to edit, rename, save, or delete them, making sure they're always kept organized."
+      "title": "Manage Multiple Notes",
+      "description": "Access and manage your notes via the Note Manager! You can manage various aspects of your notes from here, such as tagging them to sort and find better, downloading them, renaming them, and more."
     }
   ]
   

@@ -13,7 +13,7 @@
     },
     {
       "question": "How can I manage all of my notes?",
-      "answer": "To manage all of your notes in one place, use the Note Manager. From there, you can peform various actions on your notes, such as navigating to, renaming, downloading, or creating them."
+      "answer": "To manage all of your notes in one place, use the Note Manager. From there, you can peform various actions on your notes, such as navigating to, renaming, downloading, or creating them. When you search for notes, you can search by either name, or by tag, providing that one exists."
     },
     {
       "question": "How do I view my note in Markdown?",
