@@ -325,17 +325,12 @@ export default function Editor() {
 
     saveAs(blob, finalFileName);
 
+    // Warn IOS users to click on 'Download' in the alert that pops up (https://www.iinter.me/images/mobile-devices-react/ios-download-alert.png) or the note won't/did not download
     if (isIOS) {
       toast.info('Check your downloads folder.', {
         description: 'Make sure you clicked \'Download\' on the alert that appeared to download the note to your device. If you didn\'t, the note did not download.',
         duration: 5000,
       });
-    } else {
-      setTimeout(() => {
-        toast.success('Saved to your device!', {
-          description: 'Check your recent files to find the note! Re-open it here at any time by pressing Ctrl+O or the \'Open Note\' option in the command menu and selecting the correct file.',
-        });
-      }, 400);
     }
 
     setModalVisible(false);

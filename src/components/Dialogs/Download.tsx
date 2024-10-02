@@ -2,9 +2,12 @@ import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { motion } from 'framer-motion';
-import { X, ChevronDown } from 'lucide-react';
+import { X, ChevronDown, Download } from 'lucide-react';
 
 const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType }) => {
+  const downloadTitle = 'Download Your Note';
+  const downloadDescription = 'Choose a file format and title for your note.'
+
   const handleSave = () => {
     const defaultFileName = 'note';
     const sanitizedFileName = fileName.trim() === '' ? defaultFileName : fileName.trim();
@@ -28,11 +31,11 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
               transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
               className="bg-dark border border-neutral-800 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative z-50"
             >
-              <Dialog.Title className="text-lg font-medium text-zinc-100 mx-0.5">
-                Download Your Note
+              <Dialog.Title className="text-lg font-medium text-zinc-100 mx-0.5" aria-label="Download Dialog Title">
+                {downloadTitle}
               </Dialog.Title>
-              <Dialog.Description className="text-stone-500 text-sm leading-normal mx-0.5">
-                Choose a file format and title for your note.
+              <Dialog.Description className="text-stone-500 text-sm leading-normal mx-0.5" aria-label="Download Dialog Description">
+                {downloadDescription}
               </Dialog.Description>
               <input
                 type="text"
@@ -46,6 +49,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                   <button
                     onClick={onRequestClose}
                     className="bg-default btn-dialog hover:bg-opacity-80"
+                    aria-label="Cancel"
                   >
                     Cancel
                   </button>
@@ -53,9 +57,10 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                     <DropdownMenu.Trigger asChild>
                       <button
                         className="bg-default px-3 py-1 rounded-md duration-300 hover:bg-opacity-80 flex items-center"
+                        aria-label="Select File Format"
                       >
                         <span>{fileTypes.find(type => type.value === fileType)?.name || 'Select Format'}</span>
-                        <ChevronDown size={16} className="ml-1" />
+                        <ChevronDown size={16} className="ml-1 text-stone-400" />
                       </button>
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Portal>
@@ -74,6 +79,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                               className={`text-zinc-100 text-sm hover:bg-neutral-800/70 border border-transparent hover:border-neutral-700/70 px-2 py-1 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 ${
                                 fileType === type.value ? 'bg-neutral-800/70 border-neutral-700/70 bg-opacity-70' : ''
                               }`}
+                              aria-label="File Type Option"
                             >
                               {type.name} ({type.value})
                             </DropdownMenu.Item>
@@ -83,12 +89,12 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                     </DropdownMenu.Portal>
                   </DropdownMenu.Root>
 
-                  <button className="bg-confirm btn-dialog hover:bg-opacity-80" onClick={handleSave}>
-                    Save
+                  <button className="bg-confirm btn-dialog hover:bg-opacity-80 flex items-center" onClick={handleSave} aria-label="Download Note">
+                    <Download size={17} className="mr-1" /> Save
                   </button>
                 </div>
               </div>
-              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close">
+              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close Dialog">
                 <X size={20} />
               </Dialog.Close>
             </motion.div>
