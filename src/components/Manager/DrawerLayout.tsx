@@ -162,7 +162,12 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
       });
   
       const content = await zip.generateAsync({ type: 'blob' });
-      saveAs(content, `notes-${new Date().toISOString()}.zip`);
+      
+      // Get date in DD/MM/YY
+      const date = new Date();
+      const formattedDate = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getFullYear()).slice(-2)}`;
+
+      saveAs(content, `Notetxt-${formattedDate}.zip`);
     } catch (error) {
       console.error(`Failed to export notes: ${error.message}`);
       toast.error(`Failed to export notes: ${error.message}`);
