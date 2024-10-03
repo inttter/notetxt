@@ -82,7 +82,8 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
     <Dialog.Root open={isDialogOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50 px-6 md:px-0 selection:text-zinc-300 selection:bg-neutral-700">
-          <Dialog.Content asChild>
+          {/* Prevent clicking on the background around the dialog to exit it, as this behaviour also occurs when trying to click on the toasts that show up with the label and description, see https://www.radix-ui.com/primitives/docs/components/dialog */}
+          <Dialog.Content asChild onInteractOutside={(e) => e.preventDefault()}>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1.0 }}

@@ -548,7 +548,8 @@ export default function Editor() {
           )}
         </div>
       </div>
-      <Toaster richColors closeButton pauseWhenPageIsHidden theme="dark" />
+      {/* `pointer-events-auto` allows toasts to be interacted with when in something like a dialog */}
+      <Toaster className="pointer-events-auto" richColors closeButton pauseWhenPageIsHidden theme="dark" />
       {isNoteSummaryDialogOpen && (
         <NoteSummary
           text={notes[currentNoteId]?.content || ''}
