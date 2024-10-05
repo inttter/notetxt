@@ -16,9 +16,11 @@ const Badge = ({ link = "" }) => {
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-        🏷️ You can now finally add tags to your notes!
+        ✏️ Syntax highlighting is now supported in code blocks!
       </div>
-      {link && <ArrowRight size={15} className="ml-1 text-stone-400" />}
+      {link && 
+        <ArrowRight size={15} className="ml-1 text-stone-400" />
+      }
     </div>
   );
 
