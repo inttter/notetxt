@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { toast, Toaster } from 'sonner';
 import Command from '@/components/Command';
 import DragDropOverlay from '@/components/DragDropOverlay';
 import NoteManager from '@/components/Manager/DrawerLayout';
 import NoteSummary from '@/components/Dialogs/NoteSummary';
 import Download from '@/components/Dialogs/Download';
 import MarkdownPreview from '@/components/markdown/MarkdownPreview';
+import commands from '@/utils/commands';
+import db, { Note } from '@/utils/db';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
+import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
 import { FaMarkdown } from 'react-icons/fa';
-import db, { Note } from '@/utils/db';
-import commands from '@/utils/commands';
+import { useRouter } from 'next/router';
 
 export default function Editor() {
+  const router = useRouter();
   const [notes, setNotes] = useState<{ [key: string]: Note }>({});
   const [currentNoteId, setCurrentNoteId] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -31,6 +33,12 @@ export default function Editor() {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
+    // When the URL contains `?markdown=true`, the 
+    // Markdown Preview will be automatically toggled to be visible
+    if (router.query.markdown === 'true') {
+      setIsPreviewMode(true);
+    }
+
     const fetchNotesAndCurrentNoteId = async () => {
       try {
         // Fetch all notes
@@ -62,7 +70,7 @@ export default function Editor() {
     };
   
     fetchNotesAndCurrentNoteId();
-  }, []);
+  }, [router.query]);
   
   useEffect(() => {
     const saveNotes = async () => {
