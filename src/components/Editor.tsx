@@ -71,7 +71,7 @@ export default function Editor() {
   
     fetchNotesAndCurrentNoteId();
   }, [router.query]);
-  
+
   useEffect(() => {
     const saveNotes = async () => {
       try {
@@ -470,7 +470,38 @@ export default function Editor() {
   // https://github.com/jaywcjlove/hotkeys-js/issues/51
   hotkeys.filter = function(event) {
     return true;
-  }
+  };
+
+  const getDaySuffix = (day: number) => {
+    if (day > 10 && day < 14) {
+      return 'th';
+    }
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
+  
+  const formatCreationDate = (timestamp: string) => {
+    const date = new Date(Number(timestamp));
+  
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+    const dayWithSuffix = `${day}${getDaySuffix(day)}`;
+  
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // Returns in the format of '[DAY][suffix] [MONTH] [YEAR] at [HH:MM]'
+    return `${month} ${dayWithSuffix} ${year} | ${hours}:${minutes}`;
+  };
 
   return (
     <div
@@ -480,7 +511,7 @@ export default function Editor() {
       onDragLeave={handleDragLeave}
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
-      <div className="flex flex-row w-full max-w-2xl mr-10 mt-4">
+      <div className="flex flex-row w-full max-w-2xl mr-10 mt-5">
         <div className="flex flex-row w-full">
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
@@ -519,7 +550,7 @@ export default function Editor() {
           >
             {/* Note Title */}
             <div className="flex justify-between items-center">
-              <span className="text-xs md:text-sm truncate overflow-ellipsis">
+              <span className="text-sm truncate overflow-ellipsis">
                 {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
               </span>
               {/* Markdown Preview Mode Indicator */}
@@ -533,6 +564,11 @@ export default function Editor() {
                   <FaMarkdown size={15} className="mr-1" /> Markdown
                 </motion.span>
               )}
+            </div>
+            {/* Note Creation Date */}
+            <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5">
+              {/* Note ID's are stored as their time created in Unix, so we can use that here */}
+              {formatCreationDate(currentNoteId)}
             </div>
           </motion.div>
           {isPreviewMode ? (
