@@ -1,5 +1,5 @@
-import React from 'react';
-import { Check } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, FileQuestion } from 'lucide-react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark-dimmed.css';
 
@@ -43,7 +43,7 @@ const markdownStyles = {
                                 {...child.props}
                             />
                             {child.props.checked && (
-                                <Check className="absolute top-[4px] left-0.5 w-3 h-4 text-neutral-950  pointer-events-none" />
+                                <Check className="absolute top-[4px] left-0.5 w-3 h-4 text-neutral-950 pointer-events-none" />
                             )}
                         </div>
                     );
@@ -77,11 +77,11 @@ const markdownStyles = {
         const codeElement = React.Children.toArray(children).find(
             child => React.isValidElement(child) && child.props && child.props.className
         );
-    
+
         // Default language to plaintext when one isn't specified/does not work
         let language = 'plaintext';
         let codeString = '';
-    
+
         if (codeElement && typeof codeElement.props.className === 'string') {
             const className = codeElement.props.className;
             const match = className.match(/language-(\w+)/);
@@ -90,7 +90,7 @@ const markdownStyles = {
                 language = match[1];
             }
         }
-    
+
         // Extract code string from the children
         codeString = React.Children.toArray(children)
             .map(child => {
@@ -103,7 +103,7 @@ const markdownStyles = {
                 return '';
             })
             .join('\n');
-    
+
         let highlightedCode = '';
 
         try {
@@ -112,7 +112,7 @@ const markdownStyles = {
             console.error('An error occurred while trying to highlight code:', error);
             highlightedCode = hljs.highlightAuto(codeString).value;
         }
-    
+
         return (
             <div className="overflow-x-auto mt-4 rounded-md">
                 <pre className="px-4 my-0 rounded-md text-zinc-300 bg-neutral-900/80 border border-neutral-800 prose-invert font-medium code text-sm leading-6">
@@ -134,9 +134,26 @@ const markdownStyles = {
     blockquote: ({ node, ...props }) => (
         <blockquote className="border-l-4 border-neutral-800 text-zinc-300 mb-0 pl-4 prose-invert" {...props} />
     ),
-    img: ({ node, ...props }) => (
-        <img className="max-w-full h-auto my-0 rounded-md border border-neutral-800 prose-invert" loading="lazy" {...props} />
-    ),
+    img: ({ node, ...props }) => {
+        const [imgError, setImgError] = useState(false);
+
+        return (
+            <div className="relative">
+                {imgError ? (
+                    <div className="max-w-full h-64 bg-neutral-800/50 border border-neutral-800 flex items-center justify-center rounded-md duration-300">
+                        <FileQuestion />
+                    </div>
+                ) : (
+                    <img
+                        className="max-w-full h-auto my-0 rounded-md border border-neutral-800 prose-invert"
+                        loading="lazy"
+                        onError={() => setImgError(true)}
+                        {...props}
+                    />
+                )}
+            </div>
+        );
+    },
     hr: ({ node, ...props }) => (
         <hr className="w-full border-t border-neutral-800 my-4 prose-invert" {...props} />
     ),
