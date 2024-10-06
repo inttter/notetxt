@@ -90,36 +90,34 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
             aria-label="Note List Item"
           >
             <div className="flex justify-between items-center">
-              {editingNoteId === note.id ? (
-                <input
-                  type="text"
-                  value={newName}
-                  onChange={handleNameChange}
-                  onBlur={handleSaveName}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Note Title"
-                  className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none rounded-md flex-grow min-w-[8rem] text-base duration-300"
-                  autoFocus
-                />
-              ) : (
-                <div className="flex-1 truncate">
+              <div className="flex-1 truncate">
+                {editingNoteId === note.id ? (
+                  <input
+                    type="text"
+                    value={newName}
+                    onChange={handleNameChange}
+                    onBlur={handleSaveName}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Note Title"
+                    className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none flex-grow min-w-[8rem] text-sm md:text-base duration-300"
+                    autoFocus
+                  />
+                ) : (
                   <span className="block truncate overflow-ellipsis text-sm md:text-base w-full md:w-80">
                     {note.name || 'New Note'}
                   </span>
-                  <span
-                    className="block truncate overflow-ellipsis text-xs text-stone-400/80 mb-1"
-                  >
-                    {formatCreationDate(note.id)}
-                  </span>
-                  <span
-                    className={`block text-xs truncate overflow-ellipsis duration-300 ${
-                      currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500'
-                    }`}
-                  >
-                    {note.content ? note.content.substring(0, 55) + '...' : ''}
-                  </span>
-                </div>
-              )}
+                )}
+                <span className="block truncate overflow-ellipsis text-[11px] md:text-xs md:mt-0 -mt-0.5 text-stone-400/80 mb-1">
+                  {formatCreationDate(note.id)}
+                </span>
+                <span
+                  className={`block text-xs truncate overflow-ellipsis duration-300 ${
+                    currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500'
+                  }`}
+                >
+                  {note.content ? note.content.substring(0, 55) + '...' : ''}
+                </span>
+              </div>
               <div className="flex items-center space-x-0.5 ml-1" aria-label="Note Controls">
                 <button
                   className="text-stone-500 hover:text-stone-400 duration-300"
