@@ -13,7 +13,7 @@ import DownloadDialog from '@/components/Dialogs/Download';
 import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
 
-const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags }) => {
+const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, formatCreationDate }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
@@ -231,6 +231,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   handleKeyDown={handleKeyDown}
                   openDownloadDialog={openDownloadDialog}
                   handleUpdateNoteTags={onUpdateNoteTags}
+                  formatCreationDate={formatCreationDate}
                 />
                 <NoteControls
                   handleFileTypeChange={handleFileTypeChange}

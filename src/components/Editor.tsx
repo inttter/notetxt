@@ -500,7 +500,7 @@ export default function Editor() {
     const minutes = String(date.getMinutes()).padStart(2, '0');
   
     // Returns in the format of '[DAY][suffix] [MONTH] [YEAR] at [HH:MM]'
-    return `${month} ${dayWithSuffix} ${year} | ${hours}:${minutes}`;
+    return `${month} ${dayWithSuffix} ${year} at ${hours}:${minutes}`;
   };
 
   return (
@@ -528,6 +528,7 @@ export default function Editor() {
               onUpdateNoteTags={handleUpdateNoteTags}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
+              formatCreationDate={formatCreationDate}
             />
           </div>
         </div>

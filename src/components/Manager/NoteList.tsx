@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { Pencil, Download, Trash2, X, Plus } from 'lucide-react';
 import { MdOutlineTag } from "react-icons/md";
 
-const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags }) => {
+const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
   const [showTagInput, setShowTagInput] = useState<{ [key: string]: boolean }>({});
   const [showRemoveTags, setShowRemoveTags] = useState(false);
@@ -107,6 +107,11 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     {note.name || 'New Note'}
                   </span>
                   <span
+                    className="block truncate overflow-ellipsis text-xs text-stone-400/80 mb-1"
+                  >
+                    {formatCreationDate(note.id)}
+                  </span>
+                  <span
                     className={`block text-xs truncate overflow-ellipsis duration-300 ${
                       currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500'
                     }`}
@@ -115,7 +120,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   </span>
                 </div>
               )}
-              <div className="flex items-center space-x-1 ml-1" aria-label="Note Controls">
+              <div className="flex items-center space-x-0.5 ml-1" aria-label="Note Controls">
                 <button
                   className="text-stone-500 hover:text-stone-400 duration-300"
                   aria-label="Edit Tags"
@@ -196,7 +201,9 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   />
                 ) : (
                   <button
-                    className="text-stone-400 text-xs hover:text-stone-300 rounded-lg border border-dotted border-neutral-600 px-2 py-1 duration-300 flex items-center"
+                    className={`text-stone-400 hover:text-stone-300 text-xs rounded-lg border border-dotted border-neutral-600 px-2 py-1 duration-300 flex items-center ${
+                      currentNoteId === note.id ? 'bg-neutral-900' : ''
+                    }`}
                     aria-label="Add Tag"
                     title="Add Tag"
                     onClick={() => toggleTagInput(note.id)}
