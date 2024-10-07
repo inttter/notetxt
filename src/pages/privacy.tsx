@@ -7,12 +7,12 @@ import { motion } from 'framer-motion';
 import privacyData from '@/data/privacyData.json';
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0.01, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 const staggerContainer = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.01 },
   visible: {
     opacity: 1,
     transition: {
@@ -54,7 +54,7 @@ export default function Privacy() {
         ))}
 
         <motion.button
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0.01 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.9 }}  
           className="btn text-sm text-zinc-300 bg-[#282828] bg-opacity-80 border-2 border-neutral-700 border-opacity-40 hover:bg-opacity-60 group mt-4 mr-2"
@@ -65,7 +65,7 @@ export default function Privacy() {
         </motion.button>
 
         <motion.button
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0.01 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.9 }} 
           className="btn text-sm text-zinc-300 bg-[#282828] bg-opacity-80 border-2 border-neutral-700 border-opacity-40 hover:bg-opacity-60 group mt-4" 

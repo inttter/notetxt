@@ -544,7 +544,7 @@ export default function Editor() {
             onChange={handleFileInputChange}
           />
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0.01 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="px-3 py-[0.6rem] text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex flex-col justify-between"
@@ -557,7 +557,7 @@ export default function Editor() {
               {/* Markdown Preview Mode Indicator */}
               {isPreviewMode && (
                 <motion.span
-                  initial={{ opacity: 0 }}
+                  initial={{ opacity: 0.01 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                   className="ml-2 text-xs text-stone-400 flex items-center"
@@ -579,7 +579,7 @@ export default function Editor() {
           ) : (
             <div>
               <motion.textarea
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 0.01 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 ref={textareaRef}

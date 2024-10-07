@@ -18,7 +18,7 @@ export default function Custom404() {
         <div className="max-w-2xl w-full px-4 py-8 space-y-4 flex flex-col items-center">
           
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0.01, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="flex items-center justify-center text-8xl font-semibold text-zinc-100 tracking-tighter md:tracking-normal"
@@ -28,7 +28,7 @@ export default function Custom404() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0.01, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
             className="text-stone-400/90 text-base max-w-lg pt-1 pb-3 text-center"
@@ -38,7 +38,7 @@ export default function Custom404() {
           </motion.div>
           
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0.01, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
           >

@@ -6,9 +6,10 @@ import { motion } from 'framer-motion';
 const heroMessage = `Write down what's on your mind.`
 const heroDescription = `A minimalistic, simple note-taker app designed to help you jot down what you need with no distractions, useful features, and a minimal user interface, right at your fingertips.`
 
+// Starts with opacity 0.01 to make Lighthouse work: https://stackoverflow.com/questions/55826735/how-to-fix-lighthouse-r eturned-error-no-fcp-when-running-google-page-speed-t
 const HeroSection = () => (
   <motion.div
-    initial={{ opacity: 0, y: -20 }} 
+    initial={{ opacity: 0.01, y: -20 }} 
     animate={{ opacity: 1, y: 0 }} 
     transition={{ duration: 0.5, delay: 0.4 }}
     className="text-center"
