@@ -1,4 +1,4 @@
-<img src="public/favicon/android-chrome-512x512.png" width="125"> 
+<img src="public/landing/logo.png" width="125"> 
 
 # *Notetxt*
 

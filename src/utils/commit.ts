@@ -6,7 +6,7 @@ export const getLatestCommitHash = async (): Promise<string> => {
         // Get first 7 letters/numbers of hash
         return commits[0].sha.substring(0, 7);
       } else {
-        throw new Error('No commits found.');
+        throw new Error('No commits found. This is most likely due to being rate-limited by the GitHub API. Try again in a few minutes.');
       }
     } catch (error) {
       console.error('Failed to fetch latest commit hash:', error);
