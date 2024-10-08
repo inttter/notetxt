@@ -99,11 +99,11 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     onBlur={handleSaveName}
                     onKeyDown={handleKeyDown}
                     placeholder="Note Title"
-                    className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none flex-grow min-w-[8rem] text-sm md:text-base duration-300"
+                    className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none flex-grow min-w-[19rem] text-sm md:text-base duration-300"
                     autoFocus
                   />
                 ) : (
-                  <span className="block truncate overflow-ellipsis text-sm md:text-base w-full md:w-80">
+                  <span className="block truncate overflow-ellipsis text-sm md:text-base w-82">
                     {note.name || 'New Note'}
                   </span>
                 )}
