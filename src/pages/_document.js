@@ -8,7 +8,7 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://notetxt.xyz/external/og.png" />
         <meta property="og:description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind." />
-        <meta name="description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind. Now with Markdown support!" />
+        <meta name="description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind." />
         <meta name="twitter:image" content="https://notetxt.xyz/external/og.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="theme-color" content="#161617" />
