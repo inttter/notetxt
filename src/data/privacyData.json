@@ -1,14 +1,14 @@
 [
     {
       "header": "Data Collection & Usage",
-      "content": "Notetxt uses IndexedDB to store notes in your browser along with some metadata and also to display them. No information is collected or shared at all, since you don't enter your info anywhere on this website.\n\n As a security measure for yourself, try not to store sensitive information in notes, as Notetxt is not responsible should your notes be exposed by other, external means or individuals."
+      "content": "Notetxt only stores your notes and its related metadata directly in your browser, which means we have no way to view your notes at all. No personal data is collected, shared, or transmitted to external sources."
     },
     {
       "header": "Deleting your data",
-      "content": "To remove a specific note stored in IndexedDB, you can navigate to the note manager click on the trash icon for the note you wish to delete. To delete all of your notes, click on the red trash icon, which permanently deletes all your notes from the browser. If you wish to clear your IndexedDB manually, you can go to your browser's DevTools and clear it."
+      "content": "You can delete an individual note or all stored notes through the user interface via the Note Manager, or via developer tools. Once deleted, the notes will be permanently removed from your device and are unrecoverable."
     },
     {
       "header": "Analytics",
-      "content": "Vercel Analytics is used for anonymized usage data for analytical purposes. This information includes data such as page views, device types, and page referrals. No personal data or notes are collected."
+      "content": "Notetxt only collects anonymized usage data for analytical purposes. This includes your country, device type, operating system, and any page referrals. Please note that no personal data or notes are collected."
     }
 ] 
