@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Pencil, Download, Trash2, X, Plus } from 'lucide-react';
 import { MdOutlineTag } from "react-icons/md";
@@ -7,6 +7,15 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
   const [showTagInput, setShowTagInput] = useState<{ [key: string]: boolean }>({});
   const [showRemoveTags, setShowRemoveTags] = useState(false);
+  const [formattedDates, setFormattedDates] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    const dates = notes.reduce((acc, note) => {
+      acc[note.id] = formatCreationDate(note.id);
+      return acc;
+    }, {} as { [key: string]: string });
+    setFormattedDates(dates);
+  }, [notes, formatCreationDate]);
 
   const handleAddTag = (e, noteId) => {
     e.stopPropagation();
@@ -108,7 +117,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   </span>
                 )}
                 <span className="block truncate overflow-ellipsis text-[11px] md:text-xs md:mt-0 -mt-0.5 text-stone-400/80 mb-1">
-                  {formatCreationDate(note.id)}
+                  {formattedDates[note.id]}
                 </span>
                 <span
                   className={`block text-xs truncate overflow-ellipsis duration-300 ${

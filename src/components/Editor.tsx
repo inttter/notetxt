@@ -29,6 +29,7 @@ export default function Editor() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
+  const [formattedDate, setFormattedDate] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -503,6 +504,10 @@ export default function Editor() {
     return `${month} ${dayWithSuffix} ${year} at ${hours}:${minutes}`;
   };
 
+  useEffect(() => {
+    setFormattedDate(formatCreationDate(currentNoteId));
+  }, [currentNoteId]);
+
   return (
     <div
       className="overflow-x-hidden bg-dark min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth px-4 md:px-8 relative"
@@ -569,7 +574,7 @@ export default function Editor() {
             {/* Note Creation Date */}
             <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5">
               {/* Note ID's are stored as their time created in Unix, so we can use that here */}
-              {formatCreationDate(currentNoteId)}
+              {formattedDate}            
             </div>
           </motion.div>
           {isPreviewMode ? (
