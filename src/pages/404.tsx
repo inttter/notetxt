@@ -5,13 +5,13 @@ import Link from 'next/link';
 import Head from 'next/head';
 
 const pageTitle404 = '404';
-const pageDescription404 = `Unfortunately, you won't stumble upon your notes on this page. Check the link you entered, or use the button below to go back to the Editor, where your notes actually are.`;
+const pageDescription404 = `Unfortunately, you won't stumble upon your notes on this page. Check the link you entered, or use the button below to go to the Editor, where your notes actually are.`;
 
 export default function Custom404() {
   return (
     <>
       <Head>
-        <title>404 • Notetxt</title>
+        <title>Page Not Found • Notetxt</title>
       </Head>
 
       <div className="bg-dark min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8">
@@ -41,14 +41,15 @@ export default function Custom404() {
             initial={{ opacity: 0.01, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+            className="w-full max-w-lg"
           >
             <Link 
               href="/editor" 
-              className="btn text-zinc-300 bg-neutral-800/70 hover:bg-neutral-800/50 text-base border border-neutral-700/70 hover:border-neutral-600/80 active:border-neutral-500/70 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group"
+              className="btn text-zinc-300 bg-neutral-800/70 hover:bg-neutral-800/50 text-base border border-neutral-700/70 hover:border-neutral-600/80 active:border-neutral-500/70 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center justify-center group"
               passHref
             >
-              <ArrowLeft size={17} className="mr-1 text-stone-400 group-hover:-translate-x-0.5 duration-300" /> 
-              Go back to the Editor
+              <ArrowLeft size={17} className="mr-1 group-hover:-translate-x-0.5 duration-300" /> 
+              Go to the Editor
             </Link>
           </motion.div>
 
