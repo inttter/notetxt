@@ -16,7 +16,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const noteSummaryTitle = 'Note Summary';
-  const noteSummaryDescription = 'This dialog contains a summary with various metrics about the currently selected note. Click on these metrics for more information about how they are calculated.';
+  const noteSummaryDescription = 'This shows various metrics about the note which is currently selected. Click on a metric to see how it is calculated.';
 
   useEffect(() => {
     if (isDialogOpen) {
@@ -46,7 +46,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
   }, [text, isDialogOpen]);
 
   const summaryItems = [
-    { label: 'Letters', value: letterCount, description: 'The total number of letters in the note, also including empty spaces.' },
+    { label: 'Letters', value: letterCount, description: 'The total number of letters in the note, also including any spaces.' },
     { label: 'Words', value: wordCount, description: 'The total number of words in the note, separated by at least one space.' },
     { label: 'Lines', value: lineCount, description: 'The total number of lines in the note, including empty lines.' },
     { label: 'Paragraphs', value: paragraphCount, description: 'The total number of paragraphs in the note, separated by at least one blank line.' },
@@ -89,19 +89,19 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
               animate={{ opacity: 1, scale: 1.0 }}
               exit={{ opacity: 0 }}
               transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
-              className="bg-dark border border-neutral-800 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative"
+              className="bg-dark border border-neutral-700/60 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative"
             >
-              <Dialog.Title className="text-lg truncate font-medium text-zinc-100 pb-1" aria-label="Note Summary Dialog Title">
+              <Dialog.Title className="text-lg truncate font-medium text-zinc-100" aria-label="Note Summary Dialog Title">
                 {noteSummaryTitle}
               </Dialog.Title>
-              <Dialog.Description className="text-stone-500 text-sm leading-normal mb-4" aria-label="Note Summary Dialog Description">
+              <Dialog.Description className="text-stone-400 text-sm leading-normal mb-4" aria-label="Note Summary Dialog Description">
                 {noteSummaryDescription}
               </Dialog.Description>
-              <div className="grid grid-cols-2 gap-4" aria-label="Note Summary items">
+              <div className="grid grid-cols-2 gap-4" aria-label="Note Summary Item">
                 {summaryItems.map(({ label, value, description }, index) => (
                   <div
                     key={label}
-                    className="summary-item shadow-lg shadow-neutral-950 bg-neutral-900 bg-opacity-60 hover:bg-neutral-800 hover:bg-opacity-40 border border-neutral-800 p-3 rounded-md cursor-pointer transition-colors duration-300"
+                    className="summary-item shadow-lg shadow-neutral-950 bg-neutral-900 bg-opacity-60 hover:bg-neutral-800 hover:bg-opacity-40 border border-neutral-700/60 p-3 rounded-md cursor-pointer transition-colors duration-300"
                     tabIndex={0}
                     onClick={() => handleShowToast(label, description)}
                     onMouseMove={handleMouseMove}
@@ -126,7 +126,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                       <div className="text-sm font-medium text-zinc-300" aria-label="Note Summary Item Title">
                         {label}
                       </div>
-                      <div className="text-lg tracking-tighter text-zinc-50 code truncate" aria-label="Note Summary Item Value">
+                      <div className="text-lg tracking-tighter text-zinc-200 code truncate" aria-label="Note Summary Item Value">
                         <CountUp
                           start={0}
                           end={value}

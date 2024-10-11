@@ -31,19 +31,19 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
             animate={{ opacity: 1, scale: 1.0 }}
             exit={{ opacity: 0 }}
             transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
-            className="bg-dark border border-neutral-800 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative z-50"
+            className="bg-dark border border-neutral-700/60 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative z-50"
           >
             <Dialog.Title className="text-lg font-medium text-zinc-100 mx-0.5" aria-label="Download Dialog Title">
               {downloadTitle}
             </Dialog.Title>
-            <Dialog.Description className="text-stone-500 text-sm leading-normal mx-0.5" aria-label="Download Dialog Description">
+            <Dialog.Description className="text-stone-400 text-sm leading-normal mx-0.5" aria-label="Download Dialog Description">
               {downloadDescription}
             </Dialog.Description>
             <input
               type="text"
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
-              className="w-full px-3 py-2 rounded-md bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700 duration-300 mt-3 mb-3.5"
+              className="w-full px-3 py-2 rounded-md bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mt-3 mb-3.5"
               placeholder="Note Title"
             />
             <div className="flex justify-end items-center">
@@ -61,6 +61,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                       className="bg-default px-3 py-1 rounded-md duration-300 hover:bg-opacity-80 flex items-center"
                       aria-label="Select File Format"
                      >
+                      {fileTypes.find(type => type.value === fileType)?.icon}
                       <span>{fileTypes.find(type => type.value === fileType)?.name || 'Select Format'}</span>
                        <ChevronDown size={16} className="ml-1 text-stone-400" />
                     </button>
