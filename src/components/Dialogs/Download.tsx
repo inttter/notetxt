@@ -17,8 +17,8 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
   };
 
   const fileTypes = [
-    { name: 'Rich Text', value: '.txt', icon: <GrDocumentTxt size={15} className="mr-2 text-stone-400" /> },
-    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-2 text-stone-400" /> }
+    { name: 'Rich Text', value: '.txt', icon: <GrDocumentTxt size={13} className="mr-1.5 text-stone-400" /> },
+    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={13} className="mr-1.5 text-stone-400" /> }
   ];
 
   return (
@@ -58,7 +58,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild>
                     <button
-                      className="bg-default px-3 py-1 rounded-md duration-300 hover:bg-opacity-80 flex items-center"
+                      className="bg-default px-2 py-1 rounded-md text-sm duration-300 hover:bg-opacity-80 flex items-center"
                       aria-label="Select File Format"
                      >
                       {fileTypes.find(type => type.value === fileType)?.icon}
@@ -79,7 +79,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                           <DropdownMenu.Item
                             key={type.value}
                             onSelect={() => setFileType(type.value)}
-                            className={`text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 flex items-center ${
+                            className={`text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 flex items-center gap-x-1 ${
                               fileType === type.value ? 'bg-neutral-800 hover:bg-neutral-700/40' : ''
                               }`}
                             aria-label="File Type Option"
