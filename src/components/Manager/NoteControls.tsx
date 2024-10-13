@@ -19,6 +19,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
             className="px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 text-xs rounded-md hover:bg-neutral-800/60 duration-300 flex items-center"
             aria-label="Export All Current Notes"
             title="Export All Current Notes"
+            data-vaul-no-drag
           >
             <FolderArchive size={15} className="mr-1" /> Export Notes
             <ChevronDown size={15} className="ml-1 text-stone-500" />
@@ -32,6 +33,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2, ease: 'easeInOut' }}
               className="bg-neutral-900 border border-neutral-800 rounded-lg space-y-2 p-1.5 shadow-2xl shadow-neutral-950 z-50 overflow-hidden"
+              data-vaul-no-drag
             >
               {fileTypes.map((fileTypeItem) => (
                 <DropdownMenu.Item

@@ -213,6 +213,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700/70 duration-300"
+                    data-vaul-no-drag
                   />
                   <Search size={18} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-400" />
                 </div>
@@ -242,7 +243,10 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
               </div>
             </div>
             <hr className="border border-neutral-800" />
-            <div className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400">
+            <div 
+              className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400"
+              data-vaul-no-drag
+            >
               <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap mr-4">
                 {searchQuery
                   ? sortedNotes.length === 0

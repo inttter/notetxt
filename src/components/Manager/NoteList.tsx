@@ -110,6 +110,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     placeholder="Note Title"
                     className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none flex-grow min-w-[19rem] text-sm md:text-base duration-300"
                     autoFocus
+                    data-vaul-no-drag
                   />
                 ) : (
                   <span className="block truncate overflow-ellipsis text-sm md:text-base w-82">
