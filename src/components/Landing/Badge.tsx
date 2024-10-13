@@ -5,21 +5,21 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const Badge = ({ link = "" }) => {
+const Badge = ({ link = '' }) => {
   const content = (
     <div 
-      className={`rounded-lg px-3 py-1 md:py-1.5 text-xs md:text-sm leading-6 text-zinc-300 bg-default/60 ring-1 
-                  ring-neutral-700/70 flex items-center min-w-0 max-w-xs md:max-w-full
-                  ${link ? 'hover:ring-neutral-600/70' : 'ring-neutral-700/70'} 
-                  shadow-lg shadow-neutral-950 duration-300`}
+      className={`
+        rounded-lg px-3 py-1 md:py-1.5 text-xs md:text-sm leading-6 bg-yellow-500/10 ring-1 ring-yellow-500/20 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300
+        ${link ? 'hover:ring-yellow-500/30' : 'ring-yellow-500/20'}
+      `}
       role="alert" 
       aria-label="Badge"
     >
-      <div className="text-ellipsis overflow-hidden whitespace-nowrap">
+      <div className="text-zinc-300 text-ellipsis overflow-hidden whitespace-nowrap">
         ✏️ Syntax highlighting is now supported in code blocks!
       </div>
       {link && 
-        <ArrowRight size={15} className="ml-1 text-stone-400" />
+        <ArrowRight size={15} className="ml-1 text-zinc-100/70" />
       }
     </div>
   );

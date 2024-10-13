@@ -11,7 +11,7 @@ export default function Document() {
         <meta name="description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind." />
         <meta name="twitter:image" content="https://notetxt.xyz/external/og.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="theme-color" content="#161617" />
+        <meta name="theme-color" content="#101010" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
