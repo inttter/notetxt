@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, NotepadText } from 'lucide-react';
+import { ArrowRight, BookOpenText, NotepadText } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const heroMessage = `Write down what's on your mind.`
@@ -20,22 +20,23 @@ const HeroSection = () => (
     <div className="mt-6 text-md md:text-lg leading-6 text-stone-300">
       {heroDescription}
     </div>
-    <div className="mt-8 flex items-center justify-center gap-x-6">
+    <div className="mt-8 flex items-center justify-center gap-x-5">
       <Link 
         href="/editor" 
-        className="px-3 py-2 text-zinc-300 bg-neutral-800/70 text-base border border-neutral-700/70 hover:bg-opacity-60 hover:border-neutral-600 active:border-neutral-500 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center"
+        className="px-3 py-2 text-zinc-300 hover:text-zinc-100 bg-neutral-800/70 text-base border border-neutral-700/70 hover:bg-opacity-60 hover:border-neutral-600 active:border-neutral-500 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group"
       >
-        <NotepadText size={17} className="mr-1 text-stone-400 rotate-6" /> 
+        <NotepadText size={17} className="mr-1 text-stone-400 group-hover:text-zinc-100 rotate-6 duration-300" /> 
         Go to the Editor
       </Link>
       <Link 
-        href="https://github.com/inttter/notetxt" 
+        href="https://docs.notetxt.xyz" 
         target="_blank" 
         rel="noopener noreferrer" 
         className="text-sm text-zinc-300 hover:text-zinc-100 duration-300 flex items-center group"
       >
-        Visit on GitHub 
-        <ArrowRight size={15} className="mx-1 text-stone-500 group-hover:translate-x-0.5 duration-300" />
+        <BookOpenText size={17} className="mr-1 text-stone-400 group-hover:text-zinc-100 duration-300" /> 
+        Visit the Docs
+        <ArrowRight size={15} className="ml-1 text-stone-500 group-hover:translate-x-0.5 duration-300" />
       </Link>
     </div>
   </motion.div>

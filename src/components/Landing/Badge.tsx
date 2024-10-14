@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const Badge = ({ link = '' }) => {
+const Badge = ({ link = 'https://docs.notetxt.xyz' }) => {
   const content = (
     <div 
       className={`
@@ -16,7 +16,7 @@ const Badge = ({ link = '' }) => {
       aria-label="Badge"
     >
       <div className="text-zinc-300 text-ellipsis overflow-hidden whitespace-nowrap">
-        ✏️ Syntax highlighting is now supported in code blocks!
+        📚 Read the new Notetxt documentation now!
       </div>
       {link && 
         <ArrowRight size={15} className="ml-1 text-zinc-100/70" />

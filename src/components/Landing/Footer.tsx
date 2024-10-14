@@ -24,6 +24,7 @@ const Footer = () => {
 
   const quickLinks = [
     { href: '/', text: 'Home' },
+    { href: 'https://docs.notetxt.xyz', text: 'Docs', external: true },
     { href: '/privacy', text: 'Privacy Policy' },
     { href: 'https://github.com/inttter/notetxt', text: 'GitHub', external: true },
     { href: 'https://github.com/sponsors/inttter', text: 'Donate', external: true },
