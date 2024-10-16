@@ -22,6 +22,8 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   const [fileType, setFileType] = useState('.txt');
   const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false);
   const [sortCriteria, setSortCriteria] = useState('newest');
+  const [tagCounts, setTagCounts] = useState([]);
+  const [showAll, setShowAll] = useState(false);
 
   const drawerTitle = 'Note Manager';
   const drawerDescription = 'Access and manage all of your notes from here.';
@@ -35,7 +37,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
       setIsDrawerOpen(true);
     }
   }, [router.query.manager]);
-
 
   // Notes get their ID's by using Date.now() (see handleAddNotes),
   // so for 'Oldest' and 'Newest', we can use the ID of the notes to filter by Oldest and Newest
@@ -62,6 +63,23 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
     }),
     sortCriteria
   );
+
+  // Find how many times tags are used across all notes
+  useEffect(() => {
+    const tagMap: { [key: string]: number } = {};
+  
+    notes.forEach(note => {
+      note.tags?.forEach(tag => {
+        tagMap[tag] = (tagMap[tag] || 0) + 1;
+      });
+    });
+  
+    const tagArray = Object.entries(tagMap).sort((a, b) => b[1] - a[1])
+  
+    setTagCounts(tagArray);
+  }, [notes]);
+
+  const visibleTags = showAll ? tagCounts : tagCounts.slice(0, 3);
 
   const handleSortChange = (event) => setSortCriteria(event.target.dataset.value);
 
@@ -206,6 +224,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 <div className="text-stone-500 text-xs md:text-sm mb-3">
                   {drawerDescription}
                 </div>
+                {/* Search Bar */}
                 <div className="mb-3 relative">
                   <input
                     type="text"
@@ -217,7 +236,38 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   />
                   <Search size={18} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-400" />
                 </div>
-                <hr className="w-full border-neutral-800 mb-4 rounded-full" />
+                {/* Tag Counts */}
+                <div className="flex flex-wrap gap-2">
+                  {visibleTags.map(([tag, count]) => (
+                    <div 
+                      key={tag} 
+                      className="bg-neutral-800/60 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300 hover:text-zinc-100 hover:cursor-pointer text-xs tracking-wide duration-300"
+                      onClick={() => setSearchQuery(tag)}
+                      aria-label="Tag Name and Count"
+                    >
+                      {tag} 
+                      <span 
+                        className="ml-1 text-stone-400 code tracking-tighter" 
+                        aria-label="Tag Count"
+                      >
+                        {count}
+                      </span>
+                    </div>
+                  ))}
+                  {tagCounts.length > 3 && (
+                    <button
+                      onClick={() => setShowAll(!showAll)}
+                      className="bg-neutral-900 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-stone-400 hover:text-stone-300 text-xs duration-300"
+                      aria-label="Show More/Less Tags Button"
+                      data-vaul-no-drag
+                    >
+                      {showAll ? "Show Less" : "Show More"}
+                    </button>
+                  )}
+                </div>
+                {tagCounts.length > 0 && (
+                  <hr className={`w-full border-neutral-800 duration-300 ${visibleTags.length > 0 ? 'mt-3' : ''} mb-4 rounded-full`} />
+                )}                
                 <NoteList
                   notes={sortedNotes}
                   currentNoteId={currentNoteId}
@@ -243,6 +293,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
               </div>
             </div>
             <hr className="border border-neutral-800" />
+            {/* Bottom Footer */}
             <div 
               className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400"
               data-vaul-no-drag
