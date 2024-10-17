@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
-import CountUp from 'react-countup';
+import NumberFlow from '@number-flow/react';
 
 export default function NoteSummary({ text, isDialogOpen, onClose }) {
   const [wordCount, setWordCount] = useState(0);
@@ -12,8 +12,6 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
   const [paragraphCount, setParagraphCount] = useState(0);
   const [sentenceCount, setSentenceCount] = useState(0);
   const [averageReadingTime, setAverageReadingTime] = useState(0);
-  const [shinePosition, setShinePosition] = useState({ x: '0%', y: '0%' });
-  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const noteSummaryTitle = 'Note Summary';
   const noteSummaryDescription = 'This shows various metrics about the note which is currently selected. Click on a metric to see how it is calculated.';
@@ -46,19 +44,23 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
   }, [text, isDialogOpen]);
 
   const summaryItems = [
-    { label: 'Letters', value: letterCount, description: 'The total number of letters in the note, also including any spaces.' },
-    { label: 'Words', value: wordCount, description: 'The total number of words in the note, separated by at least one space.' },
-    { label: 'Lines', value: lineCount, description: 'The total number of lines in the note, including empty lines.' },
-    { label: 'Paragraphs', value: paragraphCount, description: 'The total number of paragraphs in the note, separated by at least one blank line.' },
-    { label: 'Sentences', value: sentenceCount, description: 'The total number of sentences in the note, separated by sentence-ending punctuation.' },
-    { label: 'Time to Read', value: averageReadingTime, description: 'The estimated time it takes (in minutes) to read the note at a speed of 200 words per minute.' },
+    { title: 'Letters', value: letterCount, description: 'The total number of letters in the note, also including any spaces.' },
+    { title: 'Words', value: wordCount, description: 'The total number of words in the note, separated by at least one space.' },
+    { title: 'Lines', value: lineCount, description: 'The total number of lines in the note, including empty lines.' },
+    { title: 'Paragraphs', value: paragraphCount, description: 'The total number of paragraphs in the note, separated by at least one blank line.' },
+    { title: 'Sentences', value: sentenceCount, description: 'The total number of sentences in the note, separated by sentence-ending punctuation.' },
+    { title: 'Time to Read', value: averageReadingTime, description: 'The estimated time it takes (in minutes) to read the note at a speed of 200 words per minute.' },
   ];
 
-  const handleShowToast = (label, description) => {
+  const handleShowToast = (title, description) => {
     toast(
       <div className="toast-container">
-        <strong className="toast-title">{label}</strong>
-        <p className="toast-message">{description}</p>
+        <div className="toast-title" aria-label="Toast Title">
+          {title}
+        </div>
+        <div className="toast-description" aria-label="Toast Description">
+          {description}
+        </div>
       </div>,
       {
         duration: 2000,
@@ -67,15 +69,6 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
         unstyled: true,
       }
     );
-  };
-
-  const handleMouseMove = (e) => {
-    // Calculate the cursor position as a percentage,
-    // relative to the element's width and height.
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setShinePosition({ x: `${x}%`, y: `${y}%` });
   };
 
   return (
@@ -98,41 +91,29 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                 {noteSummaryDescription}
               </Dialog.Description>
               <div className="grid grid-cols-2 gap-4" aria-label="Note Summary Item">
-                {summaryItems.map(({ label, value, description }, index) => (
+                {summaryItems.map(({ title, value, description }) => (
                   <div
-                    key={label}
-                    className="summary-item shadow-lg shadow-neutral-950 bg-neutral-900 bg-opacity-60 hover:bg-neutral-800 hover:bg-opacity-40 border border-neutral-700/60 p-3 rounded-md cursor-pointer transition-colors duration-300"
+                    key={title}
+                    className="summary-item shadow-lg shadow-neutral-950 bg-neutral-900 hover:bg-neutral-800/70 border border-neutral-700/60 hover:border-neutral-700 p-3 rounded-lg cursor-pointer duration-300"
                     tabIndex={0}
-                    onClick={() => handleShowToast(label, description)}
-                    onMouseMove={handleMouseMove}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
+                    onClick={() => handleShowToast(title, description)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        handleShowToast(label, description);
+                        handleShowToast(title, description);
                       }
                     }}
-                    aria-label={label}
+                    aria-label={title}
                     role="button"
                   >
-                    <div
-                      className="shine"
-                      style={{
-                        '--shine-x': hoveredIndex === index ? shinePosition.x : '0%',
-                        '--shine-y': hoveredIndex === index ? shinePosition.y : '0%',
-                      } as React.CSSProperties} // Bypasses TS error, don't remove (fml)
-                    ></div>
                     <div className="summary-item-content">
                       <div className="text-sm font-medium text-zinc-300" aria-label="Note Summary Item Title">
-                        {label}
+                        {title}
                       </div>
                       <div className="text-lg tracking-tighter text-zinc-200 code truncate" aria-label="Note Summary Item Value">
-                        <CountUp
-                          start={0}
-                          end={value}
-                          duration={1.5}
-                          separator=","
-                          key={isDialogOpen ? value : 'closed'}
+                        <NumberFlow
+                          value={value}
+                          format={{ notation: 'compact' }}
+                          willChange={true}
                         />
                       </div>
                     </div>
