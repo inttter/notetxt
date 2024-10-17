@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Pencil, Download, Trash2, X, Plus } from 'lucide-react';
 import { MdOutlineTag } from "react-icons/md";
+import { FaQuestion } from 'react-icons/fa';
 
 const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
@@ -68,19 +69,22 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
     setShowRemoveTags(prev => !prev);
   };
 
+  // * TODO - Improve styling of 'No notes found' message
   return (
     <div className="flex flex-col space-y-2">
       {notes.length === 0 ? (
-        <div className="text-stone-500 text-base text-center mt-1 mb-1">
-          No notes found.
+        <div className="flex flex-col items-center mt-2 mb-3">
+          <div className="text-md md:text-lg text-stone-400">
+            No notes found.
+          </div>
           <span
-            className="text-stone-400 hover:text-opacity-80 text-base text-center border-b border-neutral-700 ml-1 duration-300 cursor-pointer"
+            className="text-sm md:text-base text-yellow-500 hover:text-yellow-400 cursor-pointer duration-300 flex items-center"
             onClick={(e) => {
               e.stopPropagation();
               onAddNote();
             }}
           >
-            Create a new note?
+            <Plus size={20} className="mr-0.5" /> Click to create a new note
           </span>
         </div>
       ) : (
