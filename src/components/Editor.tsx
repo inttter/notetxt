@@ -616,6 +616,7 @@ export default function Editor() {
           setFileName={setFileName}
           fileType={fileType}
           setFileType={setFileType}
+          currentNoteId={currentNoteId}
         />
       )}
     </div>
