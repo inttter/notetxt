@@ -9,7 +9,7 @@ const SortDropdown = ({ sortOptions, sortCriteria, handleSortChange }) => {
     <Dropdown.Root>
       <Dropdown.Trigger asChild>
         <button 
-          className="px-2 py-1.5 border border-neutral-700/70 bg-neutral-900 text-zinc-100 text-xs rounded-md hover:bg-neutral-800/60 hover:border-neutral-700 duration-300 flex items-center"
+          className="px-2 py-1.5 border border-neutral-700/70 bg-neutral-900 text-zinc-300 hover:text-zinc-100 text-xs rounded-md hover:bg-neutral-800/60 hover:border-neutral-700 duration-300 flex items-center"
           data-vaul-no-drag
         >
           <ArrowDownWideNarrow size={15} className="mr-1 text-stone-400" /> 
@@ -32,7 +32,7 @@ const SortDropdown = ({ sortOptions, sortCriteria, handleSortChange }) => {
                 key={value}
                 data-value={value}
                 onClick={handleSortChange}
-                className="text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
+                className="text-zinc-300 hover:text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
               >
                 {label}
               </Dropdown.Item>

@@ -16,7 +16,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button
-            className="px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 text-xs rounded-md hover:bg-neutral-800/60 duration-300 flex items-center"
+            className="px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 hover:text-zinc-100 text-xs rounded-lg hover:bg-neutral-800/60 duration-300 flex items-center"
             aria-label="Export All Current Notes"
             title="Export All Current Notes"
             data-vaul-no-drag
@@ -38,7 +38,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
               {fileTypes.map((fileTypeItem) => (
                 <DropdownMenu.Item
                   key={fileTypeItem.value}
-                  className="text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 flex items-center"
+                  className="text-zinc-300 hover:text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 flex items-center"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleFileTypeChange(fileTypeItem.value);
@@ -54,7 +54,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
       <button
-        className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-100 rounded-md hover:bg-neutral-800/60 duration-300"
+        className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 hover:text-zinc-100 rounded-lg hover:bg-neutral-800/60 duration-300"
         aria-label="Create New Note"
         title="Create A New Note"
         onClick={(e) => {
@@ -62,10 +62,10 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
           onAddNote();
         }}
       >
-        <Plus size={19} className="text-zinc-300" />
+        <Plus size={19} />
       </button>
       <button
-        className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-100 rounded-md hover:bg-neutral-800/60 duration-300"
+        className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 hover:text-zinc-100 rounded-lg hover:bg-neutral-800/60 duration-300"
         aria-label="Open Note"
         title="Open Note"
         onClick={(e) => {
@@ -73,10 +73,10 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
           onOpenNote();
         }}
       >
-        <FolderOpen size={19} className="text-zinc-300" />
+        <FolderOpen size={19} />
       </button>
       <button
-        className="flex items-center p-1.5 border border-neutral-800 bg-neutral-900 text-zinc-100 rounded-md hover:bg-neutral-800/60 duration-300"
+        className="flex items-center p-1.5 border border-neutral-800 bg-neutral-900 text-destructive hover:text-red-500 rounded-lg hover:bg-neutral-800/60 duration-300"
         aria-label="Delete All Notes"
         title="Delete All Notes"
         onClick={(e) => {
@@ -84,7 +84,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
           handleConfirmDeleteAll();
         }}
       >
-        <Trash2 size={19} className="text-destructive" />
+        <Trash2 size={19} />
       </button>
     </div>
   );

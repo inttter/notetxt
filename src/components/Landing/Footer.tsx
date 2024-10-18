@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Logo from '@/../public/landing/logo.png';
 import { motion } from 'framer-motion';
 import { GitCommit } from 'lucide-react';
 import { getLatestCommitHash } from '@/utils/commit';
@@ -43,7 +44,7 @@ const Footer = () => {
 
           {/* Project Logo/Name/Slogan */}
           <div className="flex items-center gap-x-2">
-            <Image src="/landing/logo.png" alt="Logo" width={35} height={35} className="rounded-lg" />
+            <Image src={Logo} alt="Logo" width={35} height={35} className="rounded-lg" />
             <div className="text-base text-stone-100" aria-label="Project Name">
               {projectName}
               <span className="hidden md:block text-xs text-stone-400" aria-label="Project Slogan">

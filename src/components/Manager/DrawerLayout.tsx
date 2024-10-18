@@ -315,6 +315,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
         </Drawer.Portal>
       </Drawer.Root>
 
+      {/* @ts-ignore */}
       <DownloadDialog
         isOpen={isDownloadDialogOpen}
         onRequestClose={() => setIsDownloadDialogOpen(false)}

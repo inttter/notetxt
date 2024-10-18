@@ -9,17 +9,17 @@ const Badge = ({ link = 'https://docs.notetxt.xyz' }) => {
   const content = (
     <div 
       className={`
-        rounded-lg px-3 py-1 md:py-1.5 text-xs md:text-sm leading-6 bg-yellow-500/10 ring-1 ring-yellow-500/20 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300
-        ${link ? 'hover:ring-yellow-500/30' : 'ring-yellow-500/20'}
+        rounded-lg px-3 py-1 md:py-1.5 text-zinc-300 text-xs md:text-sm leading-6 bg-yellow-500/10 ring-1 ring-yellow-500/20 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300 group
+        ${link ? 'hover:ring-yellow-500/30 hover:text-zinc-100' : 'ring-yellow-500/20'}
       `}
       role="alert" 
       aria-label="Badge"
     >
-      <div className="text-zinc-300 text-ellipsis overflow-hidden whitespace-nowrap">
+      <div className="text-ellipsis overflow-hidden whitespace-nowrap">
         📚 Read the new Notetxt documentation now!
       </div>
       {link && 
-        <ArrowRight size={15} className="ml-1 text-zinc-100/70" />
+        <ArrowRight size={15} className="ml-1 text-zinc-100/70 group-hover:translate-x-0.5 duration-300" />
       }
     </div>
   );

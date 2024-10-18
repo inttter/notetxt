@@ -20,9 +20,9 @@ const FeatureCard = () => {
             height={720}
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
             alt={card.title}
-            className="w-full object-cover border border-neutral-800 rounded-md"
+            className="w-full object-cover border border-neutral-800 rounded-lg"
           />
-          <div className="pt-5">
+          <div className="mt-5">
             <div className="text-xl text-zinc-100">
               {card.title}
             </div>

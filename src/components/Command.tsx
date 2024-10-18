@@ -23,12 +23,12 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
     <CmdCommand.Item
       key={id}
       onSelect={handleSelect}
-      className="p-2 cursor-pointer border-2 border-transparent hover:bg-neutral-900 hover:border-neutral-800 hover:shadow-lg rounded-xl flex items-center group duration-300"
+      className="p-2 cursor-pointer border-2 border-transparent hover:bg-neutral-900 hover:border-neutral-800 hover:shadow-lg rounded-lg flex items-center group duration-300"
     >
-      <span className="mr-2 text-stone-500">
+      <span className="mr-2 text-stone-500 group-hover:text-stone-400 duration-300">
         {icon}
       </span>
-      <span className="text-zinc-300">
+      <span className="text-zinc-300 group-hover:text-zinc-100 duration-300">
         {name}
       </span>
       {keybind && (

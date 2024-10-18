@@ -46,7 +46,7 @@ const FAQ = () => {
                   {faq.question}
                 </span>
                 <div
-                  className={`transform transition-transform duration-200 group-data-[state=open]:rotate-180 ${openIndex === index ? 'text-yellow-400' : 'text-stone-400 group-hover:text-stone-300'}`}
+                  className={`transform transition-transform duration-200 group-data-[state=open]:rotate-180 ${openIndex === index ? 'text-yellow-400' : 'text-stone-400 group-hover:text-stone-100'}`}
                 >
                   <ChevronDown size={18} />
                 </div>
