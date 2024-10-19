@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { motion } from 'framer-motion';
 import { X, ChevronDown, Download } from 'lucide-react';
 import { GrDocumentTxt } from "react-icons/gr";
 import { FaMarkdown } from 'react-icons/fa';
-import db, { Note } from '@/utils/db'; // Import your Dexie database
+import db, { Note } from '@/utils/db';
 
 const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType, currentNoteId }) => {
   const downloadTitle = 'Download Your Note';
@@ -32,8 +32,8 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
   };
 
   const fileTypes = [
-    { name: 'Rich Text', value: '.txt', icon: <GrDocumentTxt size={13} className="mr-1.5 text-stone-400" /> },
-    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={13} className="mr-1.5 text-stone-400" /> }
+    { name: 'Rich Text', value: '.txt', icon: <GrDocumentTxt size={15} className="mr-1.5 text-stone-400" /> },
+    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-1.5 text-stone-400" /> }
   ];
 
   return (
@@ -58,14 +58,14 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                 type="text"
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mt-3 mb-3.5"
+                className="w-full px-3 py-2 rounded-lg bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mt-3 mb-3.5"
                 placeholder="Note Title"
               />
               <div className="flex justify-end items-center">
-                <div className="text-zinc-100 flex space-x-2">
+                <div className="text-zinc-300 flex space-x-2">
                   <button
                     onClick={onRequestClose}
-                    className="bg-default btn-dialog hover:bg-opacity-80"
+                    className="btn-dialog bg-neutral-800/70 hover:bg-neutral-800 border-neutral-700/60 hover:text-zinc-100"
                     aria-label="Cancel"
                   >
                     Cancel
@@ -73,11 +73,13 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                   <DropdownMenu.Root>
                     <DropdownMenu.Trigger asChild>
                       <button
-                        className="bg-default px-2 py-1 rounded-md text-sm duration-300 hover:bg-opacity-80 flex items-center"
+                        className="bg-neutral-800/70 hover:bg-neutral-800 border border-neutral-700/60 px-2 py-1 rounded-md text-xs md:text-sm hover:text-zinc-100 duration-300 flex items-center"
                         aria-label="Select File Format"
                       >
                         {fileTypes.find(type => type.value === fileType)?.icon}
-                        <span>{fileTypes.find(type => type.value === fileType)?.name || 'Select Format'}</span>
+                        <span>
+                          {fileTypes.find(type => type.value === fileType)?.name || 'Select Format'}
+                        </span>
                         <ChevronDown size={16} className="ml-1 text-stone-400" />
                       </button>
                     </DropdownMenu.Trigger>
@@ -94,9 +96,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                             <DropdownMenu.Item
                               key={type.value}
                               onSelect={() => setFileType(type.value)}
-                              className={`text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 flex items-center gap-x-1 ${
-                                fileType === type.value ? 'bg-neutral-800 hover:bg-neutral-700/40' : ''
-                              }`}
+                              className="text-zinc-300 hover:text-zinc-100 text-sm hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/70 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 flex items-center gap-x-1"
                               aria-label="File Type Option"
                             >
                               {type.icon}
@@ -108,7 +108,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
                     </DropdownMenu.Portal>
                   </DropdownMenu.Root>
 
-                  <button className="bg-confirm btn-dialog hover:bg-opacity-80 flex items-center" onClick={handleSave} aria-label="Download Note">
+                  <button className="btn-dialog bg-confirm border-neutral-700/60 hover:text-zinc-100 hover:bg-green-700 flex items-center" onClick={handleSave} aria-label="Download Note">
                     <Download size={17} className="mr-1" /> Save
                   </button>
                 </div>

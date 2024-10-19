@@ -49,7 +49,7 @@
 
 /* Button styles for dialogs (see `components/Dialogs`) */
 .btn-dialog {
-  @apply px-[0.80rem] md:px-4 py-1 text-sm md:text-base rounded-md duration-300;
+  @apply px-[0.80rem] md:px-4 py-1 text-sm md:text-base rounded-md border duration-300;
 }
 
 .btn-dialog-hover {

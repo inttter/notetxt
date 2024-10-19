@@ -24,22 +24,23 @@ const ConfirmDeleteAll = ({ isOpen, onConfirm, onCancel }) => {
                 Would you like to proceed anyway?
               </Dialog.Description>
               <div className="flex justify-end items-center">
-                <div className="text-zinc-100 flex space-x-2 mt-5 md:mt-3.5">
+                <div className="text-zinc-300 flex space-x-2 mt-5 md:mt-3.5">
                   <button
                     onClick={onCancel}
-                    className="bg-[#282828] btn-dialog hover:bg-opacity-80"
+                    className="btn-dialog bg-neutral-800/70 hover:bg-neutral-800 border-neutral-700/60"
+                    aria-label="Cancel"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={onConfirm}
-                    className="bg-destructive btn-dialog hover:bg-opacity-80 flex items-center"
+                    className="btn-dialog bg-destructive/90 hover:bg-red-600 border-neutral-700/60 hover:text-zinc-100 flex items-center"
                   >
                     <Trash2 size={15} className="mr-1" /> Delete
                   </button>
                 </div>
               </div>
-              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Button To Close Out Of Dialog">
+              <Dialog.Close className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close Dialog">
                 <X size={20} />
               </Dialog.Close>
             </motion.div>
