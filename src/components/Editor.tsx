@@ -556,7 +556,7 @@ export default function Editor() {
           >
             {/* Note Title */}
             <div className="flex justify-between items-center">
-              <span className="text-sm truncate overflow-ellipsis">
+              <span className="text-sm text-stone-300/85 truncate overflow-ellipsis">
                 {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
               </span>
               {/* Markdown Preview Mode Indicator */}
@@ -591,7 +591,7 @@ export default function Editor() {
                 value={notes[currentNoteId]?.content || ''}
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
-                className="bg-transparent border border-neutral-800 text-stone-200 text-opacity-90 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 md:h-[550px] h-[520px] max-w-screen overflow-auto caret-amber-400 tracking-tight resize-none mt-3 textarea-custom-scroll editor-text"
+                className="bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 md:h-[551px] h-[520px] max-w-screen overflow-auto caret-amber-400 resize-none mt-3 textarea-custom-scroll font-ia-quattro"
                 aria-label="Note Content"
               />
             </div>

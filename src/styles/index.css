@@ -2,21 +2,21 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-:root {
-  font-family: 'Geist Sans', sans-serif;
+body {
+  font-family: var(--font-geist-sans);
 }
 
 .code {
-  font-family: 'Jetbrains Mono', monospace;
+  font-family: var(--font-jetbrains-mono);
+}
+
+.editor-text {
+  font-family: var(--font-ia-quattro);
 }
 
 .code::before,
 .code::after {
   content: none;
-}
-
-.editor-text {
-  font-family: 'iA Writer Duo', sans-serif;
 }
 
 .summary-item {

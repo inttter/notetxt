@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Geist Sans', 'sans-serif'],
+        sans: ['var(--font-geist-sans)', 'sans-serif'],
+        mono: ['var(--font-jetbrains-mono)', 'monospace'],
+        'ia-quattro': ['var(--font-ia-quattro)', 'sans-serif'],
       },
       colors: {
         'confirm': '#166534',
