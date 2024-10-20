@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Command, FolderOpen, Plus, Download, Copy, ScrollText, View, Search, Home, Lock, Heart, BookOpenText } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
+import tips from '@/data/tips.json';
+import { 
+    Command, Search,
+    FolderOpen, Plus, Copy, Download, View, ScrollText, 
+    Home, Lock, Heart, BookOpenText, 
+    Lightbulb 
+  } from 'lucide-react';
 
 const MenuHeader = ({ title }) => (
   <div className="p-2 text-base text-stone-500 ml-0.5">
@@ -60,6 +66,21 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
   ];
 
+  const [randomTip, setRandomTip] = useState('');
+
+  useEffect(() => {
+    const pickRandomTip = () => {
+      const randomIndex = Math.floor(Math.random() * tips.length);
+      setRandomTip(tips[randomIndex]);
+    };
+  
+    pickRandomTip();
+  
+    const intervalId = setInterval(pickRandomTip, 20000);
+  
+    return () => clearInterval(intervalId);
+  }, []);
+
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -102,8 +123,8 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
                 <Search size={20} className="text-stone-500 ml-1 mb-0.5" />
               </div>
             </div>
-            <div className="max-h-[520px] overflow-y-auto textarea-custom-scroll">
-              <CmdCommand.List className="p-2 rounded-b-xl">
+            <div className="max-h-[520px] overflow-y-auto textarea-custom-scroll rounded-b-xl">
+              <CmdCommand.List className="p-2 rounded-b-xl pb-14">
                 <CmdCommand.Group>
                   <MenuHeader title="Controls" />
                   {controls.map((command) => (
@@ -139,6 +160,12 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
                   No results found
                 </CmdCommand.Empty>
               </CmdCommand.List>
+            </div>
+            <div className="absolute bottom-0 w-full p-3 bg-neutral-900/80 backdrop-blur-sm border-t border-neutral-700/60 text-stone-300 text-xs md:text-sm text-center rounded-b-xl flex items-center justify-center">
+              <Lightbulb size={15} className="mr-1 text-amber-400" /> 
+              <span className="truncate max-w-xs sm:max-w-sm">
+                {randomTip}
+              </span>
             </div>
           </motion.div>
         )}

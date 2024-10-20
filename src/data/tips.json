@@ -1,11 +1,9 @@
 [
-    "Try dragging and dropping existing .txt and .md files.",
-    "Make sure to save your notes.",
-    "Preview your notes in Markdown using the Command Menu.",
-    "View note metrics in the command menu.",
-    "Access various controls through the Command Menu.",
-    "Notes are saved when you leave.",
-    "Find links in the Command Menu.",
-    "Handle all of your notes in the Note Manager.",
-    "Find more information in the documentation."
+    "Try dragging and dropping existing .txt or .md files.",
+    "Make sure to download your notes to your device.",
+    "Use 'Note Summary' to view metrics about your note.",
+    "Notes are automatically saved when you leave.",
+    "Read the documentation to learn more about Notetxt.",
+    "Manage all of your notes in the Note Manager.",
+    "Use slash commands to insert Markdown syntax."
 ]
