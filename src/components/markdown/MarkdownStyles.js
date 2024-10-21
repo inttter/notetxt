@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
-import { Check, FileQuestion } from 'lucide-react';
+import { Check, FileQuestion, Copy } from 'lucide-react';
 import hljs from 'highlight.js';
+import copy from 'copy-to-clipboard';
 import 'highlight.js/styles/github-dark-dimmed.css';
 
 const markdownStyles = {
     h1: ({ node, ...props }) => (
-        <div className="relative text-3xl md:text-4xl font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+        <div className="relative text-3xl md:text-4xl font-semibold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h2: ({ node, ...props }) => (
-        <h2 className="relative text-2xl md:text-3xl font-bold md:tracking-normal tracking-tighter mt-5 mb-4 text-zinc-100 prose-invert" {...props} />
+        <h2 className="relative text-2xl md:text-3xl font-semibold md:tracking-normal tracking-tighter mt-5 mb-4 text-zinc-100 prose-invert" {...props} />
     ),
     h3: ({ node, ...props }) => (
-        <h3 className="relative text-xl md:text-2xl font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+        <h3 className="relative text-xl md:text-2xl font-semibold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h4: ({ node, ...props }) => (
-        <h4 className="relative text-lg md:text-xl font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+        <h4 className="relative text-lg md:text-xl font-semibold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h5: ({ node, ...props }) => (
-        <h5 className="relative text-base md:text-lg font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+        <h5 className="relative text-base md:text-lg font-semibold md:tracking-normal tracking-tighter mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
     ),
     h6: ({ node, ...props }) => (
-        <h6 className="relative text-sm md:text-base font-bold md:tracking-normal tracking-tighter mt-5 mb-3 text-neutral-500 prose-invert" {...props} />
+        <h6 className="relative text-sm md:text-base font-semibold md:tracking-normal tracking-tighter mt-5 mb-3 text-neutral-500 prose-invert" {...props} />
     ),
     p: ({ node, ...props }) => (
         <p className="mb-4 prose-p:text-neutral-200 opacity-95 prose-invert" {...props} />
@@ -53,7 +54,7 @@ const markdownStyles = {
         </li>
     ),
     table: ({ node, ...props }) => (
-        <table className="table-auto w-full overflow-x-auto rounded-md border-collapse my-4 prose-table:my-4 prose-invert" {...props} />
+        <table className="table-auto w-full overflow-x-auto rounded-lg border-collapse my-4 prose-table:my-4 prose-invert" {...props} />
     ),
     th: ({ node, ...props }) => (
         <th className="px-4 py-2 bg-neutral-900 text-zinc-300 border border-neutral-800 prose-invert text-left" {...props} />
@@ -78,7 +79,6 @@ const markdownStyles = {
             child => React.isValidElement(child) && child.props && child.props.className
         );
 
-        // Default language to plaintext when one isn't specified/does not work
         let language = 'plaintext';
         let codeString = '';
 
@@ -86,12 +86,10 @@ const markdownStyles = {
             const className = codeElement.props.className;
             const match = className.match(/language-(\w+)/);
             if (match) {
-                // Extract language name from `className`
                 language = match[1];
             }
         }
 
-        // Extract code string from the children
         codeString = React.Children.toArray(children)
             .map(child => {
                 if (typeof child === 'string') {
@@ -113,9 +111,42 @@ const markdownStyles = {
             highlightedCode = hljs.highlightAuto(codeString).value;
         }
 
+        const [copied, setCopied] = useState(false);
+        const [disabled, setDisabled] = useState(false);
+
+        const handleCopy = () => {
+            try {
+                copy(codeString);
+                setCopied(true);
+                setDisabled(true);
+        
+                setTimeout(() => {
+                    setCopied(false);
+                    setDisabled(false);
+                }, 2000);
+            } catch (error) {
+                console.error('Failed to copy code:', error);
+            }
+        };
+
         return (
-            <div className="overflow-x-auto mt-4 rounded-md">
-                <pre className="px-4 my-0 rounded-md text-zinc-300 bg-neutral-900/80 border border-neutral-800 prose-invert font-medium code text-sm leading-6">
+            <div className="relative overflow-x-auto mt-4 rounded-lg">
+                <button
+                    onClick={handleCopy}
+                    className={`absolute top-2 right-2.5 bg-neutral-800 border border-neutral-700/60 text-zinc-300 rounded-lg p-1.5 transition duration-300 ${
+                        disabled ? 'bg-neutral-800 cursor-not-allowed' : 'hover:text-zinc-100 hover:border-neutral-600'
+                    }`}
+                    aria-label="Copy Code to Clipboard"
+                    title="Copy Code to Clipboard"
+                    disabled={disabled}
+                >
+                    {copied ? (
+                        <Check size={20} className="w-4 h-4 transform transition-transform duration-300" />
+                    ) : (
+                        <Copy size={20} className="w-4 h-4 transform transition-transform duration-300" />
+                    )}
+                </button>
+                <pre className="px-4 my-0 rounded-lg text-zinc-300 bg-neutral-900/80 border border-neutral-800 prose-invert font-medium code text-xs md:text-sm leading-5" aria-label="Code Block">
                     <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
                 </pre>
             </div>
@@ -123,13 +154,13 @@ const markdownStyles = {
     },
     code: ({ node, inline, children, ...props }) => {
         return (
-            <code className="px-1 py-0.5 bg-neutral-800 border border-neutral-700/40 rounded-md code m-0.5 whitespace-pre-line" {...props}>
+            <code className="px-1 py-0.5 bg-neutral-800 border border-neutral-700/40 rounded-lg code m-0.5 whitespace-pre-line" {...props}>
                 {children}
             </code>
         );
     },
     a: ({ node, ...props }) => (
-        <a className="no-underline text-sky-300 hover:text-opacity-80 underline-offset-2 duration-300" {...props} />
+        <a className="no-underline text-sky-400 hover:text-sky-400/80 duration-300" {...props} />
     ),
     blockquote: ({ node, ...props }) => (
         <blockquote className="border-l-4 border-neutral-800 text-zinc-300 mb-0 pl-4 prose-invert" {...props} />
@@ -140,12 +171,12 @@ const markdownStyles = {
         return (
             <div className="relative">
                 {imgError ? (
-                    <div className="max-w-full h-64 bg-neutral-800/50 border border-neutral-800 flex items-center justify-center rounded-md duration-300">
+                    <div className="max-w-full h-64 bg-neutral-800/50 border border-neutral-800 flex items-center justify-center rounded-lg duration-300">
                         <FileQuestion />
                     </div>
                 ) : (
                     <img
-                        className="max-w-full h-auto my-0 rounded-md border border-neutral-800 prose-invert"
+                        className="max-w-full h-auto my-0 rounded-lg border border-neutral-800 prose-invert"
                         loading="lazy"
                         onError={() => setImgError(true)}
                         {...props}
@@ -159,13 +190,13 @@ const markdownStyles = {
     ),
     video: ({ node, ...props }) => (
         <div className="relative">
-            <video className="w-full h-auto mb-0 mt-4 rounded-md border border-neutral-800 prose-invert" controls {...props}>
+            <video className="w-full h-auto mb-0 mt-4 rounded-lg border border-neutral-800 prose-invert" controls {...props}>
                 Your browser does not support the video tag.
             </video>
         </div>
     ),
     kbd: ({ node, ...props }) => (
-        <kbd className="px-1 py-0.5 bg-neutral-800 border border-neutral-900 text-zinc-300 rounded-md prose-invert code" {...props} />
+        <kbd className="px-1 py-[1px] bg-neutral-800 border border-neutral-900 text-zinc-300 rounded-lg prose-invert font-mono" {...props} />
     ),
 };
 
