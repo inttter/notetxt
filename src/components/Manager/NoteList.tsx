@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { Pencil, Download, Trash2, X, Plus } from 'lucide-react';
 import { MdOutlineTag } from "react-icons/md";
 
-const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate }) => {
+const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
   const [showTagInput, setShowTagInput] = useState<{ [key: string]: boolean }>({});
   const [showRemoveTags, setShowRemoveTags] = useState(false);
@@ -179,11 +179,11 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                 {(note.tags || []).map((tag) => (
                   <div
                     key={tag}
-                    className={`flex items-center border text-xs rounded-lg px-2 py-1 truncate max-w-[140px] code tracking-tighter duration-300 ${
+                    className={`flex items-center border text-xs text-yellow-400 rounded-lg px-2 py-1 truncate max-w-[140px] font-mono tracking-tighter duration-300 ${
                       currentNoteId === note.id ? 'bg-yellow-500/15 border-yellow-500/15' : 'bg-yellow-500/10 border-yellow-500/10'
-                    }`}
+                    } ${searchQuery && tag === searchQuery ? 'bg-yellow-500/30 border-yellow-500/30 text-yellow-300' : ''}`}
                   >
-                    <span className="truncate overflow-ellipsis duration-300 text-yellow-400">
+                    <span className="truncate overflow-ellipsis duration-300 ">
                       {tag}
                     </span>
                     {/* Only show the X icon on the currently selected note when button is clicked */}

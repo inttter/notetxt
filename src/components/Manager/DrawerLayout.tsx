@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
 import { motion } from 'framer-motion';
-import { Edit3, Search, NotebookText } from 'lucide-react';
+import { Search, LibraryBig } from 'lucide-react';
 import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
 import { useRouter } from 'next/router';
@@ -201,10 +201,10 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
-            aria-label="Button To Open Note Drawer Menu"
+            aria-label="Button To Open Note Manager Menu"
             title="Note Manager"
           >
-            <NotebookText size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+            <LibraryBig size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
           </motion.button>
         </Drawer.Trigger>
 
@@ -218,7 +218,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             <div className="p-4 flex-1 h-full overflow-y-auto">
               <div className="max-w-md mx-auto">
                 <Drawer.Title className="font-medium text-lg text-zinc-100 flex items-center">
-                  <Edit3 size={20} className="mr-1.5" />
+                  <LibraryBig size={20} className="mr-1" />
                   {drawerTitle}
                 </Drawer.Title>
                 <div className="text-stone-500 text-xs md:text-sm mb-3">
@@ -231,7 +231,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                     placeholder="Search notes..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-800 focus:border-neutral-700/70 duration-300"
+                    className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-600/70 duration-300"
                     data-vaul-no-drag
                   />
                   <Search size={18} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-400" />
@@ -283,6 +283,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   openDownloadDialog={openDownloadDialog}
                   handleUpdateNoteTags={onUpdateNoteTags}
                   formatCreationDate={formatCreationDate}
+                  searchQuery={searchQuery}
                 />
                 <NoteControls
                   handleFileTypeChange={handleFileTypeChange}
