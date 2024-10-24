@@ -10,6 +10,7 @@ import db, { Note } from '@/utils/db';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
+import Link from 'next/link';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
@@ -19,6 +20,7 @@ import { useRouter } from 'next/router';
 
 export default function Editor() {
   const router = useRouter();
+  const mdDocsLink = 'https://docs.notetxt.xyz/main/markdown';
   const [notes, setNotes] = useState<{ [key: string]: Note }>({});
   const [currentNoteId, setCurrentNoteId] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -556,7 +558,7 @@ export default function Editor() {
           >
             {/* Note Title */}
             <div className="flex justify-between items-center">
-              <span className="text-sm text-stone-300/85 truncate overflow-ellipsis">
+              <span className="text-sm text-stone-300/85 truncate overflow-ellipsis" aria-label="Note Name">
                 {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
               </span>
               {/* Markdown Preview Mode Indicator */}
@@ -565,14 +567,24 @@ export default function Editor() {
                   initial={{ opacity: 0.01 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="ml-2 text-xs text-stone-400 flex items-center"
+                  className="ml-2 text-xs md:text-sm text-stone-400 flex items-center"
                 >
                   <FaMarkdown size={15} className="mr-1" /> Markdown
+                  {/* Markdown Documentation Link */}
+                  <Link 
+                    href={mdDocsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-1 text-xs text-stone-400/80 hover:text-stone-300 duration-300"
+                    aria-label="Markdown Documentation Link"
+                  >
+                    (Docs)
+                  </Link>
                 </motion.span>
               )}
             </div>
             {/* Note Creation Date */}
-            <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5">
+            <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5" aria-label="Note Creation Date">
               {/* Note ID's are stored as their time created in Unix, so we can use that here */}
               {formattedDate}            
             </div>
