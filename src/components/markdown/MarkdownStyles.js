@@ -27,10 +27,10 @@ const markdownStyles = {
         <p className="mb-4 prose-p:text-neutral-200 opacity-95 prose-invert" {...props} />
     ),
     ul: ({ node, ...props }) => (
-        <ul className="prose-ul:pl-5 prose-ul:mb-4 marker:text-stone-600" {...props} />
+        <ul className="prose-ul:pl-5 prose-ul:mb-2 marker:text-stone-600" {...props} />
     ),
     ol: ({ node, ...props }) => (
-        <ol className="prose-ol:pl-5 prose-ol:mb-4 marker:text-stone-600" {...props} />
+        <ol className="prose-ol:pl-5 prose-ol:mb-2 marker:text-stone-600" {...props} />
     ),
     li: ({ node, children, ...props }) => (
         <li className="mb-2 prose-li:mb-2 marker:text-stone-600" {...props}>

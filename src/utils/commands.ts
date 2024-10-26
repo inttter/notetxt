@@ -47,6 +47,10 @@ const commands = {
         content: `---\ntitle: Note Title\ndate: ${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getDate()}, ${new Date().getFullYear()}\n---`,
         aliases: ['mdata', 'yaml']
     },
+    toc: {
+        content: '// Table of Contents will be generated here',
+        aliases: ['contents'],
+    },
 };
 
 export default commands;

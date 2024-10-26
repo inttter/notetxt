@@ -218,37 +218,80 @@ export default function Editor() {
     }
   };
   
-
+  const generateTOC = (content: string) => {
+    const lines = content.split('\n');
+    const toc: string[] = [];
+    const headerRegex = /^(#{1,6})\s+(.+)$/; // Matches H1 to H6
+    let inTOCSection = false;
+    let inCodeBlock = false;
+  
+    lines.forEach((line) => {
+      if (line.trim().startsWith('```')) {
+        inCodeBlock = !inCodeBlock; // Toggle code block state
+        return;
+      }
+  
+      // Check for command line input (both /toc and /contents)
+      if (inCodeBlock || line.trim() === `/${commands.toc.aliases[0]}` || line.trim() === '/toc') {
+        if (line.trim() === '/toc' || line.trim() === `/${commands.toc.aliases[0]}`) {
+          inTOCSection = true;
+        }
+        return;
+      }
+  
+      const match = line.match(headerRegex);
+      if (match && inTOCSection) {
+        const [, hashes, title] = match;
+        const indent = '  '.repeat(hashes.length - 1); // Indentation based on header level
+        const cleanedTitle = title
+          .replace(/`([^`]+)`/g, '$1') // Keep content of inline code
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]+/g, '') // Remove punctuation except spaces and hyphens
+          .replace(/\s+/g, '-'); // Replace spaces with hyphens
+  
+        toc.push(`${indent}- [${title}](#${cleanedTitle})`);
+      }
+    });
+  
+    return toc.join('\n');
+  };
+  
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     const lines = value.split('\n');
-
-    // Normal input handling
+  
     setNotes(prevNotes => {
       const updatedNote = {
         ...prevNotes[currentNoteId],
         content: value
       };
-
+  
       const commandLineIndex = lines.findIndex(line => line.startsWith('/'));
-
+  
       if (commandLineIndex !== -1) {
-        const command = lines[commandLineIndex].slice(1); // Get the command after the '/'
+        const command = lines[commandLineIndex].slice(1); // Get command without slash
         const foundCommand = Object.entries(commands).find(([cmd, { aliases }]) =>
-          cmd === command || aliases.includes(command)
+          cmd === command || aliases.includes(command) // Check both command and aliases
         );
-
+  
         if (foundCommand) {
-          const commandOutput = foundCommand[1].content;
+          let commandOutput = foundCommand[1].content;
+  
+          // Use the command key from the foundCommand for TOC logic
+          if (foundCommand[0] === 'toc' || foundCommand[1].aliases.includes(command)) {
+            const toc = generateTOC(value);
+            commandOutput = '## Table of Contents\n\n' + toc;
+          }
+  
           lines[commandLineIndex] = commandOutput;
           const newContent = lines.join('\n');
-
+  
           updatedNote.content = newContent;
-
+  
           if (textareaRef.current) {
             textareaRef.current.value = newContent;
-
-            // Move the cursor to the end of the inserted command's content
+  
             const positionBeforeCommand = lines
               .slice(0, commandLineIndex)
               .join('\n').length + commandOutput.length + 1;
@@ -257,7 +300,7 @@ export default function Editor() {
           }
         }
       }
-
+  
       return { ...prevNotes, [currentNoteId]: updatedNote };
     });
   };
