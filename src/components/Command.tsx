@@ -3,6 +3,7 @@ import { FaGithub } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Command as CmdCommand } from 'cmdk';
 import tips from '@/data/tips.json';
+import { FaMarkdown } from 'react-icons/fa';
 import { 
     Command, Search,
     FolderOpen, Plus, Copy, Download, View, ScrollText, 
@@ -54,7 +55,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
     { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+N' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} />, keybind: 'Ctrl+Shift+C' },
     { id: 'save', name: 'Download Note', icon: <Download size={20} />, keybind: 'Ctrl+S' },
-    { id: 'preview', name: 'Preview Markdown', icon: <View size={20} />, keybind: 'Ctrl+M' },
+    { id: 'preview', name: 'View In Markdown', icon: <FaMarkdown size={20} />, keybind: 'Ctrl+M' },
     { id: 'summary', name: 'Note Summary', icon: <ScrollText size={20} />, keybind: 'Ctrl+I' },
   ];
 

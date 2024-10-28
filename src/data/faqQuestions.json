@@ -16,7 +16,7 @@
       "answer": "To manage all of your notes in one place, use the Note Manager. From there, you can peform various actions on your notes, such as navigating to, tagging, renaming, or downloading them. When you search for notes, you can search by either name, or by tag."
     },
     {
-      "question": "How do I preview my note in Markdown?",
-      "answer": "To preview your note in Markdown, you can toggle the Markdown Preview mode by using the keyboard shortcut 'Ctrl+M' (⌘+M for Mac), or use the 'Preview Markdown' option from the Command Menu."
+      "question": "How do I view my note in Markdown?",
+      "answer": "To view your note in Markdown, you can toggle the Markdown view by pressing 'Ctrl+M' (or '⌘+M' on Mac), or by selecting 'View In Markdown' from the Command Menu."
     }
 ]  

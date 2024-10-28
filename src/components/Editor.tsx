@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Command from '@/components/Command';
 import DragDropOverlay from '@/components/DragDropOverlay';
 import NoteManager from '@/components/Manager/DrawerLayout';
@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
-import { isIOS } from 'react-device-detect';
+import { isIOS, isMobile } from 'react-device-detect';
 import { FaMarkdown } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 
@@ -32,8 +32,10 @@ export default function Editor() {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [formattedDate, setFormattedDate] = useState('');
+  const [scrollPosition, setScrollPosition] = useState(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const markdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // When the URL contains `?markdown=true`, the 
@@ -117,6 +119,26 @@ export default function Editor() {
       textareaRef.current.focus();
     }
   }, [currentNoteId]);
+
+  // Sync scrollbars
+  const syncScroll = (e) => {
+    if (textareaRef.current && markdownRef.current) {
+      const textareaHeight = textareaRef.current.scrollHeight - textareaRef.current.clientHeight;
+      const markdownHeight = markdownRef.current.scrollHeight - markdownRef.current.clientHeight;
+      const scrollRatio = markdownHeight / textareaHeight;
+
+      const newScrollPosition = e.target.scrollTop * scrollRatio;
+      markdownRef.current.scrollTop = newScrollPosition; // Sync markdown scroll
+      textareaRef.current.scrollTop = e.target.scrollTop; // Sync textarea scroll
+    }
+  };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      // Update textarea scroll position
+      textareaRef.current.scrollTop = scrollPosition;
+    }
+  }, [scrollPosition]);
 
   const handleAddNote = async () => {
     try {
@@ -279,7 +301,7 @@ export default function Editor() {
           let commandOutput = foundCommand[1].content;
   
           // Use the command key from the foundCommand for TOC logic
-          if (foundCommand[0] === 'toc' || foundCommand[1].aliases.includes(command)) {
+          if (foundCommand[0] === 'toc' || foundCommand[1].aliases.includes('contents')) {
             const toc = generateTOC(value);
             commandOutput = '## Table of Contents\n\n' + toc;
           }
@@ -561,7 +583,7 @@ export default function Editor() {
       onDragLeave={handleDragLeave}
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
-      <div className="flex flex-row w-full max-w-2xl mr-10 mt-5">
+      <div className={`flex flex-row w-full mt-5 duration-300 ${isPreviewMode ? 'max-w-5xl mr-10' : 'max-w-[710px] md:mr-0 mr-10'}`}>
         <div className="flex flex-row w-full">
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
@@ -583,7 +605,7 @@ export default function Editor() {
           </div>
         </div>
       </div>
-      <div className="max-w-2xl w-full space-y-3 flex-col relative z-10 mb-10">
+      <div className="max-w-5xl w-full space-y-3 flex-col relative z-10 mb-10">
         <div className="relative">
           <input
             type="file"
@@ -593,64 +615,77 @@ export default function Editor() {
             accept=".txt,.md"
             onChange={handleFileInputChange}
           />
-          <motion.div
-            initial={{ opacity: 0.01 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="px-3 py-[0.6rem] text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex flex-col justify-between"
-          >
-            {/* Note Title */}
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-stone-300/85 truncate overflow-ellipsis" aria-label="Note Name">
-                {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
-              </span>
-              {/* Markdown Preview Mode Indicator */}
-              {isPreviewMode && (
-                <motion.span
-                  initial={{ opacity: 0.01 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="ml-2 text-xs md:text-sm text-stone-400 flex items-center"
-                >
-                  <FaMarkdown size={15} className="mr-1" /> Markdown
-                  {/* Markdown Documentation Link */}
-                  <Link 
-                    href={mdDocsLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ml-1 text-xs text-stone-400/80 hover:text-stone-300 duration-300"
-                    aria-label="Markdown Documentation Link"
+          <div className={`w-full mx-auto flex flex-col duration-300 ${isPreviewMode ? 'max-w-5xl' : 'max-w-2xl'}`}>
+            <motion.div
+              initial={{ opacity: 0.01 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="px-3 py-[0.6rem] text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex flex-col justify-between"
+            >
+              {/* Note Title */}
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-stone-300/85 truncate overflow-ellipsis" aria-label="Note Name">
+                  {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
+                </span>
+                {/* Markdown Preview Mode Indicator */}
+                {isPreviewMode && (
+                  <motion.span
+                    initial={{ opacity: 0.01 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="ml-2 text-xs md:text-sm text-stone-400 flex items-center"
                   >
-                    (Docs)
-                  </Link>
-                </motion.span>
-              )}
-            </div>
-            {/* Note Creation Date */}
-            <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5" aria-label="Note Creation Date">
-              {/* Note ID's are stored as their time created in Unix, so we can use that here */}
-              {formattedDate}            
-            </div>
-          </motion.div>
-          {isPreviewMode ? (
-            <div>
-              <MarkdownPreview content={notes[currentNoteId]?.content || 'No content to preview.'} />
-            </div>
-          ) : (
-            <div>
+                    <FaMarkdown size={15} className="mr-1" /> Markdown
+                    {/* Markdown Documentation Link */}
+                    <Link
+                      href={mdDocsLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-1 text-xs text-stone-400/80 hover:text-stone-300 duration-300"
+                      aria-label="Markdown Documentation Link"
+                    >
+                      (Docs)
+                    </Link>
+                  </motion.span>
+                )}
+              </div>
+              {/* Note Creation Date */}
+              <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5" aria-label="Note Creation Date">
+                {/* Note ID's are stored as their time created in Unix, so we can use that here */}
+                {formattedDate}
+              </div>
+            </motion.div>
+            {/* Editor/Textarea */}
+            <div className="flex flex-col md:flex-row justify-center mt-3 max-w-5xl">
               <motion.textarea
-                initial={{ opacity: 0.01 }}
+                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.3 }}
                 ref={textareaRef}
                 value={notes[currentNoteId]?.content || ''}
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
-                className="bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-neutral-600 outline-none w-full p-4 duration-300 text-sm md:text-base rounded-b-lg rounded-t-none min-h-96 md:h-[551px] h-[520px] max-w-screen overflow-auto caret-amber-400 resize-none mt-3 textarea-custom-scroll font-ia-quattro"
+                onScroll={syncScroll}
+                className={`bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-neutral-600 outline-none leading-[21.3px]
+                  ${isPreviewMode ? 'md:block max-w-full md:max-w-lg text-sm md:text-[15.5px] md:w-1/2 rounded-r-lg md:rounded-r-none' : 'max-w-full w-full text-sm md:text-base mx-auto'} 
+                p-4 rounded-b-lg rounded-t-none min-h-[542px] max-h-[552px] overflow-auto caret-amber-400 resize-none textarea-custom-scroll font-ia-quattro tracking-tight`}
                 aria-label="Note Content"
               />
+              {isPreviewMode && (
+                <div 
+                  ref={markdownRef} 
+                  className={`md:block w-full md:w-1/2 mt-0 ${isPreviewMode ? 'mt-3 max-w-full w-full md:mt-0' : 'mt-0'}`}
+                >
+                  <MarkdownPreview 
+                    scrollPosition={scrollPosition} 
+                    setScrollPosition={setScrollPosition} 
+                    textareaRef={textareaRef} 
+                    content={notes[currentNoteId]?.content || 'No content to preview.'} 
+                  />
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
       {/* `pointer-events-auto` allows toasts to be interacted with when in something like a dialog */}

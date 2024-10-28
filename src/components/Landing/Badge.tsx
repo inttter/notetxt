@@ -5,7 +5,9 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const Badge = ({ link = 'https://docs.notetxt.xyz' }) => {
+const Badge = ({ link = '/editor?markdown=true' }) => {
+  const isExternalLink = link.startsWith('http');
+  
   const content = (
     <div 
       className={`
@@ -16,7 +18,7 @@ const Badge = ({ link = 'https://docs.notetxt.xyz' }) => {
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-        📚 Read the new Notetxt documentation now!
+        ✨ Try the revamped Markdown previewing experience!
       </div>
       {link && 
         <ArrowRight size={15} className="ml-1 text-zinc-100/70 group-hover:translate-x-0.5 duration-300" />
@@ -32,7 +34,10 @@ const Badge = ({ link = 'https://docs.notetxt.xyz' }) => {
       transition={{ duration: 0.5, delay: 0.4 }}
     >
       {link ? (
-        <Link href={link} target="_blank" rel="noopener noreferrer">
+        <Link 
+          href={link} 
+          {...(isExternalLink && { target: "_blank", rel: "noopener noreferrer" })}
+        >
           {content}
         </Link>
       ) : (
