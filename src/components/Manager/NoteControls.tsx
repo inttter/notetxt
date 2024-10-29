@@ -12,7 +12,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
   ];
 
   return (
-    <div className="flex space-x-2 mt-2 justify-end">
+    <div className="flex space-x-2 mt-2 mb-8 justify-end">
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button
@@ -56,7 +56,8 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
       <button
         className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 hover:text-zinc-100 rounded-lg hover:bg-neutral-800/60 duration-300"
         aria-label="Create New Note"
-        title="Create A New Note"
+        title="Create New Note"
+        data-vaul-no-drag
         onClick={(e) => {
           e.stopPropagation();
           onAddNote();
@@ -68,6 +69,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
         className="flex items-center px-2 py-1.5 border border-neutral-800 bg-neutral-900 text-zinc-300 hover:text-zinc-100 rounded-lg hover:bg-neutral-800/60 duration-300"
         aria-label="Open Note"
         title="Open Note"
+        data-vaul-no-drag
         onClick={(e) => {
           e.stopPropagation();
           onOpenNote();
@@ -79,6 +81,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
         className="flex items-center p-1.5 border border-neutral-800 bg-neutral-900 text-destructive hover:text-red-500 rounded-lg hover:bg-neutral-800/60 duration-300"
         aria-label="Delete All Notes"
         title="Delete All Notes"
+        data-vaul-no-drag
         onClick={(e) => {
           e.stopPropagation();
           handleConfirmDeleteAll();
