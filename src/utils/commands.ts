@@ -31,6 +31,10 @@ const commands = {
         content: `[Link text](URL)`,
         aliases: ['url'],
     },
+    video: {
+        content: `<video src="URL" controls></video>`,
+        aliases: ['vd']
+    },
     tasklist: {
         content: `- [ ] Task 1\n- [X] Task 2`,
         aliases: ['tlist', 'todo'],
