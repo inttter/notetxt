@@ -239,7 +239,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 {visibleTags.map(([tag, count]) => (
                   <div
                     key={tag}
-                    className="bg-neutral-800/60 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300 hover:text-zinc-100 hover:cursor-pointer text-xs tracking-wide duration-300"
+                    className="bg-neutral-800/60 hover:bg-neutral-800 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300 hover:text-zinc-100 hover:cursor-pointer text-xs truncate overflow-ellipsis tracking-wide duration-300"
                     onClick={() => setSearchQuery(tag)}
                     aria-label="Tag Name"
                   >

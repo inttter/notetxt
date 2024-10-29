@@ -183,7 +183,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                       currentNoteId === note.id ? 'bg-yellow-500/15 border-yellow-500/15' : 'bg-yellow-500/10 border-yellow-500/10'
                     } ${searchQuery && tag === searchQuery ? 'bg-yellow-500/30 border-yellow-500/30 text-yellow-300' : ''}`}
                   >
-                    <span className="truncate overflow-ellipsis duration-300 ">
+                    <span className="truncate overflow-ellipsis duration-300">
                       {tag}
                     </span>
                     {/* Only show the X icon on the currently selected note when button is clicked */}
@@ -205,15 +205,13 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     value={newTags[note.id] || ''}
                     onChange={(e) => handleTagInputChange(note.id, e.target.value)}
                     onKeyDown={(e) => handleTagKeyDown(e, note.id)}
-                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/50 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.23rem] code tracking-tighter"
+                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/60 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.22rem] font-mono tracking-tighter"
                     placeholder="Tag Name"
                     autoFocus
                   />
                 ) : (
                   <button
-                    className={`text-stone-400 hover:text-stone-300 text-xs rounded-lg border border-dotted border-neutral-600 px-2 py-1 duration-300 flex items-center ${
-                      currentNoteId === note.id ? 'bg-neutral-900' : ''
-                    }`}
+                    className="text-zinc-300 hover:text-zinc-100 text-xs rounded-lg border border-neutral-700/60 px-2 py-[0.28rem] flex items-center bg-neutral-900 hover:bg-neutral-950 hover:border-neutral-600 duration-300"
                     aria-label="Add Tag"
                     title="Add Tag"
                     onClick={() => toggleTagInput(note.id)}
