@@ -493,13 +493,13 @@ export default function Editor() {
   };
 
   useEffect(() => {
-    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+n, command+o, command+s, command+shift+c, command+m, command+i';
+    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+alt+n, command+o, command+s, command+shift+c, command+m, command+i';
 
     const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();
       switch (handler.key) {
-        case 'ctrl+n':
-        case 'command+n':
+        case 'ctrl+alt+n':
+        case 'command+alt+n':
           handleCommandSelect('new');
           break;
         case 'ctrl+o':

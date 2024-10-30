@@ -6,7 +6,7 @@ import tips from '@/data/tips.json';
 import { FaMarkdown } from 'react-icons/fa';
 import { 
     Command, Search,
-    FolderOpen, Plus, Copy, Download, View, ScrollText, 
+    FolderOpen, Plus, Copy, Download, ScrollText, 
     Home, Lock, Heart, BookOpenText, 
     Lightbulb 
   } from 'lucide-react';
@@ -52,7 +52,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
 const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
   const controls = [
     { id: 'open', name: 'Open Note', icon: <FolderOpen size={20} />, keybind: 'Ctrl+O', url: '' },
-    { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+N' },
+    { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+Alt+N' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} />, keybind: 'Ctrl+Shift+C' },
     { id: 'save', name: 'Download Note', icon: <Download size={20} />, keybind: 'Ctrl+S' },
     { id: 'preview', name: 'View In Markdown', icon: <FaMarkdown size={20} />, keybind: 'Ctrl+M' },
