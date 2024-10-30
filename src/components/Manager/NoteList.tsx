@@ -211,12 +211,13 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   />
                 ) : (
                   <button
-                    className="text-zinc-300 hover:text-zinc-100 text-xs rounded-lg border border-neutral-700/60 px-2 py-[0.28rem] flex items-center bg-neutral-900 hover:bg-neutral-950 hover:border-neutral-600 duration-300"
+                    className="text-zinc-300 hover:text-zinc-100 text-xs rounded-lg border border-neutral-700/60 px-2 py-[0.28rem] md:py-[0.22rem] flex items-center bg-neutral-900 hover:bg-neutral-800/50 hover:border-neutral-600 duration-300"
                     aria-label="Add Tag"
                     title="Add Tag"
                     onClick={() => toggleTagInput(note.id)}
                   >
                     <Plus size={15} />
+                    {(!note.tags || note.tags.length === 0) && <span className="ml-1">Add tag</span>}
                   </button>
                 )}
               </div>
