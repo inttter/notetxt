@@ -40,7 +40,7 @@ const markdownStyles = {
                         <div key={index} className="relative inline-block">
                             <input
                                 type="checkbox"
-                                className="appearance-none w-4 h-4 mr-1 -mb-0.5 rounded bg-neutral-800 border border-neutral-800 checked:border-neutral-800 checked:bg-yellow-400 accent-neutral-800"
+                                className="appearance-none w-4 h-4 mr-1 -mb-0.5 rounded bg-neutral-800 border border-neutral-700 checked:border-neutral-800 checked:bg-yellow-400 accent-neutral-800"
                                 {...child.props}
                             />
                             {child.props.checked && (
@@ -154,7 +154,7 @@ const markdownStyles = {
     },
     code: ({ node, inline, children, ...props }) => {
         return (
-            <code className="px-1 py-0.5 bg-neutral-800 border border-neutral-700/40 rounded-lg code m-0.5 whitespace-pre-line" {...props}>
+            <code className="px-1 py-[1px] text-stone-200/95 bg-neutral-800 border border-neutral-700/40 rounded-md code m-0.5 whitespace-pre-line" {...props}>
                 {children}
             </code>
         );

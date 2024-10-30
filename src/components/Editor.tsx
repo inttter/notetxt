@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Command from '@/components/Command';
 import DragDropOverlay from '@/components/DragDropOverlay';
 import NoteManager from '@/components/Manager/DrawerLayout';
@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
-import { isIOS, isMobile } from 'react-device-detect';
+import { isIOS } from 'react-device-detect';
 import { FaMarkdown } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 
@@ -42,7 +42,24 @@ export default function Editor() {
     // Markdown Preview will be automatically toggled to be visible
     if (router.query.markdown === 'true') {
       setIsPreviewMode(true);
-    }
+    };
+
+    const fetchWelcomeNote = async () => {
+      try {
+        const response = await fetch('/intro.md');
+        if (!response.ok) {
+          toast.error('Failed to fetch welcome note content.');
+          console.error('Failed to fetch welcome note content:', response.status);
+          return '';
+        }
+        const content = await response.text();
+        return content;
+      } catch (error) {
+        toast.error('Failed to load welcome message.');
+        console.error('Failed to fetch welcome note:', error);
+        return '';
+      }
+    };
 
     const fetchNotesAndCurrentNoteId = async () => {
       try {
@@ -56,8 +73,33 @@ export default function Editor() {
         setNotes(notesMap);
   
         if (allNotes.length === 0) {
-          // Create a new note if there are none in `allNotes`
-          await handleAddNote();
+          // Check if this is the first time opening the editor using the database
+          const appState = await db.appState.get('flags');
+          const hasSeenWelcome = appState?.hasSeenWelcome ?? false;
+
+          // If the user is visiting for the first time,
+          // then display a welcome/gettting started note.
+          if (!hasSeenWelcome) {
+            const id = `${Date.now()}`;
+            const welcomeContent = await fetchWelcomeNote();
+            const welcomeNote: Note = {
+              id,
+              name: 'Getting Started',
+              content: welcomeContent
+            };
+            await db.notes.add(welcomeNote);
+            await db.appState.put({
+              id: 'flags',
+              hasSeenWelcome: true
+            });
+            setNotes({ [id]: welcomeNote });
+            setCurrentNoteId(id);
+            // For this welcome note ONLY, automatically enable the Markdown preview mode
+            setIsPreviewMode(true);
+          } else {
+            // Create a blank note if they've seen the intro
+            await handleAddNote();
+          }
         } else {
           const savedCurrentNoteId = await db.currentNote.get('current');
           if (savedCurrentNoteId) {
@@ -493,7 +535,7 @@ export default function Editor() {
   };
 
   useEffect(() => {
-    const hotkeyList = 'ctrl+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+alt+n, command+o, command+s, command+shift+c, command+m, command+i';
+    const hotkeyList = 'ctrl+alt+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+alt+n, command+o, command+s, command+shift+c, command+m, command+i';
 
     const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();

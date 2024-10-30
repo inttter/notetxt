@@ -12,9 +12,15 @@ export interface CurrentNote {
   noteId: string;
 }
 
+export interface AppState {
+  id: string;
+  hasSeenWelcome: boolean;
+}
+
 export class NotesDatabase extends Dexie {
   notes: Dexie.Table<Note, string>;
   currentNote: Dexie.Table<CurrentNote, string>;
+  appState: Dexie.Table<AppState, string>;
 
   constructor() {
     super('Notetxt');
@@ -35,8 +41,22 @@ export class NotesDatabase extends Dexie {
       });
     });
 
+    this.version(3).stores({
+      notes: 'id, name, content, tags',
+      currentNote: 'id, noteId',
+      appState: 'id'
+    }).upgrade(async tx => {
+      // Initialize app state with welcome note flag off
+      // by default for existing databases
+      await tx.table('appState').put({
+        id: 'flags',
+        hasSeenWelcome: false
+      });
+    });
+
     this.notes = this.table('notes');
     this.currentNote = this.table('currentNote');
+    this.appState = this.table('appState');
   }
 }
 
