@@ -54,13 +54,15 @@ const markdownStyles = {
         </li>
     ),
     table: ({ node, ...props }) => (
-        <table className="table-auto w-full overflow-x-auto rounded-lg border-collapse my-4 prose-table:my-4 prose-invert" {...props} />
+        <div className="overflow-x-auto rounded-md mt-4 border border-neutral-900">
+            <table className="w-full my-0" {...props} />
+        </div>
     ),
     th: ({ node, ...props }) => (
-        <th className="px-4 py-2 bg-neutral-900 text-zinc-300 border border-neutral-800 prose-invert text-left" {...props} />
+        <th className="px-4 py-2 bg-neutral-900 text-zinc-200 font-normal border border-neutral-800 prose-invert text-left" {...props} />
     ),
     td: ({ node, ...props }) => (
-        <td className="px-4 py-1.5 bg-neutral-900/60 border border-neutral-800 prose-invert" {...props} />
+        <td className="px-4 py-1.5 bg-neutral-900/40 text-zinc-100 border border-neutral-800 prose-invert" {...props} />
     ),
     strong: ({ node, ...props }) => (
         <strong className="prose-strong:font-bold md:tracking-normal tracking-tighter prose-invert" {...props} />

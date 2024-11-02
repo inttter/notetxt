@@ -1,6 +1,6 @@
 const commands = {
     table: {
-        content: `| Header 1 | Header 2 |\n| -------- | -------- |\n| Row 1    | Row 1   |\n| Row 2    | Row 2   |`,
+        content: `| Header 1 | Header 2 |\n|---------|---------|\n| Row 1    | Row 1    |\n| Row 2    | Row 2    |`,
         aliases: ['tb'],
     },
     list: {
