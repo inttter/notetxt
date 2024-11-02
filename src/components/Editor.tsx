@@ -16,6 +16,7 @@ import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
 import { FaMarkdown } from 'react-icons/fa';
+import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/router';
 
 export default function Editor() {
@@ -31,7 +32,7 @@ export default function Editor() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
-  const [formattedDate, setFormattedDate] = useState('');
+  const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -614,7 +615,12 @@ export default function Editor() {
   };
 
   useEffect(() => {
-    setFormattedDate(formatCreationDate(currentNoteId));
+    if (currentNoteId && Number(currentNoteId) > 0) {
+      const date = formatCreationDate(currentNoteId);
+      setFormattedDate(date);
+    } else {
+      setFormattedDate(null);
+    }
   }, [currentNoteId]);
 
   return (
@@ -667,7 +673,7 @@ export default function Editor() {
               {/* Note Title */}
               <div className="flex justify-between items-center">
                 <span className="text-sm text-stone-300/85 truncate overflow-ellipsis" aria-label="Note Name">
-                  {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? 'Note Name' : 'New Note')}
+                  {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? <Loader2 size={15} className={`text-stone-300/85 animate-spin mb-1`} /> : 'New Note')}
                 </span>
                 {/* Markdown Preview Mode Indicator */}
                 {isPreviewMode && (
@@ -694,7 +700,7 @@ export default function Editor() {
               {/* Note Creation Date */}
               <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5" aria-label="Note Creation Date">
                 {/* Note ID's are stored as their time created in Unix, so we can use that here */}
-                {formattedDate}
+                {formattedDate || <Loader2 size={12} className={`mr-1 text-stone-00 animate-spin`} />}
               </div>
             </motion.div>
             {/* Editor/Textarea */}
