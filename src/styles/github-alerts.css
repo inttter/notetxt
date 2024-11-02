@@ -12,17 +12,18 @@
     padding: 0.5rem 1rem;
     margin-top: 16px;
     margin-bottom: 16px;
-    border-left: 0.1em solid var(--github-alert-default-color);
     width: 100%;
     box-sizing: border-box;
-    border-radius: 6px;
+    border-radius: 0.5rem;
     color: var(--github-alert-text); 
+    border-left-color: 2px solid #262626;
+    @apply box-border text-sm leading-[1.35rem] rounded-lg border border-neutral-800;
 }
 
 /* Use a smaller font size on mobile */
 @media (max-width: 768px) {
     .markdown-alert {
-        font-size: 0.875rem;
+        @apply text-[12.5px];
     }
 }
 
@@ -35,38 +36,40 @@
 }
 
 .markdown-alert-note {
-    border-left-color: var(--github-alert-note-color);
     background-color: rgba(47, 129, 247, 0.1);
 }
 
 .markdown-alert-tip {
-    border-left-color: var(--github-alert-tip-color);
     background-color: rgba(26, 127, 55, 0.1);
 }
 
 .markdown-alert-important {
-    border-left-color: var(--github-alert-important-color);
     background-color: rgba(130, 80, 223, 0.1);
 }
 
 .markdown-alert-warning {
-    border-left-color: var(--github-alert-warning-color);
     background-color: rgba(240, 188, 69, 0.1);
 }
 
 .markdown-alert-caution {
-    border-left-color: var(--github-alert-caution-color);
     background-color: rgba(248, 81, 73, 0.1);
 }
 
 .markdown-alert-title {
     display: flex;
-    margin-bottom: -12px;
+    margin-bottom: -8px;
     align-items: center;
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    .markdown-alert-title {
+        @apply text-[13px];
+    }
 }
 
 .markdown-alert-title>svg {
-    margin-right: 8px;
+    margin-right: 7px;
 }
 
 .markdown-alert-note .markdown-alert-title {
