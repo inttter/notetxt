@@ -370,16 +370,21 @@ export default function Editor() {
     });
   };
 
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && /\.(txt|md)$/i.test(file.name)) {
-      readFileContents(file);
-      event.target.value = ''; // Clear the file input value
-    } else {
-      toast.error('File not supported!', {
-        description: 'Please select a \'.txt\' or \'.md\' file.'
-      });
+  const handleFileInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) return;
+  
+    for (const file of files) {
+      if (/\.(txt|md)$/i.test(file.name)) {
+        await readFileContents(file);
+        await delay(150);
+      } else {
+        toast.error('File not supported!', {
+          description: 'Please select a \'.txt\' or \'.md\' file.',
+        });
+      }
     }
+    event.target.value = ''; // Clear the file input value
   };
 
   const handleUpdateNoteTags = async (noteId: string, updatedTags: string[]) => {
@@ -395,23 +400,28 @@ export default function Editor() {
     }
   };
 
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
   const readFileContents = async (file: File) => {
     const reader = new FileReader();
     reader.onload = async (e) => {
       try {
+        await delay(150);
+  
         const fileContent = e.target?.result as string;
         const fileNameWithExtension = file.name;
         const fileName = fileNameWithExtension.replace(/\.[^/.]+$/, '');
         const fileExtension = fileNameWithExtension.split('.').pop();
   
-        const id = `${Date.now()}`;
+        const currentTimestamp = Date.now();
+        const id = `${currentTimestamp}`;
         const newNote: Note = { id, name: fileName, content: fileContent };
         await db.notes.add(newNote);
         setNotes(prevNotes => ({ ...prevNotes, [id]: newNote }));
         setCurrentNoteId(id);
         setFileName(fileName);
         setFileType(`.${fileExtension}`);
-        toast.success('Successfully imported contents!');
+        toast.success(`Successfully imported "${fileName}"!`);
       } catch (error) {
         console.error('Failed to import file contents:', error);
         toast.error('Failed to import contents.');
@@ -459,20 +469,18 @@ export default function Editor() {
     return fileName.replace(/[<>:"\/\\|?*]/g, '-');
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(false);
-
-    const file = event.dataTransfer.files[0];
-    if (file) {
-      const fileName = file.name;
-      const extension = fileName.split('.').pop();
-
-      if (extension && (extension.toLowerCase() === 'txt' || extension.toLowerCase() === 'md')) {
-        readFileContents(file);
+  
+    const files = Array.from(event.dataTransfer.files);
+    for (const file of files) {
+      if (/\.(txt|md)$/i.test(file.name)) {
+        await readFileContents(file);
+        await delay(150);
       } else {
-        toast.error('File not supported!', {
-          description: 'Please drag in a \'.txt\' or \'.md\' file.'
+        toast.error(`File '${file.name}' not supported!`, {
+          description: 'Please drag in a \'.txt\' or \'.md\' file.',
         });
       }
     }

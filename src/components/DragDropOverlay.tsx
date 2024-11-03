@@ -2,8 +2,8 @@ import React from 'react';
 import { FileDown, Plus } from 'lucide-react';
 
 const DragDropOverlay = ({ isDraggingOver }) => {
-  const dragDropTitle = "Drop to import the file's contents";
-  const dragDropDescription = "This will automatically create a new note once you drop it in. Make sure you are dropping in a supported file format.";
+  const dragDropTitle = "Drop to import contents of file(s)";
+  const dragDropDescription = "This will automatically create a new note once you drop it in, one per file. Make sure you are dropping in a supported file format.";
 
   return (
     <div

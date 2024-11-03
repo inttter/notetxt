@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const Badge = ({ link = '/editor?markdown=true' }) => {
+const Badge = ({ link = '' }) => {
   const isExternalLink = link.startsWith('http');
   
   const content = (
@@ -18,7 +18,7 @@ const Badge = ({ link = '/editor?markdown=true' }) => {
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-        ✨ Try the revamped Markdown previewing experience!
+        📁 Dragging and dropping multiple files at once is now supported!
       </div>
       {link && 
         <ArrowRight size={15} className="ml-1 text-zinc-100/70 group-hover:translate-x-0.5 duration-300" />
