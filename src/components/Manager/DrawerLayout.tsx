@@ -212,7 +212,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
           <Drawer.Content
-            className="bg-dark border border-neutral-800 rounded-2xl flex flex-col h-full max-w-xs md:max-w-md fixed bottom-0 right-0 z-50 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
+            className="bg-dark border border-neutral-800 rounded-2xl flex flex-col h-full max-w-xs md:max-w-md fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
             style={{ width: '450px', outline: 'none', boxShadow: 'none' }}
           >
             <div className="sticky top-0 z-50 bg-dark p-4">
