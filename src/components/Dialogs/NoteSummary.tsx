@@ -1,82 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
-import { X } from 'lucide-react';
-import { toast } from 'sonner';
 import NumberFlow from '@number-flow/react';
+import { motion } from 'framer-motion';
+import { X } from 'lucide-react';
 
 export default function NoteSummary({ text, isDialogOpen, onClose }) {
   const [wordCount, setWordCount] = useState(0);
   const [letterCount, setLetterCount] = useState(0);
-  const [lineCount, setLineCount] = useState(0);
+  const [longestWord, setLongestWord] = useState('');
   const [paragraphCount, setParagraphCount] = useState(0);
   const [sentenceCount, setSentenceCount] = useState(0);
   const [averageReadingTime, setAverageReadingTime] = useState(0);
 
   const noteSummaryTitle = 'Note Summary';
-  const noteSummaryDescription = 'This shows various metrics about the note which is currently selected. Click on a metric to see how it is calculated.';
+  const noteSummaryDescription = 'This shows various metrics about the note which is currently selected.';
+
+  const cleanText = (text) => {
+    const cleaned = text
+      .replace(/!\[.*?\]\(.*?\)/g, '')  // Remove image markdown
+      .replace(/\[.*?\]\(.*?\)/g, '')   // Remove link markdown
+      .replace(/<[^>]*>/g, '')          // Remove HTML tags
+      .replace(/[^\w\s]|_/g, ' ')       // Replace all punctuation and symbols
+  
+    return cleaned;
+  };
 
   useEffect(() => {
     if (isDialogOpen) {
+      const characterCount = text.length;
+      setLetterCount(characterCount);
+
       const words = text.trim().split(/\s+/).filter(word => word.length > 0);
       const numWords = words.length;
       setWordCount(numWords);
 
-      const characterCount = text.length;
-      setLetterCount(characterCount);
-
-      setLineCount(text.split(/\r\n|\r|\n/).length);
       setParagraphCount(text.split(/\n\s*\n/).filter(paragraph => paragraph.trim().length > 0).length);
 
+      const sentenceDelimiterRegex = /[.!?]+\s/;
+      const sentences = text.split(sentenceDelimiterRegex).filter(sentence => sentence.trim().length > 0);
+      const numSentences = sentences.length;
+      setSentenceCount(numSentences);
+
+      const cleanedWords = cleanText(text).trim().split(/\s+/).filter(word => word.length > 0);
+      const longest = cleanedWords.length > 0 
+        ? cleanedWords.reduce((longest, word) => word.length > longest.length ? word : longest, '')
+        : 'No words found';
+      setLongestWord(longest);
+      
       const calculateAverageReadingTime = (wordCount) => {
         // Average reading speed is 200wpm
         const wordsPerMinute = 200;
         return Math.ceil(wordCount / wordsPerMinute);
       };
 
-      setAverageReadingTime(calculateAverageReadingTime(numWords));
-
-      const sentenceDelimiterRegex = /[.!?]+\s/;
-      const sentences = text.split(sentenceDelimiterRegex).filter(sentence => sentence.trim().length > 0);
-      const numSentences = sentences.length;
-      setSentenceCount(numSentences);
+      const readingTime = calculateAverageReadingTime(numWords);
+      setAverageReadingTime(readingTime);
     }
   }, [text, isDialogOpen]);
 
   const summaryItems = [
-    { title: 'Letters', value: letterCount, description: 'The total number of letters in the note, also including any spaces.' },
-    { title: 'Words', value: wordCount, description: 'The total number of words in the note, separated by at least one space.' },
-    { title: 'Lines', value: lineCount, description: 'The total number of lines in the note, including empty lines.' },
-    { title: 'Paragraphs', value: paragraphCount, description: 'The total number of paragraphs in the note, separated by at least one blank line.' },
-    { title: 'Sentences', value: sentenceCount, description: 'The total number of sentences in the note, separated by sentence-ending punctuation.' },
-    { title: 'Time to Read', value: averageReadingTime, description: 'The estimated time it takes (in minutes) to read the note at a speed of 200 words per minute.' },
+    { title: 'Letters', value: letterCount, description: 'Counts every character.' },
+    { title: 'Words', value: wordCount, description: 'Separated by spaces.' },
+    { title: 'Paragraphs', value: paragraphCount, description: 'Separated only by blank lines.' },
+    { title: 'Sentences', value: sentenceCount, description: 'Ends with ending punctuation.' },
+    { title: 'Longest Word', value: longestWord, description: 'Word with the most characters.', isLongestWord: true },
+    { title: 'Time To Read', value: averageReadingTime, description: 'At ~200 words per minute.', isTimeToRead: true },
   ];
-
-  const handleShowToast = (title, description) => {
-    toast(
-      <div className="toast-container">
-        <div className="toast-title" aria-label="Toast Title">
-          {title}
-        </div>
-        <div className="toast-description" aria-label="Toast Description">
-          {description}
-        </div>
-      </div>,
-      {
-        duration: 2000,
-        position: 'bottom-center',
-        closeButton: false,
-        unstyled: true,
-      }
-    );
-  };
 
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50 px-6 md:px-0 selection:text-zinc-300 selection:bg-neutral-700">
-          {/* Prevent clicking on the background around the dialog to exit it, as this behaviour also occurs when trying to click on the toasts that show up with the label and description, see https://www.radix-ui.com/primitives/docs/components/dialog */}
-          <Dialog.Content asChild onInteractOutside={(e) => e.preventDefault()}>
+          <Dialog.Content asChild>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1.0 }}
@@ -91,30 +86,35 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                 {noteSummaryDescription}
               </Dialog.Description>
               <div className="grid grid-cols-2 gap-4" aria-label="Note Summary Item">
-                {summaryItems.map(({ title, value, description }) => (
+                {summaryItems.map(({ title, value, description, isLongestWord }) => (
                   <div
                     key={title}
-                    className="summary-item shadow-lg shadow-neutral-950 bg-neutral-900 hover:bg-neutral-800/70 border border-neutral-700/60 hover:border-neutral-700 p-3 rounded-lg cursor-pointer duration-300"
-                    tabIndex={0}
-                    onClick={() => handleShowToast(title, description)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleShowToast(title, description);
-                      }
-                    }}
+                    className="summary-item shadow-2xl shadow-neutral-950 bg-neutral-900 border border-neutral-700/60 p-3 rounded-lg duration-300"
                     aria-label={title}
-                    role="button"
                   >
                     <div className="summary-item-content">
-                      <div className="text-sm font-medium text-zinc-300" aria-label="Note Summary Item Title">
+                      <div className="text-sm font-medium text-zinc-200" aria-label="Note Summary Item Title">
                         {title}
                       </div>
-                      <div className="text-lg tracking-tighter text-zinc-200 code truncate" aria-label="Note Summary Item Value">
-                        <NumberFlow
-                          value={value}
-                          format={{ notation: 'compact' }}
-                          willChange={true}
-                        />
+                      <div className="text-xs text-stone-400 mb-0.5" aria-label="Note Summary Item Description">
+                        {description}
+                      </div>
+                      <div className="text-lg text-zinc-200 truncate" aria-label="Note Summary Item Value">
+                        {isLongestWord ? (
+                          <span>{value}</span>
+                        ) : title === 'Time to Read' ? (
+                          <span>{value} {value === 1 ? 'minute' : 'minutes'}</span>
+                          ) : (
+                          <NumberFlow
+                            value={
+                              typeof value === 'string'
+                                ? parseFloat(value) || 0
+                                : value
+                            }
+                            format={{ notation: 'standard' }}
+                            willChange={true}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
