@@ -86,7 +86,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                 {noteSummaryDescription}
               </Dialog.Description>
               <div className="grid grid-cols-2 gap-4" aria-label="Note Summary Item">
-                {summaryItems.map(({ title, value, description, isLongestWord }) => (
+                {summaryItems.map(({ title, value, description, isLongestWord, isTimeToRead }) => (
                   <div
                     key={title}
                     className="summary-item shadow-2xl shadow-neutral-950 bg-neutral-900 border border-neutral-700/60 p-3 rounded-lg duration-300"
@@ -102,7 +102,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                       <div className="text-lg text-zinc-200 truncate" aria-label="Note Summary Item Value">
                         {isLongestWord ? (
                           <span>{value}</span>
-                        ) : title === 'Time to Read' ? (
+                        ) : isTimeToRead ? (
                           <span>{value} {value === 1 ? 'minute' : 'minutes'}</span>
                           ) : (
                           <NumberFlow
