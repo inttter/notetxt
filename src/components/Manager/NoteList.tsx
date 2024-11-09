@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { Pencil, Download, Trash2, X, Plus } from 'lucide-react';
-import { MdOutlineTag } from "react-icons/md";
+import { Tags, Pencil, Download, Trash2, X, Plus } from 'lucide-react';
 
 const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
@@ -82,7 +81,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
               onAddNote();
             }}
           >
-            <Plus size={20} className="mr-0.5" /> Click to create a new note
+            <Plus size={18} className="mr-0.5" /> Create a new note
           </span>
         </div>
       ) : (
@@ -115,32 +114,36 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     data-vaul-no-drag
                   />
                 ) : (
-                  <span className="block truncate overflow-ellipsis text-sm md:text-base w-82">
+                  <span className={`block truncate overflow-ellipsis font-medium md:font-normal text-sm md:text-base w-82 duration-300 ${
+                    currentNoteId === note.id ? 'text-stone-200' : 'text-zinc-300'
+                  }`}>
                     {note.name || 'New Note'}
                   </span>
                 )}
-                <span className="block truncate overflow-ellipsis text-[11px] md:text-xs md:mt-0 -mt-0.5 text-stone-400/80 mb-1">
+                <span className={`block truncate overflow-ellipsis text-[11px] md:text-xs md:mt-0 -mt-0.5  mb-0.5 md:mb-1 duration-300 ${
+                    currentNoteId === note.id ? 'text-stone-400' : 'text-stone-400/80'
+                  }`}>
                   {formattedDates[note.id]}
                 </span>
                 <span
                   className={`block text-xs truncate overflow-ellipsis duration-300 ${
-                    currentNoteId === note.id ? 'text-stone-400' : 'text-stone-500'
+                    currentNoteId === note.id ? 'text-stone-400/90' : 'text-stone-400/70'
                   }`}
                 >
-                  {note.content ? note.content.substring(0, 55) + '...' : ''}
+                  {note.content || ''}
                 </span>
               </div>
               <div className="flex items-center space-x-0.5 ml-1" aria-label="Note Controls">
                 <button
-                  className="text-stone-500 hover:text-stone-400 duration-300"
+                  className="text-stone-500 hover:text-stone-300 duration-300"
                   aria-label="Edit Tags"
                   title="Edit Tags"
                   onClick={toggleRemoveTags}
                 >
-                  <MdOutlineTag size={20} />
+                  <Tags size={20} />
                 </button>
                 <button
-                  className="text-stone-500 hover:text-stone-400 duration-300"
+                  className="text-stone-500 hover:text-stone-300 duration-300"
                   aria-label="Rename Note"
                   title="Rename Note"
                   onClick={(e) => {
@@ -151,7 +154,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <Pencil size={20} />
                 </button>
                 <button
-                  className="text-stone-500 hover:text-stone-400 duration-300"
+                  className="text-stone-500 hover:text-stone-300 duration-300"
                   aria-label="Download Note"
                   title="Download Note"
                   onClick={(e) => {
@@ -162,7 +165,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <Download size={20} />
                 </button>
                 <button
-                  className="text-stone-500 hover:text-stone-400 duration-300"
+                  className="text-stone-500 hover:text-stone-300 duration-300"
                   aria-label="Delete Note"
                   title="Delete Note"
                   onClick={(e) => {
@@ -189,12 +192,12 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     {/* Only show the X icon on the currently selected note when button is clicked */}
                     {showRemoveTags && currentNoteId === note.id && (
                       <button
-                        className="ml-1 text-zinc-100 hover:text-zinc-300 duration-300"
+                        className="ml-1 -mr-0.5 p-[0.8px] bg-neutral-800 hover:bg-neutral-950 rounded-md border border-neutral-700 hover:border-neutral-500 text-zinc-300 hover:text-zinc-100 duration-300"
                         aria-label="Remove Tag"
                         title="Remove Tag"
                         onClick={(e) => handleRemoveTag(e, note.id, tag)}
                       >
-                        <X size={13} />
+                        <X size={14} />
                       </button>
                     )}
                   </div>

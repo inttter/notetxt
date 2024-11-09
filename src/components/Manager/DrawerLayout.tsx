@@ -212,7 +212,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
           <Drawer.Content
-            className="bg-dark border border-neutral-800 rounded-2xl flex flex-col h-full max-w-xs md:max-w-md fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
+            className="bg-dark border border-neutral-800 rounded-2xl flex flex-col h-full max-w-xs sm:max-w-sm md:max-w-md fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
             style={{ width: '450px', outline: 'none', boxShadow: 'none' }}
           >
             <div className="sticky top-0 z-50 bg-dark p-4">
@@ -220,20 +220,20 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 <LibraryBig size={20} className="mr-1" />
                 {drawerTitle}
               </Drawer.Title>
-              <div className="text-stone-500 text-xs md:text-sm mb-3">
+              <div className="text-stone-400/80 text-xs md:text-sm mb-3">
                 {drawerDescription}
               </div>
               {/* Search Bar */}
-              <div className="mb-3 relative">
+              <div className="mb-3 relative flex items-center">
                 <input
                   type="text"
-                  placeholder="Search notes..."
+                  placeholder="Search for notes or tags..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-600/70 duration-300"
                   data-vaul-no-drag
                 />
-                <Search size={18} className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-400" />
+                <Search size={18} className="absolute left-3 text-stone-400" />
               </div>
               <div className="flex flex-wrap gap-2">
                 {visibleTags.map(([tag, count]) => (
@@ -245,8 +245,8 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   >
                     {tag}
                     <span
-                      className="ml-1 text-stone-400 code tracking-tighter"
-                      aria-label="Tag Count"
+                      className="ml-1 text-stone-400 font-mono tracking-tighter"
+                      aria-label="Tag Count Number"
                     >
                       {count}
                     </span>
@@ -255,7 +255,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 {tagCounts.length > 3 && (
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="bg-neutral-900 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-stone-400 hover:text-stone-300 text-xs duration-300"
+                    className="bg-neutral-900 hover:bg-neutral-800/80 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-stone-400 hover:text-stone-200 text-xs duration-300"
                     aria-label="Show More/Less Tags Button"
                     data-vaul-no-drag
                   >
