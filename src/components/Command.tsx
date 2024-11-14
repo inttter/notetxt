@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FaGithub } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Command as CmdCommand } from 'cmdk';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FaGithub, FaMarkdown } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { CommandDialog, CommandInput, CommandList, CommandGroup, CommandItem, CommandEmpty, CommandShortcut } from "@/components/ui/Command";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 import tips from '@/data/tips.json';
-import { FaMarkdown } from 'react-icons/fa';
 import { 
-    Command, Search,
-    FolderOpen, Plus, Copy, Download, ScrollText, 
-    Home, Lock, Heart, BookOpenText, 
-    Lightbulb 
-  } from 'lucide-react';
+  Search, FolderOpen, Plus, Copy, Download, ScrollText, 
+  Home, Lock, Heart, BookOpenText, Lightbulb, Command as CommandIcon
+} from 'lucide-react';
 
 const MenuHeader = ({ title }) => (
   <div className="p-2 text-base text-stone-500 ml-0.5">
@@ -27,25 +25,23 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
   };
 
   return (
-    <CmdCommand.Item
+    <CommandItem
       key={id}
       onSelect={handleSelect}
       className="p-2 cursor-pointer border-2 border-transparent hover:bg-neutral-900 hover:border-neutral-800 hover:shadow-lg rounded-lg flex items-center group duration-300"
     >
-      <span className="mr-2 text-stone-500 group-hover:text-stone-400 duration-300">
+      <span className="mr-2 text-stone-400/80 group-hover:text-stone-400 duration-300">
         {icon}
       </span>
-      <span className="text-zinc-300 group-hover:text-zinc-100 duration-300">
+      <span className="text-zinc-00 group-hover:text-zinc-100 duration-300">
         {name}
       </span>
       {keybind && (
-        <div className="ml-auto flex items-center">
-          <div className="px-2 py-1 text-xs text-stone-500 group-hover:text-stone-400 duration-300 code">
-            {keybind}
-          </div>
-        </div>
+        <CommandShortcut className="ml-auto flex items-center">
+          {keybind}
+        </CommandShortcut>
       )}
-    </CmdCommand.Item>
+    </CommandItem>
   );
 };
 
@@ -74,106 +70,73 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu }) => {
       const randomIndex = Math.floor(Math.random() * tips.length);
       setRandomTip(tips[randomIndex]);
     };
-  
+
     pickRandomTip();
-  
+
     const intervalId = setInterval(pickRandomTip, 20000);
-  
+
     return () => clearInterval(intervalId);
   }, []);
 
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        toggleMenu(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, toggleMenu]);
-
   return (
-    <CmdCommand.Dialog open={isOpen} onOpenChange={toggleMenu} label="Command Menu" className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 selection:bg-neutral-700 selection:text-zinc-300">
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
-            transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
-            className="bg-dark border border-neutral-800 mx-5 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-full relative"
-            ref={menuRef}
-          >
-            <div className="relative">
-              <CmdCommand.Input
-                autoFocus
-                placeholder="Search for commands..."
-                className="w-full p-3 pl-10 bg-dark placeholder:text-stone-600 text-zinc-100 outline-none tracking-tight border-b-2 border-neutral-800 rounded-t-xl"
-              />
-              <div className="absolute inset-y-0 left-0.5 pl-2 flex items-center pointer-events-none">
-                <Search size={20} className="text-stone-500 ml-1 mb-0.5" />
-              </div>
-            </div>
-            <div className="max-h-[520px] overflow-y-auto textarea-custom-scroll rounded-b-xl">
-              <CmdCommand.List className="p-2 rounded-b-xl pb-14">
-                <CmdCommand.Group>
-                  <MenuHeader title="Controls" />
-                  {controls.map((command) => (
-                    <MenuItem
-                      key={command.id}
-                      id={command.id}
-                      icon={command.icon}
-                      name={command.name}
-                      keybind={command.keybind}
-                      url={command.url}  // DON'T REMOVE
-                      onSelect={() => {
-                        onCommandSelect(command.id);
-                        toggleMenu(false);
-                      }}
-                    />
-                  ))}
-                </CmdCommand.Group>
-                <CmdCommand.Group>
-                  <MenuHeader title="Links" />
-                  {links.map((link) => (
-                    <MenuItem
-                      key={link.id}
-                      id={link.id}
-                      icon={link.icon}
-                      name={link.name}
-                      keybind={link.keybind}
-                      url={link.url}
-                      onSelect={() => {}} // DON'T REMOVE
-                    />
-                  ))}
-                </CmdCommand.Group>
-                <CmdCommand.Empty className="p-2 text-stone-400 text-center flex justify-center items-center">
-                  No results found
-                </CmdCommand.Empty>
-              </CmdCommand.List>
-            </div>
-            <div className="absolute bottom-0 w-full p-3 bg-neutral-900/80 backdrop-blur-sm border-t border-neutral-700/60 text-stone-300 text-xs md:text-sm text-center rounded-b-xl flex items-center justify-center">
-              <Lightbulb size={15} className="mr-1 text-amber-400" /> 
-              <span className="truncate max-w-xs sm:max-w-sm">
-                {randomTip}
-              </span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </CmdCommand.Dialog>
+    <div>
+      <CommandDialog open={isOpen} onOpenChange={toggleMenu}>
+        <div className="relative bg-dark">
+          <CommandInput
+            autoFocus
+            placeholder="Search for commands..."
+            className="w-full bg-dark placeholder:text-stone-600 text-zinc-100 outline-none tracking-tight border-b-2 border-neutral-800 rounded-t-xl"
+          />
+          <div className="absolute inset-y-0 left-0.5 pl-2 flex items-center pointer-events-none">
+            <Search size={20} className="text-stone-500 ml-1 mb-0.5" />
+          </div>
+        </div>
+        <div className="max-h-[520px] overflow-y-auto textarea-custom-scroll rounded-b-xl bg-dark">
+          <CommandList className="p-2 rounded-b-xl pb-14">
+            <CommandGroup heading="Controls">
+              {controls.map((command) => (
+                <MenuItem
+                  key={command.id}
+                  id={command.id}
+                  icon={command.icon}
+                  name={command.name}
+                  keybind={command.keybind}
+                  url={command.url}
+                  onSelect={() => {
+                    onCommandSelect(command.id);
+                    toggleMenu(false);
+                  }}
+                />
+              ))}
+            </CommandGroup>
+            <CommandGroup heading="Links">
+              {links.map((link) => (
+                <MenuItem
+                  key={link.id}
+                  id={link.id}
+                  icon={link.icon}
+                  name={link.name}
+                  keybind={link.keybind}
+                  url={link.url}
+                  onSelect={() => {}}
+                />
+              ))}
+            </CommandGroup>
+            <CommandEmpty className="p-2 text-stone-400 text-center flex justify-center items-center">
+              No results found
+            </CommandEmpty>
+          </CommandList>
+        </div>
+        <div className="absolute bottom-0 w-full p-3 bg-neutral-900/80 backdrop-blur-sm border-t border-neutral-700/60 text-stone-300 text-xs md:text-sm text-center rounded-b-xl flex items-center justify-center">
+          <Lightbulb size={15} className="mr-1 text-amber-400" /> 
+          <span className="truncate max-w-xs sm:max-w-sm">
+            {randomTip}
+          </span>
+        </div>
+      </CommandDialog>
+    </div>
   );
-};
+}
 
 const CommandMenuButton = ({ openCommandMenu }) => {
   const [commandMenuOpen, setCommandMenuOpen] = useState(false);
@@ -199,21 +162,29 @@ const CommandMenuButton = ({ openCommandMenu }) => {
   }, [handleKeyDown]);
 
   return (
-    <div className="flex mb-4 px-5 mx-0.5 rounded-lg">
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        onClick={toggleCommandMenu}
-        className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
-        aria-label="Button To Open Command Menu"
-        title="Command Menu"
-      >
-        <Command size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
-      </motion.button>
-
-      <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
-    </div>
+    <TooltipProvider delayDuration={50}>
+      <div className="flex mb-4 px-5 mx-0.5 rounded-lg">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              onClick={toggleCommandMenu}
+              className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
+              aria-label="Button To Open Command Menu"
+            >
+              <CommandIcon size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+            </motion.button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" align="center">
+            Command Menu
+          </TooltipContent>
+        </Tooltip>
+        
+        <CommandMenu isOpen={commandMenuOpen} toggleMenu={toggleCommandMenu} onCommandSelect={openCommandMenu} />
+      </div>
+    </TooltipProvider>
   );
 };
 

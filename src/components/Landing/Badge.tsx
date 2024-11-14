@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const Badge = ({ link = '' }) => {
+const LandingBadge = ({ link = '' }) => {
   const isExternalLink = link.startsWith('http');
   
   const content = (
@@ -14,7 +14,7 @@ const Badge = ({ link = '' }) => {
         rounded-lg px-3 py-1 md:py-1.5 text-zinc-300 text-xs md:text-sm leading-6 bg-yellow-500/10 ring-1 ring-yellow-500/20 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300 group
         ${link ? 'hover:ring-yellow-500/30 hover:text-zinc-100' : 'ring-yellow-500/20'}
       `}
-      role="alert" 
+      role="alert"
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
@@ -47,4 +47,4 @@ const Badge = ({ link = '' }) => {
   );
 };
 
-export default Badge;
+export default LandingBadge;

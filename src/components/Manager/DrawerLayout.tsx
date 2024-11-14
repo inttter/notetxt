@@ -12,6 +12,7 @@ import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
 import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 
 const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, formatCreationDate }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -81,7 +82,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
 
   const visibleTags = showAll ? tagCounts : tagCounts.slice(0, 3);
 
-  const handleSortChange = (event) => setSortCriteria(event.target.dataset.value);
+  const handleSortChange = (value) => setSortCriteria(value);
 
   useEffect(() => {
     const currentIndex = sortedNotes.findIndex(note => note.id === currentNoteId);
@@ -195,18 +196,28 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   return (
     <>
       <Drawer.Root direction="right" open={isDrawerOpen} onOpenChange={setIsDrawerOpen} repositionInputs={false}>
-        <Drawer.Trigger asChild>
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
-            aria-label="Button To Open Note Manager Menu"
-            title="Note Manager"
-          >
-            <LibraryBig size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
-          </motion.button>
-        </Drawer.Trigger>
+        <TooltipProvider delayDuration={50}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <Drawer.Trigger asChild>
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
+                    aria-label="Button To Open Note Manager Menu"
+                  >
+                    <LibraryBig size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+                  </motion.button>
+                </Drawer.Trigger>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" align="center">
+              Note Manager
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
