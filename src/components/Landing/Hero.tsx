@@ -33,7 +33,7 @@ const HeroSection = () => {
         <Link 
           href="/editor" 
           onClick={() => setIsLoading(true)}
-          className={`px-3 py-2 text-zinc-300 bg-neutral-800/70 hover:bg-neutral-700/40 text-base border border-neutral-700/70 ${isLoading ? 'bg-gray-300 opacity-70 cursor-not-allowed' : 'hover:bg-opacity-60 hover:border-neutral-600'} active:border-neutral-500 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group`}
+          className={`px-3 py-2 text-zinc-300 bg-neutral-800/70 hover:bg-neutral-700/45 text-base font-medium border border-neutral-700/70 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-60 hover:border-neutral-600'} active:border-neutral-500 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group`}
           aria-label="Open Editor Button"
         >
           {isLoading ? (

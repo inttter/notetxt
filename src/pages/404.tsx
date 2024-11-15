@@ -1,8 +1,9 @@
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Head from 'next/head';
+import { Button } from '@/components/ui/Button';
+import { ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const pageTitle404 = '404';
 const pageDescription404 = `Unfortunately, you won't stumble upon your notes on this page. Check the link you entered, or use the button below to go to the Editor, where your notes actually are.`;
@@ -31,7 +32,7 @@ export default function Custom404() {
             initial={{ opacity: 0.01, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
-            className="text-stone-400/90 text-base max-w-lg pt-1 pb-3 text-center"
+            className="text-stone-400 text-base max-w-lg pt-1 pb-3 text-center"
             aria-label="404 Page Description"
           >
             {pageDescription404}
@@ -40,16 +41,23 @@ export default function Custom404() {
           <motion.div
             initial={{ opacity: 0.01, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
             className="w-full max-w-lg"
           >
-            <Link 
-              href="/editor" 
-              className="btn text-zinc-300 bg-neutral-800/70 hover:bg-neutral-800/50 text-base border border-neutral-700/70 hover:border-neutral-600/80 active:border-neutral-500/70 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center justify-center group"
-              passHref
-            >
-              <ArrowLeft size={17} className="mr-1 group-hover:-translate-x-0.5 duration-300" /> 
-              Go to the Editor
+            <Link href="/editor" passHref>
+              <Button
+                asChild
+                className="w-full text-base flex justify-center items-center"
+              >
+                <motion.span
+                  initial={{ x: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="flex items-center"
+                >
+                  <ArrowLeft size={17} />
+                  Go to the Editor
+                </motion.span>
+              </Button>
             </Link>
           </motion.div>
 

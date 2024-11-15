@@ -1,10 +1,11 @@
 import React from 'react';
-import { ArrowLeft, FileLock } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Head from 'next/head';
 import privacyData from '@/data/privacyData.json';
+import { Button } from '@/components/ui/Button';
+import { ArrowLeft, FileLock } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const privacyTitle = 'Privacy Policy';
 
@@ -58,29 +59,24 @@ export default function Privacy() {
           transition={{ duration: 0.5, delay: 0.2 }} 
           className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-2 mt-6 max-w-xl"
         >
-          {/* Go Back */}
-          <motion.button
-            initial={{ opacity: 0.01 }}
-            animate={{ opacity: 1, transition: { duration: 0.5 } }}
-            className="btn w-full md:w-1/2 text-zinc-300 bg-neutral-800/70 hover:bg-neutral-800/50 text-base border border-neutral-700/70 hover:border-neutral-600/80 active:border-neutral-500/70 shadow-md shadow-neutral-950 group flex items-center justify-center"
+          <Button
+            className="w-full md:w-1/2"
             aria-label="Go Back To Last Page Button"
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft size={17} className="mr-1 group-hover:-translate-x-0.5 group-active:-translate-x-1 duration-300" /> 
+            onClick={() => (window.history.length > 2 ? window.history.back() : (window.location.href = "/"))}
+            >
+            <ArrowLeft size={17} />
             Go back
-          </motion.button>
+          </Button>
 
           {/* View Source Code */}
           <Link href="https://github.com/inttter/notetxt" target="_blank" rel="noopener noreferrer" className="w-full md:w-1/2">
-            <motion.button
-              initial={{ opacity: 0.01 }}
-              animate={{ opacity: 1, transition: { duration: 0.5 } }}
-              className="btn w-full text-zinc-300 bg-neutral-800/70 hover:bg-neutral-800/50 text-base border border-neutral-700/70 hover:border-neutral-600/80 active:border-neutral-500/70 duration-300 rounded-lg shadow-md shadow-neutral-950 group flex items-center justify-center"
+            <Button
+              className="w-full"
               aria-label="View Source Code Button"
             >
-              <FaGithub size={17} className="mr-1.5" /> 
+              <FaGithub size={17} />
               View Source Code
-            </motion.button>
+            </Button>
           </Link>
         </motion.div>
 
