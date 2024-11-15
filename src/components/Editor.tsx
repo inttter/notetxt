@@ -276,7 +276,7 @@ export default function Editor() {
         await handleAddNote();
       }, 200);
   
-      toast.success('All of your current notes have been deleted.');
+      toast.success('Successfully deleted all current notes.');
     } catch (error) {
       console.error('Failed to delete all notes:', error);
       toast.error('Failed to delete all notes.');
@@ -384,7 +384,9 @@ export default function Editor() {
         });
       }
     }
+
     event.target.value = ''; // Clear the file input value
+    setSearchQuery('');
   };
 
   const handleUpdateNoteTags = async (noteId: string, updatedTags: string[]) => {
@@ -421,20 +423,21 @@ export default function Editor() {
         setCurrentNoteId(id);
         setFileName(fileName);
         setFileType(`.${fileExtension}`);
-        toast.success(`Successfully imported "${fileName}"!`);
+        toast.success(`Successfully imported '${file.name}'!`);
       } catch (error) {
         console.error('Failed to import file contents:', error);
-        toast.error('Failed to import contents.');
+        toast.error('Failed to import file contents.');
       }
     };
     reader.readAsText(file);
+    setSearchQuery('');
   };
 
   const handleDownload = (fileName, fileType) => {
     const note = notes[currentNoteId];
     if (!note || !note.content.trim()) {
       toast.warning('Cannot download an empty note!', {
-        description: 'Please type something and then save your note.',
+        description: 'Type something and then download your note.',
       });
       return;
     }
@@ -458,7 +461,7 @@ export default function Editor() {
     if (isIOS) {
       toast.info('Check your downloads folder.', {
         description: 'Make sure you clicked \'Download\' on the alert that appeared to download the note to your device. If you didn\'t, the note did not download.',
-        duration: 5000,
+        duration: 4000,
       });
     }
 
@@ -483,6 +486,7 @@ export default function Editor() {
           description: 'Please drag in a \'.txt\' or \'.md\' file.',
         });
       }
+      setSearchQuery('');
     }
   };
 
@@ -501,19 +505,20 @@ export default function Editor() {
     const note = notes[currentNoteId];
     if (!note) {
       toast.warning('No notes to copy!', {
-        description: 'Create a note with text first to be able to copy it.',
+        description: 'Create a note with text and try again.',
       });
       return;
     }
     if (note.content.trim() === '') {
-      toast.warning('There is no content to copy!');
+      toast.warning('No content available to copy!');
       return;
     }
     try {
       copy(note.content);
-      toast.success('Note copied to your clipboard!');
+      toast.success('Copied note content to the clipboard!');
     } catch (error) {
-      toast.error('Failed to copy note to your clipboard.');
+      console.error('Failed to copy note content to the clipboard:', error)
+      toast.error('Failed to copy note content to the clipboard.');
     }
   };
 
@@ -745,7 +750,7 @@ export default function Editor() {
         </div>
       </div>
       {/* `pointer-events-auto` allows toasts to be interacted with when in something like a dialog */}
-      <Toaster className="pointer-events-auto" richColors closeButton pauseWhenPageIsHidden theme="dark" />
+      <Toaster className="pointer-events-auto" richColors closeButton theme="dark" />
       {isNoteSummaryDialogOpen && (
         <NoteSummary
           text={notes[currentNoteId]?.content || ''}
