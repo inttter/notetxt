@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 import { Tags, Pencil, Download, Trash2, X, Plus } from 'lucide-react';
-import { toast } from 'sonner';
 
 const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
@@ -27,7 +27,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
 
       // Don't allow a tag that already exists to the same note
       if (note.tags?.includes(newTag)) {
-        toast.error('This tag already exists for the current note!');
+        toast.warning('This tag already exists for the current note!');
         return;
       }
 
@@ -63,7 +63,15 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
     setShowTagInput(prev => ({ ...prev, [noteId]: !prev[noteId] }));
   };
 
-  const toggleRemoveTags = () => {
+  const handleEditTags = (e, note) => {
+    // Don't allow tags to be edited if there are no tags attached to the note
+    if (!note.tags || note.tags.length === 0) {
+      toast.warning('No tags available to edit!', {
+        description: 'Add at least one tag to this note to edit its tags.',
+      });
+      return;
+    }
+
     // Toggle the visibility of the "X" buttons on tags
     setShowRemoveTags(prev => !prev);
   };
@@ -141,7 +149,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                       <button
                         className="text-stone-500 hover:text-stone-300 duration-300"
                         aria-label="Edit Tags"
-                        onClick={toggleRemoveTags}
+                        onClick={(e) => handleEditTags(e, note)}
                       >
                         <Tags size={20} />
                       </button>
@@ -236,7 +244,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     value={newTags[note.id] || ''}
                     onChange={(e) => handleTagInputChange(note.id, e.target.value)}
                     onKeyDown={(e) => handleTagKeyDown(e, note.id)}
-                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/60 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.22rem] font-ia-quattro tracking-tight"
+                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/60 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.25rem] font-ia-quattro tracking-tight"
                     placeholder="Tag Name"
                     autoFocus
                   />
