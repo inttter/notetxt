@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'sonner';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 import { Tags, Pencil, Download, Trash2, X, Plus } from 'lucide-react';
+import { toast } from 'sonner';
 
 const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
@@ -210,7 +210,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                 {(note.tags || []).map((tag) => (
                   <div
                     key={tag}
-                    className={`flex items-center border text-xs text-yellow-400 rounded-lg px-2 py-1 truncate max-w-[140px] font-mono tracking-tighter duration-300 ${
+                    className={`flex items-center border border-neutral-700/60 px-2 py-1 max-w-[140px] rounded-lg text-yellow-400 text-xs truncate overflow-ellipsis tracking-tight duration-300 font-ia-quattro ${
                       currentNoteId === note.id ? 'bg-yellow-500/15 border-yellow-500/15' : 'bg-yellow-500/10 border-yellow-500/10'
                     } ${searchQuery && tag === searchQuery ? 'bg-yellow-500/30 border-yellow-500/30 text-yellow-300' : ''}`}
                   >
@@ -220,7 +220,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     {/* Only show the X icon on the currently selected note when button is clicked */}
                     {showRemoveTags && currentNoteId === note.id && (
                       <button
-                        className="ml-1 -mr-0.5 p-[0.8px] bg-neutral-800 hover:bg-neutral-950 rounded-md border border-neutral-700 hover:border-neutral-500 text-zinc-300 hover:text-zinc-100 duration-300"
+                        className="ml-1 -mr-0.5 px-[0.8px] bg-neutral-800 hover:bg-neutral-950 rounded-md border border-neutral-700 hover:border-neutral-500 text-zinc-300 hover:text-zinc-100 duration-300"
                         aria-label="Remove Tag"
                         title="Remove Tag"
                         onClick={(e) => handleRemoveTag(e, note.id, tag)}
@@ -236,7 +236,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     value={newTags[note.id] || ''}
                     onChange={(e) => handleTagInputChange(note.id, e.target.value)}
                     onKeyDown={(e) => handleTagKeyDown(e, note.id)}
-                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/60 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.22rem] font-mono tracking-tighter"
+                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/60 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.22rem] font-ia-quattro tracking-tight"
                     placeholder="Tag Name"
                     autoFocus
                   />
@@ -245,7 +245,9 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
-                          className="text-zinc-300 hover:text-zinc-100 text-xs rounded-lg border border-neutral-700/60 px-2 py-[0.28rem] md:py-[0.22rem] flex items-center bg-neutral-900 hover:bg-neutral-800/50 hover:border-neutral-600 duration-300"
+                          className={`text-yellow-400 hover:bg-yellow-500/25 hover:border-yellow-500/40 text-xs rounded-lg border px-2 py-[0.28rem] md:py-[0.26rem] flex items-center duration-300 ${
+                            currentNoteId === note.id ? 'bg-yellow-500/15 border-yellow-500/15' : 'bg-yellow-500/10 border-yellow-500/10'
+                          }`}
                           aria-label="Add Tag"
                           onClick={() => toggleTagInput(note.id)}
                         >
