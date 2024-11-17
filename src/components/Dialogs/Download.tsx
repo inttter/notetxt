@@ -15,18 +15,20 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
     const fetchNoteName = async () => {
       if (isOpen && currentNoteId) {
         const note: Note | undefined = await db.notes.get(currentNoteId);
-        if (note) {
+        if (note && note.name.trim().toLowerCase() !== 'new note') {
           setFileName(note.name);
+        } else {
+          setFileName('');
         }
       }
     };
-
+  
     fetchNoteName();
   }, [isOpen, currentNoteId, setFileName]);
-
+  
   const handleSave = () => {
     const defaultFileName = 'note';
-    const sanitizedFileName = fileName.trim() === '' ? defaultFileName : fileName.trim();
+    const sanitizedFileName = fileName.trim() || defaultFileName;
     onDownload(sanitizedFileName, fileType);
   };
 
@@ -48,7 +50,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
           type="text"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
+          className="w-full px-3 py-2 rounded-lg bg-neutral-900 placeholder:text-stone-500 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
           placeholder="Note Title"
         />
         <div className="flex justify-end items-center">

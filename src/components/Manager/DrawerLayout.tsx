@@ -144,7 +144,12 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   };
 
   const openDownloadDialog = (note) => {
-    setFileName(note.name || '');
+    if (note && note.name.trim().toLowerCase() !== 'new note') {
+      setFileName(note.name);
+    } else {
+      setFileName('');
+    }    
+    
     setIsDownloadDialogOpen(true);
   };
 
