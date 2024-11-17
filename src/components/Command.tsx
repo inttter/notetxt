@@ -9,12 +9,6 @@ import {
   Home, Lock, Heart, BookOpenText, Lightbulb, Command as CommandIcon
 } from 'lucide-react';
 
-const MenuHeader = ({ title }) => (
-  <div className="p-2 text-base text-stone-500 ml-0.5">
-    {title}
-  </div>
-);
-
 const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
   const handleSelect = () => {
     if (url) {
@@ -171,10 +165,10 @@ const CommandMenuButton = ({ openCommandMenu }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               onClick={toggleCommandMenu}
-              className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
-              aria-label="Button To Open Command Menu"
+              className="bg-neutral-800/40 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-700/40 hover:bg-opacity-40 duration-300 p-3 rounded-lg flex items-center group"
+              aria-label="Open Command Menu Button"
             >
-              <CommandIcon size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+              <CommandIcon size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
             </motion.button>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center">

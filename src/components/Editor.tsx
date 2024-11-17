@@ -25,10 +25,10 @@ export default function Editor() {
   const [notes, setNotes] = useState<{ [key: string]: Note }>({});
   const [currentNoteId, setCurrentNoteId] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isDownloadDialogVisible, setIsDownloadDialogVisible] = useState(false);
+  const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
-  const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
@@ -435,6 +435,8 @@ export default function Editor() {
 
   const handleDownload = (fileName, fileType) => {
     const note = notes[currentNoteId];
+
+    // Don't allow downloading notes with no content insidfe of them
     if (!note || !note.content.trim()) {
       toast.warning('Cannot download an empty note!', {
         description: 'Type something and then download your note.',
@@ -442,10 +444,22 @@ export default function Editor() {
       return;
     }
 
+    // Don't allow downloading notes which have a name >255 characters
+    if ((fileName || '').length > 255) {
+      toast.warning('File name is too long!', {
+        description: 'The file name must be 255 characters or fewer.',
+      });
+      return;
+    }
+
     const validFileTypes = ['.txt', '.md'];
     const extension = validFileTypes.includes(fileType) ? fileType : '.txt';
+  
     const sanitizedText = DOMPurify.sanitize(note.content);
-    const blob = new Blob([sanitizedText], { type: 'text/plain' });
+  
+    // Set MIME type based on file type
+    const mimeType = extension === '.md' ? 'text/markdown' : 'text/plain';
+    const blob = new Blob([sanitizedText], { type: mimeType });
 
     const defaultFileName = 'note';
     const sanitizedFileName = sanitizeFileName(fileName || defaultFileName);
@@ -465,7 +479,7 @@ export default function Editor() {
       });
     }
 
-    setModalVisible(false);
+    setIsDownloadDialogVisible(false);
   };
 
   const sanitizeFileName = (fileName) => {
@@ -532,7 +546,7 @@ export default function Editor() {
         fileInputRef.current?.click();
         break;
       case 'save':
-        setModalVisible(true);
+        setIsDownloadDialogVisible(true);
         break;
       case 'copy':
         handleCopy();
@@ -645,7 +659,7 @@ export default function Editor() {
     >
       <DragDropOverlay isDraggingOver={isDraggingOver} />
       <div className={`flex flex-row w-full mt-5 duration-300 ${isPreviewMode ? 'max-w-5xl mr-10' : 'max-w-[710px] md:mr-0 mr-10'}`}>
-        <div className="flex flex-row w-full">
+        <div className={`flex flex-row w-full ${isPreviewMode ? 'mt-4 md:mt-0' : 'mt-0'}`}>
           <Command openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
             <NoteManager
@@ -685,8 +699,8 @@ export default function Editor() {
             >
               {/* Note Title */}
               <div className="flex justify-between items-center">
-                <span className="text-sm text-stone-300/85 truncate overflow-ellipsis" aria-label="Note Name">
-                  {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? <Loader2 size={15} className={`text-stone-300/85 animate-spin mb-1`} /> : 'New Note')}
+                <span className="text-sm text-stone-200 truncate overflow-ellipsis" aria-label="Note Name">
+                  {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? <Loader2 size={15} className={`text-stone-200 animate-spin mb-1`} /> : 'New Note')}
                 </span>
                 {/* Markdown Preview Mode Indicator */}
                 {isPreviewMode && (
@@ -702,7 +716,8 @@ export default function Editor() {
                       href={mdDocsLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ml-1 text-xs text-stone-400/80 hover:text-stone-300 duration-300"
+                      className="ml-1 text-xs hover:text-stone-300 border-b border-neutral-700 hover:border-neutral-500 duration-300"
+                      title="Markdown Documentation"
                       aria-label="Markdown Documentation Link"
                     >
                       (Docs)
@@ -711,7 +726,7 @@ export default function Editor() {
                 )}
               </div>
               {/* Note Creation Date */}
-              <div className="text-xs truncate overflow-ellipsis text-stone-400/70 flex items-center mt-0.5" aria-label="Note Creation Date">
+              <div className="text-xs truncate overflow-ellipsis text-stone-400 flex items-center mt-0.5" aria-label="Note Creation Date">
                 {/* Note ID's are stored as their time created in Unix, so we can use that here */}
                 {formattedDate || <Loader2 size={12} className={`mr-1 text-stone-00 animate-spin`} />}
               </div>
@@ -727,7 +742,7 @@ export default function Editor() {
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
                 onScroll={syncScroll}
-                className={`bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-neutral-600 outline-none leading-[21.3px]
+                className={`bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-stone-500 outline-none leading-[21.5px]
                   ${isPreviewMode ? 'md:block max-w-full md:max-w-lg text-sm md:text-[15.5px] md:w-1/2 rounded-r-lg md:rounded-r-none' : 'max-w-full w-full text-sm md:text-base mx-auto'} 
                 p-4 rounded-b-lg rounded-t-none min-h-[542px] max-h-[552px] overflow-auto caret-amber-400 resize-none textarea-custom-scroll font-ia-quattro tracking-tight`}
                 aria-label="Note Content"
@@ -758,10 +773,10 @@ export default function Editor() {
           onClose={() => setNoteSummaryDialogOpen(false)}
         />
       )}
-      {isModalVisible && (
+      {isDownloadDialogVisible && (
         <Download
-          isOpen={isModalVisible}
-          onRequestClose={() => setModalVisible(false)}
+          isOpen={isDownloadDialogVisible}
+          onRequestClose={() => setIsDownloadDialogVisible(false)}
           onDownload={handleDownload}
           fileName={fileName}
           setFileName={setFileName}

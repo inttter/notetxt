@@ -210,10 +210,10 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="text-neutral-500 bg-neutral-800 bg-opacity-40 border border-neutral-800 hover:bg-neutral-700 hover:bg-opacity-40 hover:cursor-pointer duration-300 p-3 rounded-lg flex items-center group"
-                    aria-label="Button To Open Note Manager Menu"
+                    className="bg-neutral-800/40 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-700/40 hover:bg-opacity-40 duration-300 p-3 rounded-lg flex items-center group"
+                    aria-label="Open Note Manager Button"
                   >
-                    <LibraryBig size={20} className="text-stone-400 group-hover:text-stone-300 duration-300" />
+                    <LibraryBig size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
                   </motion.button>
                 </Drawer.Trigger>
               </div>
