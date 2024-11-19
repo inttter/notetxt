@@ -14,8 +14,7 @@ import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 
-const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, formatCreationDate }) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, formatCreationDate, isDrawerOpen, setIsDrawerOpen }) => {
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);

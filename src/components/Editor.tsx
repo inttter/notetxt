@@ -31,6 +31,7 @@ export default function Editor() {
   const [fileType, setFileType] = useState('.txt');
   const [searchQuery, setSearchQuery] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -557,13 +558,16 @@ export default function Editor() {
       case 'summary':
         setNoteSummaryDialogOpen(true);
         break;
+      case 'manager':
+        setIsDrawerOpen(true);
+        break;
       default:
         break;
     }
   };
 
   useEffect(() => {
-    const hotkeyList = 'ctrl+alt+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, command+alt+n, command+o, command+s, command+shift+c, command+m, command+i';
+    const hotkeyList = 'ctrl+alt+n, ctrl+o, ctrl+s, ctrl+shift+c, ctrl+m, ctrl+i, ctrl+j, command+alt+n, command+o, command+s, command+shift+c, command+m, command+i, command+j';
 
     const handler = (event: KeyboardEvent, handler: any) => {
       event.preventDefault();
@@ -592,6 +596,9 @@ export default function Editor() {
         case 'command+i':
           handleCommandSelect('summary');
           break;
+        case 'ctrl+j':
+        case 'command+j':
+          handleCommandSelect('manager');
         default:
           break;
       }
@@ -676,6 +683,8 @@ export default function Editor() {
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               formatCreationDate={formatCreationDate}
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
             />
           </div>
         </div>
