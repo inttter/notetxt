@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const LandingBadge = ({ link = '' }) => {
+const LandingBadge = ({ link = 'https://docs.notetxt.xyz/main/keybinds' }) => {
   const isExternalLink = link.startsWith('http');
   
   const content = (
@@ -18,7 +18,7 @@ const LandingBadge = ({ link = '' }) => {
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-        📁 Dragging and dropping multiple files at once is now supported!
+        ✨ NEW: The Note Manager is now accessible via Ctrl+J!
       </div>
       {link && 
         <ArrowRight size={15} className="ml-1 text-zinc-100/70 group-hover:translate-x-0.5 duration-300" />

@@ -17,7 +17,7 @@ const badgeVariants = cva(
         success:
           "border-transparent bg-confirm text-zinc-100 shadow",
         outline: 
-          "text-zinc-200 border border-zinc-300",
+          "text-zinc-200 border border-neutral-700/80",
       },
     },
     defaultVariants: {
