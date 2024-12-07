@@ -4,7 +4,7 @@ import { ArrowRight, BookOpenText, NotepadText, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const heroMessage = `Write down what's on your mind.`;
-const heroDescription = `A minimalistic note-taker app designed to let you write down what you need with no distractions, useful features, and a simple user interface, right at your fingertips.`;
+const heroDescription = `A minimalistic note-taker app designed to let you jot down what you need with ease, without distractions — <strong>no accounts, no subscriptions</strong>, just you and your notes.`;
 
 // Starts with opacity 0.01 to make Lighthouse work: https://stackoverflow.com/questions/55826735/how-to-fix-lighthouse-returned-error-no-fcp-when-running-google-page-speed-t
 const HeroSection = () => {
@@ -27,7 +27,9 @@ const HeroSection = () => {
         className="mt-6 text-md md:text-lg leading-6 text-stone-300" 
         aria-label="Hero Description"
       >
-        {heroDescription}
+        {/* Uses dangerouslySetInnerHTML to parse the <strong> tags */}
+        {/* Since this is static, it should be fine to use */}
+        <div dangerouslySetInnerHTML={{ __html: heroDescription }} />
       </div>
       <div className="mt-8 flex items-center justify-center gap-x-5">
         <Link 
