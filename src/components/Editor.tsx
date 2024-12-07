@@ -252,6 +252,10 @@ export default function Editor() {
     setCurrentNoteId(id);
   };
 
+  const handleNoteSelect = (noteId: string) => {
+    setCurrentNoteId(noteId);
+  };
+
   const handleUpdateNoteName = async (id: string, newName: string) => {
     try {
       await db.notes.update(id, { name: newName });
@@ -667,7 +671,7 @@ export default function Editor() {
       <DragDropOverlay isDraggingOver={isDraggingOver} />
       <div className={`flex flex-row w-full mt-5 duration-300 ${isPreviewMode ? 'max-w-5xl mr-10' : 'max-w-[710px] md:mr-0 mr-10'}`}>
         <div className={`flex flex-row w-full ${isPreviewMode ? 'mt-4 md:mt-0' : 'mt-0'}`}>
-          <Command openCommandMenu={handleCommandSelect} />
+          <Command formatCreationDate={formatCreationDate} onNoteSelect={handleNoteSelect} openCommandMenu={handleCommandSelect} />
           <div className="-mx-3">
             <NoteManager
               notes={Object.entries(notes).map(([id, note]) => ({ id, ...note }))}
