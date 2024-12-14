@@ -228,12 +228,12 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     {/* Only show the X icon on the currently selected note when button is clicked */}
                     {showRemoveTags && currentNoteId === note.id && (
                       <button
-                        className="ml-1 -mr-0.5 px-[0.8px] bg-neutral-800 hover:bg-neutral-950 rounded-md border border-neutral-700 hover:border-neutral-500 text-zinc-300 hover:text-zinc-100 duration-300"
+                        className="text-zinc-100 hover:text-red-400 duration-300"
                         aria-label="Remove Tag"
                         title="Remove Tag"
                         onClick={(e) => handleRemoveTag(e, note.id, tag)}
                       >
-                        <X size={14} />
+                        <X size={14} className="ml-[0.2rem] -mr-[0.1rem]" />
                       </button>
                     )}
                   </div>
@@ -263,7 +263,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                           {(!note.tags || note.tags.length === 0) && <span className="ml-1">Add tag</span>}
                         </button>
                         </TooltipTrigger>
-                      <TooltipContent>Add tag</TooltipContent>
+                      <TooltipContent>Add Tag</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 )}

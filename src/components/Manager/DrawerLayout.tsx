@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
 import { motion } from 'framer-motion';
-import { Search, LibraryBig } from 'lucide-react';
+import { Search, LibraryBig, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
 import { useRouter } from 'next/router';
@@ -68,7 +68,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   useEffect(() => {
     const tagMap: { [key: string]: number } = {};
   
-    notes.forEach(note => {
+    sortedNotes.forEach(note => {
       note.tags?.forEach(tag => {
         tagMap[tag] = (tagMap[tag] || 0) + 1;
       });
@@ -227,7 +227,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
           <Drawer.Content
-            className="bg-dark border border-neutral-800 rounded-2xl flex flex-col h-full max-w-xs sm:max-w-sm md:max-w-md fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
+            className="bg-dark border border-neutral-800 rounded-lg flex flex-col h-full max-w-xs sm:max-w-sm md:max-w-md fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
             style={{ width: '450px', outline: 'none', boxShadow: 'none' }}
           >
             <div className="sticky top-0 z-50 bg-dark p-4">
@@ -245,36 +245,53 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   placeholder="Search for notes or tags..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-600 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-600/70 duration-300"
+                  className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-500 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-600/70 duration-300"
                   data-vaul-no-drag
                 />
                 <Search size={18} className="absolute left-3 text-stone-400" />
               </div>
               <div className="flex flex-wrap gap-2">
-                {visibleTags.map(([tag, count]) => (
-                  <div
-                    key={tag}
-                    className="bg-neutral-800/60 hover:bg-neutral-800 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300 hover:text-zinc-100 hover:cursor-pointer text-xs truncate overflow-ellipsis tracking-wide duration-300"
-                    onClick={() => setSearchQuery(tag)}
-                    aria-label="Tag Name"
-                  >
-                    {tag}
-                    <span
-                      className="ml-1 text-stone-400 font-mono tracking-tighter"
-                      aria-label="Tag Count Number"
+                {visibleTags.map(([tag, count]) => {
+                  const isActive = searchQuery.toLowerCase() === tag.toLowerCase();
+                  return (
+                    <div
+                      key={tag}
+                      className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs border truncate overflow-ellipsis tracking-wide cursor-pointer ${
+                        isActive
+                          ? 'bg-zinc-100 text-neutral-950'
+                          : 'bg-neutral-800/60 hover:bg-neutral-800 border-neutral-700/40 hover:border-neutral-700/60 text-zinc-300 duration-300'
+                      }`}
+                      onClick={() => setSearchQuery(isActive ? '' : tag)}
+                      aria-label="Tag Name"
                     >
-                      {count}
-                    </span>
-                  </div>
-                ))}
+                      <span>{tag}</span>
+                      {!isActive && (
+                        <span className="text-stone-400 font-mono tracking-tighter duration-300">{count}</span>
+                      )}                      
+                      {isActive && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSearchQuery('');
+                          }}
+                          className="text-neutral-950 hover:text-red-400 duration-300"
+                          title="Revert Filtered Tag"
+                          aria-label="Clear Search Tag Button"
+                        >
+                          <X size={13} className="-ml-[0.1rem] -mr-[0.1rem]" />
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
                 {tagCounts.length > 3 && (
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="bg-neutral-900 hover:bg-neutral-800/80 border border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-stone-400 hover:text-stone-200 text-xs duration-300"
+                    className="bg-neutral-800/60 hover:bg-neutral-800 border border-neutral-700/40 hover:border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-stone-400 hover:text-zinc-300/90 text-xs duration-300"
                     aria-label="Show More/Less Tags Button"
                     data-vaul-no-drag
                   >
-                    {showAll ? "Show Less" : "Show More"}
+                    {showAll ? 'Show Less' : 'Show More'}
                   </button>
                 )}
               </div>
@@ -312,16 +329,16 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             <hr className="border border-neutral-800" />
             {/* Bottom Footer */}
             <div 
-              className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400"
+              className="flex justify-between items-center px-3 py-2.5 mt-auto bg-dark text-xs text-stone-400"
               data-vaul-no-drag
             >
-              <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap mr-4">
-                {searchQuery
-                  ? sortedNotes.length === 0
-                    ? `No notes found matching "${searchQuery}"`
-                    : `${sortedNotes.length} note${sortedNotes.length > 1 ? 's' : ''} matching "${searchQuery}"`
-                  : `${notes.length} note${notes.length > 1 ? 's' : ''} available`}
-              </div>
+            <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap mr-4">
+              {searchQuery
+                ? sortedNotes.length === 0
+                  ? '0 results found'
+                  : `${sortedNotes.length} result${sortedNotes.length > 1 ? 's' : ''} found`
+                : `${notes.length} note${notes.length > 1 ? 's' : ''} available`}
+            </div>
               <SortDropdown
                 sortOptions={sortOptions}
                 sortCriteria={sortCriteria}
