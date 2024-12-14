@@ -1,9 +1,10 @@
 import React from 'react';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/Dropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
-import { Plus, FolderOpen, Trash2, ChevronDown, FolderArchive } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, FolderArchive } from 'lucide-react';
 import { GrDocumentTxt } from "react-icons/gr";
 import { FaMarkdown } from 'react-icons/fa';
+import { TbFileImport } from "react-icons/tb";
 
 const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote, onAddNote }) => {
   const fileTypes = [
@@ -59,7 +60,7 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
             </button>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center">
-            Create New Note
+            New Note
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -76,11 +77,11 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
                 onOpenNote();
               }}
             >
-              <FolderOpen size={19} />
+              <TbFileImport size={19} />
             </button>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center">
-            Open Note
+            Import Note
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

@@ -4,6 +4,7 @@ import { CommandDialog, CommandInput, CommandList, CommandGroup, CommandItem, Co
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 import { Badge } from '@/components/ui/Badge';
 import { FaGithub, FaMarkdown } from 'react-icons/fa';
+import { TbFileImport } from "react-icons/tb";
 import { 
   FolderOpen, Plus, Copy, FileDown, LibraryBig, ListOrdered, 
   Home, Lock, Heart, BookOpenText, Lightbulb, Command as CommandIcon
@@ -45,7 +46,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
 
 const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, formatCreationDate }) => {
   const general = [
-    { id: 'open', name: 'Open Note', icon: <FolderOpen size={20} />, keybind: 'Ctrl+O', url: '' },
+    { id: 'open', name: 'Import Note', icon: <TbFileImport size={20} />, keybind: 'Ctrl+O', url: '' },
     { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+Alt+N' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} />, keybind: 'Ctrl+Shift+C' },
     { id: 'save', name: 'Download Note', icon: <FileDown size={20} />, keybind: 'Ctrl+S' },
