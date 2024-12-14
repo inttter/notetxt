@@ -63,7 +63,7 @@ const MarkdownPreview = ({ content, scrollPosition, setScrollPosition, textareaR
             rehypeKatex,
             [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
           ]}
-          className="bg-transparent text-stone-200/95 placeholder:text-neutral-600 outline-none w-full -mt-4 -mb-4 text-[14.5px] caret-amber-400 font-sans duration-300"
+          className="bg-transparent text-stone-200/95 placeholder:text-neutral-600 outline-none w-full -mt-4 text-[14.5px] caret-amber-400 font-sans duration-300"
         />
       </div>
     </motion.div>
