@@ -1,22 +1,22 @@
 [
     {
       "question": "Can I import notes from my device?",
-      "answer": "Yes, you can drag and drop them into Notetxt or use the 'Open Note' option from the Command Menu."
+      "answer": "Yes, you can drag/drop notes of a supported file format or use the 'Import Note' option from the Command Menu."
     },
     {
-      "question": "Can I save/export these notes to my device?",
-      "answer": "Yes, you can save any of your current notes from the Note Manager in Rich Text (.txt) or Markdown (.md). When exporting your notes, they will be bundled into a singular ZIP file."
+      "question": "Can I download/export these notes to my device?",
+      "answer": "Yes, you can download any of your notes by using Ctrl+S, or by selecting 'Download Note' from either the Command Menu or Note Manager. To export your notes, select 'Export Notes' from the Note Manager, where they will be bundled into a singular ZIP file."
     },
     {
-      "question": "What file types are supported?",
-      "answer": "Currently, Notetxt supports Rich Text (.txt) and Markdown (.md) files. For ZIP (.zip) files, if they contain any files with the supported formats, those files will be the only ones will appear when importing files."
+      "question": "What file formats are supported?",
+      "answer": "Currently, Notetxt supports Rich Text (.txt) and Markdown (.md) files."
     },
     {
       "question": "How can I manage all of my notes?",
-      "answer": "To manage all of your notes in one place, use the Note Manager, which you can get to from the Command Menu, or with Ctrl+J. From there, you can peform various actions on your notes, such as navigating to, tagging, renaming, or downloading them. When you search for notes, you can search by either name, or by tag."
+      "answer": "Use the Note Manager, which you can get to from the Command Menu, or using Ctrl+J. From there, you can peform various actions on your notes, such as tagging and downloading them. When searching for notes, you can search by either name or by tag."
     },
     {
-      "question": "How do I view my note in Markdown?",
-      "answer": "To view your note in Markdown, you can toggle the Markdown side-by-side preview using Ctrl+M, or by selecting 'Preview Markdown' from the Command Menu."
+      "question": "How do I preview my note in Markdown?",
+      "answer": "You will need to toggle the Markdown side-by-side preview, which you can do by using Ctrl+M, or by selecting 'Preview Markdown' from the Command Menu."
     }
 ]  
