@@ -99,8 +99,8 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
             key={note.id}
             className={`flex flex-col p-2 rounded-lg border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
               currentNoteId === note.id
-                ? 'bg-neutral-700/35 border-neutral-700/50'
-                : 'bg-neutral-900 hover:bg-neutral-800/70 border-neutral-800 hover:border-neutral-700/60'
+                ? 'bg-neutral-800/60 border-neutral-700/60'
+                : 'bg-neutral-900 hover:bg-neutral-800/60 border-neutral-800 hover:border-neutral-700/60'
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -123,31 +123,27 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     data-vaul-no-drag
                   />
                 ) : (
-                  <span className={`block truncate overflow-ellipsis font-medium md:font-normal text-sm md:text-base w-82 duration-300 ${
-                    currentNoteId === note.id ? 'text-stone-200' : 'text-zinc-300'
-                  }`}>
+                  <span className="block truncate overflow-ellipsis font-medium text-sm md:text-base w-82 duration-300 text-zinc-300">
                     {note.name || 'New Note'}
                   </span>
                 )}
-                <span className={`block truncate overflow-ellipsis text-[11px] md:text-xs md:mt-0 -mt-0.5  mb-0.5 md:mb-1 duration-300 ${
-                    currentNoteId === note.id ? 'text-stone-400' : 'text-stone-400/80'
-                  }`}>
+                <span className="block truncate overflow-ellipsis text-[11px] text-zinc-300/85 md:text-xs md:mt-0 -mt-0.5 mb-0.5 md:mb-1 duration-300">
                   {formattedDates[note.id]}
                 </span>
                 <span
                   className={`block text-xs truncate overflow-ellipsis duration-300 ${
-                    currentNoteId === note.id ? 'text-stone-400/90' : 'text-stone-400/70'
+                    currentNoteId === note.id ? 'text-stone-300/70' : 'text-stone-400/80'
                   }`}
                 >
                   {note.content || ''}
                 </span>
               </div>
-              <div className="flex items-center space-x-0.5 ml-1" aria-label="Note Controls">
-              <TooltipProvider delayDuration={50}>
+              <div className="flex justify-center items-center space-x-0.5 ml-1" aria-label="Note Controls">
+                <TooltipProvider delayDuration={50}>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        className="text-stone-500 hover:text-stone-300 duration-300"
+                        className="text-stone-400/90 hover:text-zinc-300 duration-300"
                         aria-label="Edit Tags"
                         onClick={(e) => handleEditTags(e, note)}
                       >
@@ -162,7 +158,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        className="text-stone-500 hover:text-stone-300 duration-300"
+                        className="text-stone-400/90 hover:text-stone-300 duration-300"
                         aria-label="Rename Note"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -180,7 +176,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        className="text-stone-500 hover:text-stone-300 duration-300"
+                        className="text-stone-400/90 hover:text-stone-300 duration-300"
                         aria-label="Download Note"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -198,7 +194,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        className="text-stone-500 hover:text-stone-300 duration-300"
+                        className="text-stone-400/90 hover:text-stone-300 duration-300"
                         aria-label="Delete Note"
                         onClick={(e) => {
                           e.stopPropagation();

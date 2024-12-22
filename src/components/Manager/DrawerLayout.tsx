@@ -209,7 +209,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="bg-neutral-800/40 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-700/40 hover:bg-opacity-40 duration-300 p-3 rounded-lg flex items-center group"
+                    className="bg-neutral-800/40 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-700/40 duration-300 p-3 rounded-lg flex items-center group"
                     aria-label="Open Note Manager Button"
                   >
                     <LibraryBig size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
@@ -227,15 +227,15 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
           <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <Drawer.Description />
           <Drawer.Content
-            className="bg-dark border border-neutral-800 rounded-lg flex flex-col h-full max-w-xs sm:max-w-sm md:max-w-md fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
-            style={{ width: '450px', outline: 'none', boxShadow: 'none' }}
+            className="bg-dark border border-neutral-800/80 rounded-lg flex flex-col h-full max-w-xs sm:max-w-md md:max-w-lg fixed bottom-0 right-0 z-40 overflow-hidden selection:bg-neutral-700 selection:text-zinc-300"
+            style={{ width: '500px', outline: 'none', boxShadow: 'none' }}
           >
             <div className="sticky top-0 z-50 bg-dark p-4">
               <Drawer.Title className="font-medium text-lg text-zinc-100 flex items-center">
                 <LibraryBig size={20} className="mr-1" />
                 {drawerTitle}
               </Drawer.Title>
-              <div className="text-stone-400/80 text-xs md:text-sm mb-3">
+              <div className="text-stone-400/90 text-xs md:text-sm mb-3">
                 {drawerDescription}
               </div>
               {/* Search Bar */}
@@ -245,12 +245,12 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   placeholder="Search for notes or tags..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-500 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-600/70 duration-300"
+                  className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300"
                   data-vaul-no-drag
                 />
-                <Search size={18} className="absolute left-3 text-stone-400" />
+                <Search size={18} className="absolute left-3 text-stone-300" />
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2" data-vaul-no-drag>
                 {visibleTags.map(([tag, count]) => {
                   const isActive = searchQuery.toLowerCase() === tag.toLowerCase();
                   return (
@@ -258,15 +258,17 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                       key={tag}
                       className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs border truncate overflow-ellipsis tracking-wide cursor-pointer ${
                         isActive
-                          ? 'bg-zinc-100 text-neutral-950'
-                          : 'bg-neutral-800/60 hover:bg-neutral-800 border-neutral-700/40 hover:border-neutral-700/60 text-zinc-300 duration-300'
+                          ? 'bg-zinc-100 text-neutral-950 duration-300'
+                          : 'bg-neutral-800/60 hover:bg-neutral-800 border-neutral-700/40 hover:border-neutral-700/60 text-zinc-300'
                       }`}
                       onClick={() => setSearchQuery(isActive ? '' : tag)}
                       aria-label="Tag Name"
                     >
                       <span>{tag}</span>
                       {!isActive && (
-                        <span className="text-stone-400 font-mono tracking-tighter duration-300">{count}</span>
+                        <span className="text-stone-400 font-mono tracking-tighter duration-300">
+                          {count}
+                        </span>
                       )}                      
                       {isActive && (
                         <button
@@ -278,7 +280,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                           title="Revert Filtered Tag"
                           aria-label="Clear Search Tag Button"
                         >
-                          <X size={13} className="-ml-[0.1rem] -mr-[0.1rem]" />
+                          <X size={13} className="-ml-[0.1rem] -mr-[0.15rem]" />
                         </button>
                       )}
                     </div>
@@ -287,7 +289,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 {tagCounts.length > 3 && (
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="bg-neutral-800/60 hover:bg-neutral-800 border border-neutral-700/40 hover:border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-stone-400 hover:text-zinc-300/90 text-xs duration-300"
+                    className="bg-neutral-800/60 hover:bg-neutral-800 border border-neutral-700/40 hover:border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300/85 hover:text-zinc-300 text-xs"
                     aria-label="Show More/Less Tags Button"
                     data-vaul-no-drag
                   >
@@ -300,7 +302,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
               )}
             </div>
             <div className="flex-1 h-full overflow-y-auto px-4">
-              <div className="max-w-md mx-auto">
+              <div className="max-w-xl mx-auto">
                 <NoteList
                   notes={sortedNotes}
                   currentNoteId={currentNoteId}
@@ -326,13 +328,13 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 />
               </div>
             </div>
-            <hr className="border border-neutral-800" />
+            <hr className="border border-neutral-800/80" />
             {/* Bottom Footer */}
             <div 
-              className="flex justify-between items-center px-3 py-2.5 mt-auto bg-dark text-xs text-stone-400"
+              className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400"
               data-vaul-no-drag
             >
-            <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap mr-4">
+            <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
               {searchQuery
                 ? sortedNotes.length === 0
                   ? '0 results found'
