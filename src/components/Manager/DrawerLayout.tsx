@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
 import { useRouter } from 'next/router';
 import JSZip from 'jszip';
-import hotkeys from 'hotkeys-js';
 import NoteList from '@/components/Manager/NoteList';
 import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
@@ -14,7 +13,7 @@ import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 
-const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, formatCreationDate, isDrawerOpen, setIsDrawerOpen }) => {
+const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, onCopyNote, formatCreationDate, isDrawerOpen, setIsDrawerOpen }) => {
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
@@ -82,43 +81,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   const visibleTags = showAll ? tagCounts : tagCounts.slice(0, 3);
 
   const handleSortChange = (value) => setSortCriteria(value);
-
-  useEffect(() => {
-    const currentIndex = sortedNotes.findIndex(note => note.id === currentNoteId);
-
-    if (isDrawerOpen) {
-      hotkeys('del', (event) => {
-        event.preventDefault();
-        if (currentNoteId) {
-          onRemoveNote(currentNoteId);
-        }
-      });
-
-      hotkeys('down', (event) => {
-        event.preventDefault();
-        if (currentIndex < notes.length - 1) {
-          onChangeNote(sortedNotes[currentIndex + 1].id);
-        }
-      });
-
-      hotkeys('up', (event) => {
-        event.preventDefault();
-        if (currentIndex > 0) {
-          onChangeNote(sortedNotes[currentIndex - 1].id);
-        }
-      });
-    } else {
-      hotkeys.unbind('del');
-      hotkeys.unbind('down');
-      hotkeys.unbind('up');
-    }
-
-    return () => {
-      hotkeys.unbind('del');
-      hotkeys.unbind('down');
-      hotkeys.unbind('up');
-    };
-  }, [isDrawerOpen, currentNoteId, notes, onChangeNote, onRemoveNote]);
 
   const handleEditClick = (note) => {
     setEditingNoteId(note.id);
@@ -317,6 +279,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   handleKeyDown={handleKeyDown}
                   openDownloadDialog={openDownloadDialog}
                   handleUpdateNoteTags={onUpdateNoteTags}
+                  handleCopyNote={onCopyNote}
                   formatCreationDate={formatCreationDate}
                   searchQuery={searchQuery}
                 />

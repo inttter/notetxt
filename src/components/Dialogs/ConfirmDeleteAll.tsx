@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } fr
 import { Trash2, X } from 'lucide-react';
 
 const deleteAllTitle = 'Delete All Notes';
-const deleteAllDescription = 'This action cannot be undone and all of your notes will be unrecoverable. Would you like to proceed anyway?';
+const deleteAllDescription = 'This action is not reversible and all of your notes will be unrecoverable. Would you like to proceed anyway?';
 
 const ConfirmDeleteAll = ({ isOpen, onConfirm, onCancel }) => {
   return (
@@ -19,14 +19,14 @@ const ConfirmDeleteAll = ({ isOpen, onConfirm, onCancel }) => {
             <div className="text-zinc-300 flex space-x-2 mt-5 md:mt-3.5">
               <button
                 onClick={onCancel}
-                className="btn-dialog bg-neutral-800/70 hover:bg-neutral-800 border-neutral-700/60"
+                className="btn-dialog bg-neutral-800/60 hover:bg-neutral-800/85 border-neutral-700/60"
                 aria-label="Cancel"
               >
                 Cancel
               </button>
               <button
                 onClick={onConfirm}
-                className="btn-dialog bg-destructive/90 hover:bg-red-600 border-neutral-700/60 hover:text-zinc-100 flex items-center"
+                className="btn-dialog bg-destructive hover:bg-destructive/80 hover:text-zinc-200 border-neutral-700/60 text-zinc-100 flex items-center"
               >
                 <Trash2 size={15} className="mr-1" /> Delete
               </button>

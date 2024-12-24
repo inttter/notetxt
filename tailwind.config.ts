@@ -12,7 +12,7 @@ module.exports = {
       },
       colors: {
         'confirm': '#166534',
-        'destructive': '#DC2626',
+        'destructive': '#EF4444',
         'default': '#282828',
         'dark': '#101010',
       }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
-import { Tags, Pencil, Download, Trash2, X, Plus } from 'lucide-react';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/Dropdown';
+import { Tags, Pencil, Download, Trash2, X, Plus, MoreHorizontal, Copy } from 'lucide-react';
 
-const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
+const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, handleCopyNote, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
   const [showTagInput, setShowTagInput] = useState<{ [key: string]: boolean }>({});
   const [showRemoveTags, setShowRemoveTags] = useState(false);
@@ -76,13 +77,56 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
     setShowRemoveTags(prev => !prev);
   };
 
+  const options = [
+    {
+      label: 'Edit Tags',
+      icon: Tags,
+      onClick: (e, note) => handleEditTags(e, note),
+      ariaLabel: 'Edit Tags',
+    },
+    {
+      label: 'Copy Note',
+      icon: Copy,
+      onClick: (e, note) => {
+        e.stopPropagation();
+        handleCopyNote(note);
+      },
+      ariaLabel: 'Copy Note',
+    },
+    {
+      label: 'Rename Note',
+      icon: Pencil,
+      onClick: (e, note) => {
+        e.stopPropagation();
+        handleEditClick(note);
+      },
+      ariaLabel: 'Rename Note',
+    },
+    {
+      label: 'Download Note',
+      icon: Download,
+      onClick: (e, note) => {
+        e.stopPropagation();
+        openDownloadDialog(note);
+      },
+      ariaLabel: 'Download Note',
+    },
+    {
+      label: 'Delete Note',
+      icon: Trash2,
+      onClick: (e, note) => {
+        e.stopPropagation();
+        onRemoveNote(note.id);
+      },
+      ariaLabel: 'Delete Note',
+    },
+  ];
+
   return (
     <div className="flex flex-col space-y-2">
       {notes.length === 0 ? (
         <div className="flex flex-col items-center mt-2 mb-3">
-          <div className="text-md md:text-lg text-stone-300">
-            No notes found
-          </div>
+          <div className="text-md md:text-lg text-stone-300">No notes found</div>
           <span
             className="text-sm md:text-base text-yellow-500 hover:text-yellow-400 cursor-pointer duration-300 flex items-center"
             onClick={(e) => {
@@ -97,7 +141,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
         notes.map((note) => (
           <div
             key={note.id}
-            className={`flex flex-col p-2 rounded-lg border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
+            className={`flex flex-col relative p-2 rounded-lg border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
               currentNoteId === note.id
                 ? 'bg-neutral-800/60 border-neutral-700/60'
                 : 'bg-neutral-900 hover:bg-neutral-800/60 border-neutral-800 hover:border-neutral-700/60'
@@ -118,12 +162,11 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     onBlur={handleSaveName}
                     onKeyDown={handleKeyDown}
                     placeholder="Note Title"
-                    className="bg-transparent text-zinc-300 focus:text-stone-400 placeholder:text-stone-600 caret-amber-400 outline-none flex-grow min-w-[19rem] text-sm md:text-base duration-300"
-                    autoFocus
+                    className="bg-neutral-800 border border-neutral-700/60 px-1 md:px-0 p-[1px] rounded-md text-zinc-300 placeholder:text-stone-400/80 placeholder:font-normal font-medium caret-amber-400 outline-none flex-grow min-w-[14rem] sm:min-w-[20rem] md:min-w-[23rem] text-sm md:text-base duration-300"
                     data-vaul-no-drag
                   />
                 ) : (
-                  <span className="block truncate overflow-ellipsis font-medium text-sm md:text-base w-82 duration-300 text-zinc-300">
+                  <span className="block truncate overflow-ellipsis font-medium text-sm md:text-base w-60 md:w-96 sm:w-10/12 duration-300 text-zinc-300">
                     {note.name || 'New Note'}
                   </span>
                 )}
@@ -138,80 +181,47 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   {note.content || ''}
                 </span>
               </div>
-              <div className="flex justify-center items-center space-x-0.5 ml-1" aria-label="Note Controls">
+              <DropdownMenu aria-label="Note Options">
                 <TooltipProvider delayDuration={50}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button
-                        className="text-stone-400/90 hover:text-zinc-300 duration-300"
-                        aria-label="Edit Tags"
-                        onClick={(e) => handleEditTags(e, note)}
-                      >
-                        <Tags size={20} />
-                      </button>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className="text-zinc-300 hover:text-zinc-100 duration-300 absolute top-0 right-0 mt-2 mr-2"  
+                          aria-label="Show Note Options Dropdown"
+                        >
+                          <MoreHorizontal size={20} />
+                        </button>
+                      </DropdownMenuTrigger>
                     </TooltipTrigger>
-                    <TooltipContent>Edit Tags</TooltipContent>
+                    <TooltipContent>Note Options</TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                
-                <TooltipProvider delayDuration={50}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        className="text-stone-400/90 hover:text-stone-300 duration-300"
-                        aria-label="Rename Note"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditClick(note);
-                        }}
-                      >
-                        <Pencil size={20} />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>Rename Note</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                
-                <TooltipProvider delayDuration={50}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        className="text-stone-400/90 hover:text-stone-300 duration-300"
-                        aria-label="Download Note"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openDownloadDialog(note);
-                        }}
-                      >
-                        <Download size={20} />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>Download Note</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                
-                <TooltipProvider delayDuration={50}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        className="text-stone-400/90 hover:text-stone-300 duration-300"
-                        aria-label="Delete Note"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onRemoveNote(note.id);
-                        }}
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>Delete Note</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
+                <DropdownMenuContent
+                  align="center"
+                  sideOffset={5}
+                  className="bg-neutral-900 border border-neutral-800 text-zinc-300 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden mr-3"
+                  onCloseAutoFocus={(e) => e.preventDefault()}
+                >
+                  {options.map(({ label, icon: Icon, onClick, ariaLabel }) => (
+                    <DropdownMenuItem
+                      className={`hover:bg-neutral-800 hover:cursor-pointer rounded-md duration-300 ${
+                        label === 'Delete Note' ? 'text-destructive' : ''
+                      }`}
+                      key={label}
+                      onClick={(e) => onClick(e, note)}
+                      aria-label={ariaLabel}
+                    >
+                      <Icon size={16} className="mr-1.5" />
+                      {label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <div className="flex flex-wrap items-center mt-2">
               <div className="flex items-center flex-wrap gap-1">
-                {(note.tags || []).map((tag) => (
+              {(note.tags || []).map((tag) => (
                   <div
                     key={tag}
                     className={`flex items-center border border-neutral-700/60 px-2 py-1 max-w-[140px] rounded-lg text-yellow-400 text-xs truncate overflow-ellipsis tracking-tight duration-300 font-ia-quattro ${
@@ -250,7 +260,9 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                       <TooltipTrigger asChild>
                         <button
                           className={`text-yellow-400 hover:bg-yellow-500/25 hover:border-yellow-500/40 text-xs rounded-lg border px-2 py-[0.28rem] md:py-[0.26rem] flex items-center duration-300 ${
-                            currentNoteId === note.id ? 'bg-yellow-500/15 border-yellow-500/15' : 'bg-yellow-500/10 border-yellow-500/10'
+                            currentNoteId === note.id
+                              ? 'bg-yellow-500/15 border-yellow-500/15'
+                              : 'bg-yellow-500/10 border-yellow-500/10'
                           }`}
                           aria-label="Add Tag"
                           onClick={() => toggleTagInput(note.id)}
@@ -258,7 +270,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                           <Plus size={15} />
                           {(!note.tags || note.tags.length === 0) && <span className="ml-1">Add tag</span>}
                         </button>
-                        </TooltipTrigger>
+                      </TooltipTrigger>
                       <TooltipContent>Add Tag</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>

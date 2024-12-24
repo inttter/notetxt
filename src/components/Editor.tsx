@@ -684,6 +684,7 @@ export default function Editor() {
               onDeleteAllNotes={handleDeleteAllNotes}
               onOpenNote={() => handleCommandSelect('open')}
               onUpdateNoteTags={handleUpdateNoteTags}
+              onCopyNote={handleCopy}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               formatCreationDate={formatCreationDate}
