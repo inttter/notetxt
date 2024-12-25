@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/Dropdown';
-import { Tags, Pencil, Download, Trash2, X, Plus, MoreHorizontal, Copy } from 'lucide-react';
+import { Tags, Pencil, Download, Trash2, X, Plus, MoreHorizontal, Copy, ListOrdered } from 'lucide-react';
 
-const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, handleCopyNote, openDownloadDialog, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
+const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, handleCopyNote, openDownloadDialog, openNoteSummary, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
   const [showTagInput, setShowTagInput] = useState<{ [key: string]: boolean }>({});
   const [showRemoveTags, setShowRemoveTags] = useState(false);
@@ -110,6 +110,15 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
         openDownloadDialog(note);
       },
       ariaLabel: 'Download Note',
+    },
+    {
+      label: 'Note Summary',
+      icon: ListOrdered,
+      onClick: (e, note) => {
+        e.stopPropagation();
+        openNoteSummary(note);
+      },
+      ariaLabel: 'Note Summary',
     },
     {
       label: 'Delete Note',

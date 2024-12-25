@@ -10,6 +10,7 @@ import NoteList from '@/components/Manager/NoteList';
 import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
 import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
+import NoteSummary from '@/components/Dialogs/NoteSummary';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 
@@ -20,6 +21,8 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
   const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false);
+  const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
   const [sortCriteria, setSortCriteria] = useState('newest');
   const [tagCounts, setTagCounts] = useState([]);
   const [showAll, setShowAll] = useState(false);
@@ -125,6 +128,16 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
 
   const handleCancelDeleteAll = () => {
     setConfirmDeleteAllOpen(false);
+  };
+
+  const openNoteSummary = (note) => {
+    setSelectedNote(note);
+    setNoteSummaryDialogOpen(true);
+  };
+  
+  const closeNoteSummary = () => {
+    setNoteSummaryDialogOpen(false);
+    setSelectedNote(null);
   };
 
   const handleFileTypeChange = type => {
@@ -279,6 +292,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   handleSaveName={handleSaveName}
                   handleKeyDown={handleKeyDown}
                   openDownloadDialog={openDownloadDialog}
+                  openNoteSummary={openNoteSummary}
                   handleUpdateNoteTags={onUpdateNoteTags}
                   handleCopyNote={onCopyNote}
                   formatCreationDate={formatCreationDate}
@@ -326,6 +340,14 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
         fileType={fileType}
         setFileType={setFileType}
       />
+
+      {isNoteSummaryDialogOpen && (
+        <NoteSummary 
+          text={selectedNote?.content || ''} 
+          isDialogOpen={isNoteSummaryDialogOpen} 
+          onClose={closeNoteSummary} 
+        />
+      )}
 
       {isConfirmDeleteAllOpen && (
         <ConfirmDeleteAll
