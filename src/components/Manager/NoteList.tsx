@@ -178,7 +178,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     currentNoteId === note.id ? 'text-stone-300/70' : 'text-stone-400/80'
                   }`}
                 >
-                  {note.content || ''}
+                  {note.content ? note.content.slice(0, 150) : ''}
                 </span>
               </div>
               <DropdownMenu aria-label="Note Options">
