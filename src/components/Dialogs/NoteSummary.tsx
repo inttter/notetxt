@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/Dialog';
 import { ListOrdered, X } from 'lucide-react';
+import { toast } from 'sonner';
 import NumberFlow from '@number-flow/react';
 
 export default function NoteSummary({ text, isDialogOpen, onClose }) {
@@ -24,6 +25,16 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
 
   useEffect(() => {
     if (isDialogOpen) {
+
+      // Don't allow dialog to open if there is no content in the note
+      if (text.trim().length === 0) {
+        toast.warning('No content available for a summary!', {
+          description: 'Add some content to the note before attempting to view its summary.',
+        });        
+        onClose();
+        return;
+      }
+
       setLetterCount(text.length);
 
       const words = text.trim().split(/\s+/).filter(word => word.length > 0);
