@@ -212,7 +212,8 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 />
                 <Search size={18} className="absolute left-3 text-stone-300" />
               </div>
-              <div className="flex flex-wrap gap-2" data-vaul-no-drag>
+              {/* Tag Count Area */}
+              <div className={`flex flex-wrap gap-2 ${visibleTags.length > 0 ? 'mt-3' : '-mt-3'}`} data-vaul-no-drag>
                 {visibleTags.map(([tag, count]) => {
                   const isActive = searchQuery.toLowerCase() === tag.toLowerCase();
                   return (
@@ -291,19 +292,17 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 />
               </div>
             </div>
-            <hr className="border border-neutral-800/80" />
             {/* Bottom Footer */}
-            <div 
-              className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400"
-              data-vaul-no-drag
-            >
-            <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-              {searchQuery
-                ? sortedNotes.length === 0
-                  ? '0 results found'
-                  : `${sortedNotes.length} result${sortedNotes.length > 1 ? 's' : ''} found`
-                : `${notes.length} note${notes.length > 1 ? 's' : ''} available`}
-            </div>
+            <hr className="border border-neutral-800/80" />
+            <div className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400" data-vaul-no-drag>
+              <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                {searchQuery
+                  ? sortedNotes.length === 0
+                    ? '0 results found'
+                    : `${sortedNotes.length} result${sortedNotes.length > 1 ? 's' : ''} found`
+                    : `${notes.length} note${notes.length > 1 ? 's' : ''} available`
+                }
+              </div>
               <SortDropdown
                 sortOptions={sortOptions}
                 sortCriteria={sortCriteria}
