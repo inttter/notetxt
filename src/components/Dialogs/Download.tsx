@@ -40,7 +40,8 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
   return (
     <Dialog open={isOpen} onOpenChange={onRequestClose}>
       <DialogContent className="bg-dark border border-neutral-700/60 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-11/12 z-50">
-        <DialogTitle className="text-lg font-medium text-zinc-100 mx-0.5" aria-label="Download Dialog Title">
+        <DialogTitle className="text-lg font-medium text-zinc-100 mx-0.5 gap-1 flex items-center" aria-label="Download Dialog Title">
+          <Download size={20} className="text-stone-400" />
           {downloadTitle}
         </DialogTitle>
         <DialogDescription className="text-stone-400 text-sm leading-normal mx-0.5 mb-3" aria-label="Download Dialog Description">
@@ -64,7 +65,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
             </button>
 
             <Select value={fileType} onValueChange={setFileType}>
-              <SelectTrigger className="bg-neutral-800/60 hover:bg-neutral-800/85 border border-neutral-700/60 px-2 py-1 rounded-md text-sm md:text-sm duration-300 flex items-center">
+              <SelectTrigger className="bg-neutral-800/60 hover:bg-neutral-800/85 border border-neutral-700/60 px-2 py-1 rounded-md text-sm duration-300 flex items-center">
                 {fileTypes.find((type) => type.value === fileType)?.icon}
                 <span>
                   {fileTypes.find((type) => type.value === fileType)?.name || 'Select Format'}
@@ -91,7 +92,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
               onClick={handleSave}
               aria-label="Download Note"
             >
-              <Download size={17} className="mr-1" /> Save
+              <Download size={18} className="mr-1" /> Save
             </button>
           </div>
         </div>

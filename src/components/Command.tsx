@@ -5,7 +5,7 @@ import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/comp
 import { Badge } from '@/components/ui/Badge';
 import { FaGithub, FaMarkdown } from 'react-icons/fa';
 import { 
-  FileInput, Plus, Copy, FileDown, LibraryBig, ListOrdered, 
+  FileInput, Plus, Copy, Download, LibraryBig, ListOrdered, 
   Home, Lock, Heart, BookOpenText, Lightbulb, Command as CommandIcon
 } from 'lucide-react';
 import db from '@/utils/db';
@@ -48,7 +48,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
     { id: 'open', name: 'Import Note', icon: <FileInput size={20} />, keybind: 'Ctrl+O', url: '' },
     { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+Alt+N' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} />, keybind: 'Ctrl+Shift+C' },
-    { id: 'save', name: 'Download Note', icon: <FileDown size={20} />, keybind: 'Ctrl+S' },
+    { id: 'save', name: 'Download Note', icon: <Download size={20} />, keybind: 'Ctrl+S' },
     { id: 'manager', name: 'Note Manager', icon: <LibraryBig size={20} />, keybind: 'Ctrl+J' },
     { id: 'preview', name: 'Preview Markdown', icon: <FaMarkdown size={20} />, keybind: 'Ctrl+M' },
     { id: 'summary', name: 'Note Summary', icon: <ListOrdered size={20} />, keybind: 'Ctrl+I' },
