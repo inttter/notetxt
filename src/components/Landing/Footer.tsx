@@ -24,9 +24,8 @@ const Footer = () => {
   const commitURL = `${repoURL}/commit/${commitHash}`;
 
   const quickLinks = [
-    { href: '/', text: 'Home' },
     { href: 'https://docs.notetxt.xyz', text: 'Docs', external: true },
-    { href: '/privacy', text: 'Privacy Policy' },
+    { href: '/privacy', text: 'Privacy' },
     { href: 'https://github.com/inttter/notetxt', text: 'GitHub', external: true },
     { href: 'https://github.com/sponsors/inttter', text: 'Donate', external: true },
     { href: commitURL, text: commitHash, external: true },
@@ -41,27 +40,31 @@ const Footer = () => {
     >
       <div className="w-full max-w-[735px] mx-auto">
         <div className="flex flex-col md:flex-row md:justify-between items-center text-center md:text-left gap-4">
-
           {/* Project Logo/Name/Slogan */}
           <div className="flex items-center gap-x-2">
-            <Image src={Logo} alt="Logo" width={35} height={35} className="rounded-lg" />
-            <div className="text-base text-stone-100" aria-label="Project Name">
+            <Image
+              src={Logo}
+              alt="Logo"
+              width={38}
+              height={38}
+              className="rounded-md border border-neutral-700/60"
+            />
+            <div className="text-xl md:text-base text-stone-100" aria-label="Project Name">
               {projectName}
-              <span className="hidden md:block text-xs text-stone-400" aria-label="Project Slogan">
+              <span className="hidden md:block text-xs text-stone-400 -mt-0.5" aria-label="Project Slogan">
                 {projectSlogan}
               </span>
             </div>
           </div>
-
           {/* Quick Links */}
-          <div className="text-sm flex flex-wrap justify-center md:justify-start gap-x-3 gap-y-2 max-w-md px-4 md:px-0" aria-label="Quick Links">
+          <div className="text-sm flex flex-wrap justify-center md:justify-start gap-x-2.5 gap-y-2 max-w-md px-4 md:px-0" aria-label="Quick Links">
             {quickLinks.map((link, index) => (
               <Link
                 key={index}
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
-                className="text-stone-400 hover:text-stone-300 duration-300 flex items-center"
+                className="text-stone-400 hover:text-zinc-100 duration-300 flex items-center"
                 aria-label={link.text}
               >
                 {link.text}
