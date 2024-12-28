@@ -171,31 +171,31 @@ const markdownStyles = {
         const [imgError, setImgError] = useState(false);
     
         useEffect(() => {
-          const timeoutId = setTimeout(() => {
-            setImgError(false);
-          }, 300);
+            const timeoutId = setTimeout(() => {
+                setImgError(false);
+            }, 300);
     
-          return () => clearTimeout(timeoutId);
+            return () => clearTimeout(timeoutId);
         }, [props.src]);
     
         return (
-          <div className="relative">
-            {imgError ? (
-              <div className="max-w-full h-auto mt-4 my-0 bg-neutral-800/50 border border-neutral-800 flex items-center justify-center rounded-lg duration-300">
-                <FileQuestion />
-              </div>
-            ) : (
-              <img
-                className="max-w-full h-auto mt-4 my-0 rounded-lg border border-neutral-800 prose-invert"
-                loading="lazy"
-                src={props.src}
-                onError={() => setImgError(true)}
-                {...props}
-              />
-            )}
-          </div>
+            <div className="relative">
+                {imgError ? (
+                    <div className="max-w-full h-40 mt-4 my-0 bg-neutral-800/50 border border-neutral-800 flex flex-col items-center justify-center rounded-lg duration-300">
+                        <FileQuestion className="text-stone-400 mb-1" size={40} /> No image found
+                    </div>
+                ) : (
+                    <img
+                        className="max-w-full h-auto mt-4 my-0 rounded-lg border border-neutral-800 prose-invert"
+                        loading="lazy"
+                        src={props.src}
+                        onError={() => setImgError(true)}
+                        {...props}
+                    />
+                )}
+            </div>
         );
-      },
+    },
     hr: ({ node, ...props }) => (
         <hr className="w-full border-t border-neutral-800 my-4 prose-invert" {...props} />
     ),
