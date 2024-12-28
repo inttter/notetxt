@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Check, FileQuestion, Copy } from 'lucide-react';
 import hljs from 'highlight.js';
 import copy from 'copy-to-clipboard';
@@ -169,24 +169,33 @@ const markdownStyles = {
     ),
     img: ({ node, ...props }) => {
         const [imgError, setImgError] = useState(false);
-
+    
+        useEffect(() => {
+          const timeoutId = setTimeout(() => {
+            setImgError(false);
+          }, 300);
+    
+          return () => clearTimeout(timeoutId);
+        }, [props.src]);
+    
         return (
-            <div className="relative">
-                {imgError ? (
-                    <div className="max-w-full h-64 bg-neutral-800/50 border border-neutral-800 flex items-center justify-center rounded-lg duration-300">
-                        <FileQuestion />
-                    </div>
-                ) : (
-                    <img
-                        className="max-w-full h-auto my-0 rounded-lg border border-neutral-800 prose-invert"
-                        loading="lazy"
-                        onError={() => setImgError(true)}
-                        {...props}
-                    />
-                )}
-            </div>
+          <div className="relative">
+            {imgError ? (
+              <div className="max-w-full h-auto mt-4 my-0 bg-neutral-800/50 border border-neutral-800 flex items-center justify-center rounded-lg duration-300">
+                <FileQuestion />
+              </div>
+            ) : (
+              <img
+                className="max-w-full h-auto mt-4 my-0 rounded-lg border border-neutral-800 prose-invert"
+                loading="lazy"
+                src={props.src}
+                onError={() => setImgError(true)}
+                {...props}
+              />
+            )}
+          </div>
         );
-    },
+      },
     hr: ({ node, ...props }) => (
         <hr className="w-full border-t border-neutral-800 my-4 prose-invert" {...props} />
     ),
