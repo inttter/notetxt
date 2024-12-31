@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 
 const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType, currentNoteId }) => {
   const downloadTitle = 'Download Note';
-  const downloadDescription = 'Choose a title and file format for your note.';
+  const downloadDescription = 'Choose a name and file format for your note.';
 
   // Fetch the note name from the database to automatically put it in the input box
   useEffect(() => {
@@ -52,7 +52,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
           className="w-full px-3 py-2 rounded-lg bg-neutral-900 placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
-          placeholder="Note Title"
+          placeholder="Note Name"
         />
         <div className="flex justify-end items-center">
           <div className="text-zinc-300 flex space-x-2">
