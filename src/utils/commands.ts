@@ -33,7 +33,7 @@ const commands = {
     },
     video: {
         content: `<video src="URL" controls></video>`,
-        aliases: ['vd']
+        aliases: ['vd'],
     },
     tasklist: {
         content: `- [ ] Task 1\n- [X] Task 2`,
@@ -41,7 +41,7 @@ const commands = {
     },
     line: {
         content: `------`,
-        aliases: ['horizontal', 'hr', 'separator', 'section'],
+        aliases: ['horizontal', 'hr', 'separator', 'section', 'divider'],
     },
     footnote: {
         content: `This is some text[^1].\n\n[^1]: Footnote text here.`,
@@ -49,11 +49,23 @@ const commands = {
     },
     metadata: {
         content: `---\ntitle: Note Title\ndate: ${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getDate()}, ${new Date().getFullYear()}\n---`,
-        aliases: ['mdata', 'yaml']
+        aliases: ['mdata', 'yaml'],
     },
     toc: {
         content: '// Table of Contents will be generated here',
         aliases: ['contents'],
+    },
+    date: {
+        content: (() => {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).slice(-2);
+            
+            // Returns date in DD/MM/YY
+            return `${day}/${month}/${year}`; 
+        })(),
+        aliases: ['day'],
     },
 };
 
