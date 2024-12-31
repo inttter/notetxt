@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
 import { useRouter } from 'next/router';
 import JSZip from 'jszip';
+import hotkeys from 'hotkeys-js';
 import NoteList from '@/components/Manager/NoteList';
 import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
@@ -84,6 +85,23 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
   const visibleTags = showAll ? tagCounts : tagCounts.slice(0, 3);
 
   const handleSortChange = (value) => setSortCriteria(value);
+
+  // Allow deleting notes automatically via the 'Delete' key
+  useEffect(() => {
+    if (isDrawerOpen) {
+      hotkeys('del', (event) => {
+        event.preventDefault();
+        if (currentNoteId) {
+          onRemoveNote(currentNoteId);
+        }
+      });
+    } else {
+      hotkeys.unbind('del');
+    }
+    return () => {
+      hotkeys.unbind('del');
+    };
+  }, [isDrawerOpen, currentNoteId, onRemoveNote]);
 
   const handleEditClick = (note) => {
     setEditingNoteId(note.id);
