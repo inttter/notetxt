@@ -23,4 +23,4 @@ To learn how to use Notetxt and its various other features, visit the [documenta
 
 ## License
 
-© **2024** - Notetxt is licensed under the [MIT License](LICENSE).
+© **2025** - Notetxt is licensed under the [MIT License](LICENSE).
