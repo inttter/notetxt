@@ -196,7 +196,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     <TooltipTrigger asChild>
                       <DropdownMenuTrigger asChild>
                         <button
-                          className="text-zinc-300 hover:text-zinc-100 duration-300 absolute top-0 right-0 mt-2 mr-2"  
+                          className="text-zinc-300 hover:text-zinc-100 hover:bg-neutral-700/60 border border-transparent hover:border-neutral-700 duration-300 absolute rounded-md top-0 right-0 mt-2 mr-2 p-0.5"  
                           aria-label="Show Note Options Dropdown"
                         >
                           <MoreHorizontal size={20} />
