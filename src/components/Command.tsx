@@ -2,14 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { CommandDialog, CommandInput, CommandList, CommandGroup, CommandItem, CommandEmpty, CommandShortcut, CommandSeparator } from "@/components/ui/Command";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
-import { Badge } from '@/components/ui/Badge';
+import { isMobile } from 'react-device-detect';
 import { FaGithub, FaMarkdown } from 'react-icons/fa';
 import { 
   FileInput, Plus, Copy, Download, LibraryBig, ListOrdered, 
-  Home, Lock, Heart, BookOpenText, Lightbulb, Command as CommandIcon
+  BookOpenText, Lock, Heart, 
+  Command as CommandIcon
 } from 'lucide-react';
 import db from '@/utils/db';
-import tips from '@/data/tips.json';
 
 const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
   const handleSelect = () => {
@@ -24,17 +24,17 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
     <CommandItem
       key={id}
       onSelect={handleSelect}
-      className="p-2 cursor-pointer border-2 border-transparent hover:bg-neutral-800/50 hover:border-neutral-800 hover:shadow-lg rounded-lg flex items-center group duration-300"
+      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-neutral-800/50 rounded-lg flex items-center group duration-300"
     >
       {icon && (
-      <span className="mr-2 text-stone-400/80 group-hover:text-stone-400 duration-300">
+      <span className="mr-2 text-stone-400 duration-300">
         {icon}
       </span>
       )}
-      <span className="text-zinc-300 group-hover:text-zinc-100 truncate duration-300">
+      <span className="text-zinc-300 truncate duration-300">
         {name}
       </span>
-      {keybind && (
+      {!isMobile && keybind && (
         <CommandShortcut className="ml-auto flex items-center">
           {keybind}
         </CommandShortcut>
@@ -49,44 +49,28 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
     { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+Alt+N' },
     { id: 'copy', name: 'Copy Note', icon: <Copy size={20} />, keybind: 'Ctrl+Shift+C' },
     { id: 'save', name: 'Download Note', icon: <Download size={20} />, keybind: 'Ctrl+S' },
+    { id: 'summary', name: 'Note Summary', icon: <ListOrdered size={20} />, keybind: 'Ctrl+I' },
     { id: 'manager', name: 'Note Manager', icon: <LibraryBig size={20} />, keybind: 'Ctrl+J' },
     { id: 'preview', name: 'Preview Markdown', icon: <FaMarkdown size={20} />, keybind: 'Ctrl+M' },
-    { id: 'summary', name: 'Note Summary', icon: <ListOrdered size={20} />, keybind: 'Ctrl+I' },
   ];
 
   const links = [
-    { id: 'landing', name: 'Home Page', icon: <Home size={20} />, url: '/', keybind: '' },
     { id: 'docs', name: 'Documentation', icon: <BookOpenText size={20} />, url: 'https://docs.notetxt.xyz' },
     { id: 'privacy', name: 'Privacy Policy', icon: <Lock size={20} />, url: '/privacy' },
     { id: 'github', name: 'GitHub', icon: <FaGithub size={20} />, url: 'https://github.com/inttter/notetxt' },
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
   ];
 
-  const [randomTip, setRandomTip] = useState('');
   const [recentNotes, setRecentNotes] = useState([]);
-
-  useEffect(() => {
-    const pickRandomTip = () => {
-      const randomIndex = Math.floor(Math.random() * tips.length);
-      setRandomTip(tips[randomIndex]);
-    };
-
-    pickRandomTip();
-
-    const intervalId = setInterval(pickRandomTip, 20000);
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   useEffect(() => {
     const fetchRecentNotes = async () => {
       const allNotes = await db.notes.toArray();
       const sortedNotes = allNotes
         .sort((a, b) => Number(b.id) - Number(a.id))
-        .slice(0, 3)
+        .slice(0, 3) // Fetch the 3 most recent notes
         .map(note => ({
           ...note,
-          preview: note.content,
           date: formatCreationDate(note.id)
         }));
       setRecentNotes(sortedNotes);
@@ -101,14 +85,13 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
     <div>
       <CommandDialog open={isOpen} onOpenChange={toggleMenu}>
         <div className="bg-dark">
-          <Badge className="m-3 ml-3.5 -mb-1.5 font-medium">Editor</Badge>
           <CommandInput
             autoFocus
             placeholder="Search for something..."
             className="w-full bg-dark text-zinc-100"
           />
         </div>
-        <div className="bg-dark overflow-hidden flex flex-col" style={{ maxHeight: '60vh' }}>
+        <div className="bg-dark overflow-hidden flex flex-col" style={{ maxHeight: '65vh' }}>
           <CommandList className="p-2 rounded-b-xl overflow-y-auto flex-grow">
             <CommandGroup heading="Recent Notes">
               {recentNotes.map((note) => (
@@ -120,10 +103,10 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
                   // component, which allows showing the note name and date
                   name={
                     <div className="flex flex-col flex-grow overflow-hidden">
-                      <span className="text-sm md:text-base font-medium md:font-normal truncate overflow-hidden">
+                      <span className="text-sm md:text-base font-medium truncate overflow-hidden">
                         {note.name}
                       </span>
-                      <span className="text-[11px] md:text-xs text-stone-400 truncate overflow-hidden">
+                      <span className="text-[11px] md:text-xs text-zinc-300/85 truncate overflow-hidden">
                         {note.date}
                       </span>
                     </div>
@@ -166,16 +149,10 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
                 />
               ))}
             </CommandGroup>
-            <CommandEmpty className="p-5 text-zinc-300 text-center flex justify-center items-center">
-              No results found
+            <CommandEmpty>
+              No results found.
             </CommandEmpty>
           </CommandList>
-          <div className="p-3 bg-neutral-900 border-t border-neutral-800 text-stone-300 text-xs md:text-sm text-center rounded-b-xl flex items-center justify-center">
-            <Lightbulb size={15} className="mr-1 text-amber-400" /> 
-            <span className="truncate max-w-xs sm:max-w-sm">
-              {randomTip}
-            </span>
-          </div>
         </div>
       </CommandDialog>
     </div>
