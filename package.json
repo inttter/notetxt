@@ -17,6 +17,7 @@
     "@radix-ui/react-tooltip": "^1.1.4",
     "@vercel/analytics": "^1.4.0",
     "@vercel/speed-insights": "^1.1.0",
+    "chrono-node": "^2.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",

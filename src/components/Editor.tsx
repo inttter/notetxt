@@ -11,6 +11,7 @@ import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
+import * as chrono from 'chrono-node';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
@@ -331,16 +332,44 @@ export default function Editor() {
     const value = e.target.value;
     const lines = value.split('\n');
   
-    setNotes(prevNotes => {
+    const cursorPosition = e.target.selectionStart;
+  
+    let caretOffset = 0;
+  
+    // Match and parse dates when it matches regex (eg. where (.*?) is "yesterday", "a week ago" and etc.)
+    const parsedLines = lines.map((line) =>
+      line.replace(/\[\[(.*?)\]\]/g, (_, match) => {
+        const parsedDate = chrono.parseDate(match);
+  
+        if (parsedDate) {
+          const dayOfWeek = parsedDate.toLocaleString('en-US', { weekday: 'long' });
+          const day = parsedDate.getDate().toString().padStart(2, '0');
+          const dayWithSuffix = `${Number(day)}${getDaySuffix(Number(day))}`;
+          const month = parsedDate.toLocaleString('en-US', { month: 'long' });
+          const year = parsedDate.getFullYear();
+  
+          const replacement = `${dayOfWeek}, ${dayWithSuffix} ${month} ${year}`;
+          
+          caretOffset += replacement.length - match.length - 4;
+          return replacement;
+        }
+  
+        return `[[${match}]]`;
+      })
+    );
+  
+    const parsedContent = parsedLines.join('\n');
+  
+    setNotes((prevNotes) => {
       const updatedNote = {
         ...prevNotes[currentNoteId],
-        content: value
+        content: parsedContent,
       };
   
-      const commandLineIndex = lines.findIndex(line => line.startsWith('/'));
-  
+      // Check for commands
+      const commandLineIndex = parsedLines.findIndex((line) => line.startsWith('/'));
       if (commandLineIndex !== -1) {
-        const command = lines[commandLineIndex].slice(1); // Get command without slash
+        const command = parsedLines[commandLineIndex].slice(1); // Get command without the slash
         const foundCommand = Object.entries(commands).find(([cmd, { aliases }]) =>
           cmd === command || aliases.includes(command) // Check both command and aliases
         );
@@ -350,25 +379,35 @@ export default function Editor() {
   
           // Use the command key from the foundCommand for TOC logic
           if (foundCommand[0] === 'toc' || foundCommand[1].aliases.includes('contents')) {
-            const toc = generateTOC(value);
+            const toc = generateTOC(parsedContent);
             commandOutput = '## Table of Contents\n\n' + toc;
           }
   
-          lines[commandLineIndex] = commandOutput;
-          const newContent = lines.join('\n');
-  
+          parsedLines[commandLineIndex] = commandOutput;
+          const newContent = parsedLines.join('\n');
           updatedNote.content = newContent;
   
           if (textareaRef.current) {
             textareaRef.current.value = newContent;
   
-            const positionBeforeCommand = lines
+            const positionBeforeCommand = parsedLines
               .slice(0, commandLineIndex)
               .join('\n').length + commandOutput.length + 1;
+  
             textareaRef.current.setSelectionRange(positionBeforeCommand, positionBeforeCommand);
             textareaRef.current.focus();
           }
         }
+      }
+  
+      // Move caret to the end of replacement for parsed placeholders (ie. wikilink syntax dates)
+      if (textareaRef.current && commandLineIndex === -1) {
+        textareaRef.current.value = parsedContent;
+  
+        // Move caret position to the end of the last replaced string
+        const newCaretPosition = cursorPosition + caretOffset;
+        textareaRef.current.setSelectionRange(newCaretPosition, newCaretPosition);
+        textareaRef.current.focus();
       }
   
       return { ...prevNotes, [currentNoteId]: updatedNote };
