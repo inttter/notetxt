@@ -24,7 +24,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
     <CommandItem
       key={id}
       onSelect={handleSelect}
-      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-neutral-800/50 rounded-lg flex items-center group duration-300"
+      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-neutral-800/50 hover:border-neutral-800 rounded-lg flex items-center group duration-300"
     >
       {icon && (
       <span className="mr-2 text-stone-400 duration-300">
