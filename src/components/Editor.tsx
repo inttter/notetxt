@@ -336,7 +336,7 @@ export default function Editor() {
   
     let caretOffset = 0;
   
-    // Match and parse dates when it matches regex (eg. where (.*?) is "yesterday", "a week ago" and etc.)
+    // Match and parse dates when it matches regex (where [[...]] contains dates)
     const parsedLines = lines.map((line) =>
       line.replace(/\[\[(.*?)\]\]/g, (_, match) => {
         const parsedDate = chrono.parseDate(match);
@@ -392,7 +392,7 @@ export default function Editor() {
   
             const positionBeforeCommand = parsedLines
               .slice(0, commandLineIndex)
-              .join('\n').length + commandOutput.length + 1;
+              .join('\n').length + commandOutput.length;
   
             textareaRef.current.setSelectionRange(positionBeforeCommand, positionBeforeCommand);
             textareaRef.current.focus();
@@ -750,7 +750,7 @@ export default function Editor() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="px-3 py-[0.6rem] text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex flex-col justify-between"
             >
-              {/* Note Title */}
+              {/* Note Name */}
               <div className="flex justify-between items-center">
                 <span className="text-sm text-stone-200 truncate overflow-ellipsis" aria-label="Note Name">
                   {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? <Loader2 size={15} className={`text-stone-200 animate-spin mb-1`} /> : 'New Note')}
@@ -795,7 +795,7 @@ export default function Editor() {
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
                 onScroll={syncScroll}
-                className={`bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-stone-500 outline-none leading-[21.5px]
+                className={`bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-stone-400/80 outline-none leading-[21.5px]
                   ${isPreviewMode ? 'md:block max-w-full md:max-w-lg text-sm md:text-[15.5px] md:w-1/2 rounded-r-lg md:rounded-r-none' : 'max-w-full w-full text-sm md:text-base mx-auto'} 
                 p-4 rounded-b-lg rounded-t-none min-h-[542px] max-h-[552px] overflow-auto caret-amber-400 resize-none textarea-custom-scroll font-ia-quattro tracking-tight`}
                 aria-label="Note Content"
