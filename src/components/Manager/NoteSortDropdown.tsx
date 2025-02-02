@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChevronUp } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/Select";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/Tooltip";
 
@@ -12,8 +13,10 @@ const SortDropdown = ({ sortOptions, sortCriteria, handleSortChange }) => {
               <SelectTrigger
                 className="border border-transparent text-zinc-300 hover:text-zinc-100 text-xs duration-300 flex items-center focus:outline-none outline-none"
                 aria-label="Note Sort Options"
+                hideDefaultIcon
               >
                 {sortOptions.find(o => o.value === sortCriteria)?.label || 'N/A'}
+                <ChevronUp size={15} className="ml-1 text-stone-400" />
               </SelectTrigger>
             </TooltipTrigger>
             <TooltipContent side="top" align="start">

@@ -15,8 +15,8 @@ const SelectValue = SelectPrimitive.Value
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { hideDefaultIcon?: boolean }
+>(({ className, children, hideDefaultIcon, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
@@ -26,12 +26,16 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <SelectPrimitive.Icon asChild>
-      <ChevronDown size={15} className="ml-1 text-stone-400" />
-    </SelectPrimitive.Icon>
+    {!hideDefaultIcon && (
+      <SelectPrimitive.Icon asChild>
+        {/* The default icon for this component is `ChevronDown` */}
+        <ChevronDown size={15} className="ml-1 text-stone-400" />
+      </SelectPrimitive.Icon>
+    )}
   </SelectPrimitive.Trigger>
-))
-SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
+));
+
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectScrollUpButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
