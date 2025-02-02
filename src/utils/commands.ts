@@ -58,15 +58,17 @@ const commands = {
     date: {
         content: (() => {
             const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = String(now.getFullYear()).slice(-2);
             
-            // Returns date in DD/MM/YY
-            return `${day}/${month}/${year}`; 
+            const month = now.toLocaleString('en-US', { month: 'long' });
+            const day = now.getDate();
+            const year = now.getFullYear();
+    
+            // eg. February 2, 2025
+            return `${month} ${day}, ${year}`; 
         })(),
         aliases: ['day'],
     },
+    
 };
 
 export default commands;

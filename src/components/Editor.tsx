@@ -342,13 +342,12 @@ export default function Editor() {
         const parsedDate = chrono.parseDate(match);
   
         if (parsedDate) {
-          const dayOfWeek = parsedDate.toLocaleString('en-US', { weekday: 'long' });
-          const day = parsedDate.getDate().toString().padStart(2, '0');
-          const dayWithSuffix = `${Number(day)}${getDaySuffix(Number(day))}`;
+          const day = parsedDate.getDate().toString();
           const month = parsedDate.toLocaleString('en-US', { month: 'long' });
           const year = parsedDate.getFullYear();
   
-          const replacement = `${dayOfWeek}, ${dayWithSuffix} ${month} ${year}`;
+          // eg. February 2, 2025
+          const replacement = `${month} ${day}, ${year}`;
           
           caretOffset += replacement.length - match.length - 4;
           return replacement;
@@ -391,8 +390,8 @@ export default function Editor() {
             textareaRef.current.value = newContent;
   
             const positionBeforeCommand = parsedLines
-              .slice(0, commandLineIndex)
-              .join('\n').length + commandOutput.length;
+            .slice(0, commandLineIndex)
+            .join('\n').length + commandOutput.length + (commandLineIndex === 0 ? 0 : 1);
   
             textareaRef.current.setSelectionRange(positionBeforeCommand, positionBeforeCommand);
             textareaRef.current.focus();
@@ -688,7 +687,7 @@ export default function Editor() {
     const minutes = String(date.getMinutes()).padStart(2, '0');
   
     // Returns in the format of '[DAY][suffix] [MONTH] [YEAR] at [HH:MM]'
-    return `${month} ${dayWithSuffix} ${year} at ${hours}:${minutes}`;
+    return `${month} ${dayWithSuffix} ${year}, ${hours}:${minutes}`;
   };
 
   useEffect(() => {
