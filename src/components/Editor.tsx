@@ -747,7 +747,7 @@ export default function Editor() {
               initial={{ opacity: 0.01 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="px-3 py-[0.6rem] text-stone-400 bg-neutral-900 border border-neutral-800 -mb-3 rounded-t-xl flex flex-col justify-between"
+              className="px-3 py-[0.6rem] text-stone-400 bg-dark-secondary border border-neutral-800/70 -mb-3 rounded-t-xl flex flex-col justify-between"
             >
               {/* Note Name */}
               <div className="flex justify-between items-center">
@@ -756,25 +756,16 @@ export default function Editor() {
                 </span>
                 {/* Markdown Preview Mode Indicator */}
                 {isPreviewMode && (
-                  <motion.span
-                    initial={{ opacity: 0.01 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="ml-2 text-xs md:text-sm text-stone-400 flex items-center"
+                  <Link
+                    href={mdDocsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-1 text-xs hover:text-stone-300 border-b border-neutral-700 hover:border-neutral-500 duration-300 flex items-center"
+                    title="Visit Markdown Documentation"
+                    aria-label="Markdown Documentation Link"
                   >
                     <FaMarkdown size={15} className="mr-1" /> Markdown
-                    {/* Markdown Documentation Link */}
-                    <Link
-                      href={mdDocsLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-1 text-xs hover:text-stone-300 border-b border-neutral-700 hover:border-neutral-500 duration-300"
-                      title="Markdown Documentation"
-                      aria-label="Markdown Documentation Link"
-                    >
-                      (Docs)
-                    </Link>
-                  </motion.span>
+                  </Link>
                 )}
               </div>
               {/* Note Creation Date */}
@@ -794,9 +785,9 @@ export default function Editor() {
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
                 onScroll={syncScroll}
-                className={`bg-transparent border border-neutral-800 text-stone-200/90 placeholder:text-stone-400/80 outline-none leading-[21.5px]
+                className={`bg-dark-secondary border border-neutral-800/70 text-stone-200/90 placeholder:text-stone-400/90 outline-none leading-[21.5px]
                   ${isPreviewMode ? 'md:block max-w-full md:max-w-lg text-sm md:text-[15.5px] md:w-1/2 rounded-r-lg md:rounded-r-none' : 'max-w-full w-full text-sm md:text-base mx-auto'} 
-                p-4 rounded-b-lg rounded-t-none min-h-[542px] max-h-[552px] overflow-auto caret-amber-400 resize-none textarea-custom-scroll font-ia-quattro tracking-tight`}
+                p-4 rounded-b-lg rounded-t-none min-h-[542px] max-h-[552px] overflow-auto resize-none textarea-custom-scroll font-ia-quattro tracking-tight`}
                 aria-label="Note Content"
               />
               {isPreviewMode && (

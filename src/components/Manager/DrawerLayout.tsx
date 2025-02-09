@@ -202,7 +202,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="bg-neutral-800/40 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-700/40 duration-300 p-3 rounded-lg flex items-center group"
+                    className="bg-dark-button/80 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-800/70 duration-300 p-3 rounded-lg flex items-center group"
                     aria-label="Open Note Manager Button"
                   >
                     <LibraryBig size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
@@ -238,7 +238,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   placeholder="Search for notes or tags..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-neutral-900 placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300"
+                  className="w-full pl-[2.15rem] py-2 rounded-lg text-sm md:text-base bg-dark-secondary placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300"
                   data-vaul-no-drag
                 />
                 <Search size={18} className="absolute left-3 text-stone-300" />
@@ -253,14 +253,14 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                       className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs border truncate overflow-ellipsis tracking-wide cursor-pointer ${
                         isActive
                           ? 'bg-zinc-100 text-neutral-950 duration-300'
-                          : 'bg-neutral-800/60 hover:bg-neutral-800 border-neutral-700/40 hover:border-neutral-700/60 text-zinc-300'
+                          : 'bg-dark-button border-neutral-700/40 hover:border-neutral-700 text-zinc-300'
                       }`}
                       onClick={() => setSearchQuery(isActive ? '' : tag)}
                       aria-label="Tag Name"
                     >
                       <span>{tag}</span>
                       {!isActive && (
-                        <span className="text-stone-400 font-mono tracking-tighter duration-300">
+                        <span className="text-xs text-stone-400 font-mono tracking-tighter duration-300">
                           {count}
                         </span>
                       )}                      
@@ -283,7 +283,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 {tagCounts.length > 3 && (
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="bg-neutral-800/60 hover:bg-neutral-800 border border-neutral-700/40 hover:border-neutral-700/60 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300/85 hover:text-zinc-300 text-xs"
+                    className="bg-dark-button border border-neutral-700/40 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300/85 hover:text-zinc-300 text-xs"
                     aria-label="Show More/Less Tags Button"
                     data-vaul-no-drag
                   >

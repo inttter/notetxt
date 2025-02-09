@@ -135,16 +135,17 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
     <div className="flex flex-col space-y-2">
       {notes.length === 0 ? (
         <div className="flex flex-col items-center mt-2 mb-3">
-          <div className="text-md md:text-lg text-stone-300">No notes found</div>
-          <span
-            className="text-sm md:text-base text-yellow-500 hover:text-yellow-400 cursor-pointer duration-300 flex items-center"
+          <div className="text-md md:text-lg text-stone-300 ">No notes found</div>
+          <button
+            className="text-base font-medium text-primary-text hover:text-primary-text/80 cursor-pointer duration-300 flex items-center"
+            aria-label="Create New Note Button"
             onClick={(e) => {
               e.stopPropagation();
               onAddNote();
             }}
           >
             <Plus size={18} className="mr-0.5" /> Create a new note
-          </span>
+          </button>
         </div>
       ) : (
         notes.map((note) => (
@@ -152,8 +153,8 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
             key={note.id}
             className={`flex flex-col relative p-2 rounded-lg border text-sm md:text-base text-zinc-300 cursor-pointer duration-300 ${
               currentNoteId === note.id
-                ? 'bg-neutral-800/60 border-neutral-700/60'
-                : 'bg-neutral-900 hover:bg-neutral-800/60 border-neutral-800 hover:border-neutral-700/60'
+                ? 'bg-dark-button border-neutral-800'
+                : 'bg-dark-secondary hover:bg-dark-button border-neutral-800'
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -171,7 +172,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     onBlur={handleSaveName}
                     onKeyDown={handleKeyDown}
                     placeholder="Note Title"
-                    className="bg-neutral-800 border border-neutral-700/60 px-1 md:px-0 p-[1px] rounded-md text-zinc-300 placeholder:text-stone-400/80 placeholder:font-normal font-medium caret-amber-400 outline-none flex-grow min-w-[14rem] sm:min-w-[20rem] md:min-w-[23rem] text-sm md:text-base duration-300"
+                    className="bg-dark-secondary border border-neutral-700/60 px-1 md:px-0 py-[0.5px] rounded-md text-zinc-300 placeholder:text-stone-400/80 placeholder:font-normal font-medium outline-none flex-grow min-w-[14rem] sm:min-w-[20rem] md:min-w-[23rem] text-sm md:text-base duration-300"
                     data-vaul-no-drag
                   />
                 ) : (
@@ -209,12 +210,12 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                 <DropdownMenuContent
                   align="center"
                   sideOffset={5}
-                  className="bg-neutral-900 border border-neutral-800 text-zinc-300 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden mr-3"
+                  className="bg-dark border border-neutral-800/60 text-zinc-300 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden mr-3"
                   onCloseAutoFocus={(e) => e.preventDefault()}
                 >
                   {options.map(({ label, icon: Icon, onClick, ariaLabel }) => (
                     <DropdownMenuItem
-                      className={`hover:bg-neutral-800 hover:cursor-pointer rounded-md duration-300 ${
+                      className={`hover:bg-dark-focus hover:cursor-pointer rounded-md duration-300 ${
                         label === 'Delete Note' ? 'text-destructive' : ''
                       }`}
                       key={label}
@@ -233,9 +234,9 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
               {(note.tags || []).map((tag) => (
                   <div
                     key={tag}
-                    className={`flex items-center border border-neutral-700/60 px-2 py-1 max-w-[140px] rounded-lg text-yellow-400 text-xs truncate overflow-ellipsis tracking-tight duration-300 font-ia-quattro ${
-                      currentNoteId === note.id ? 'bg-yellow-500/15 border-yellow-500/15' : 'bg-yellow-500/10 border-yellow-500/10'
-                    } ${searchQuery && tag === searchQuery ? 'bg-yellow-500/30 border-yellow-500/30 text-yellow-300' : ''}`}
+                    className={`flex items-center border border-neutral-700/60 px-2 py-1 max-w-[140px] rounded-lg text-primary-text text-xs truncate overflow-ellipsis tracking-tight duration-300 font-ia-quattro ${
+                      currentNoteId === note.id ? 'bg-primary/15 border-primary/15' : 'bg-primary/10 border-primary/10'
+                    } ${searchQuery && tag === searchQuery ? 'bg-primary/30 border-primary/30 text-primary' : ''}`}
                   >
                     <span className="truncate overflow-ellipsis duration-300">
                       {tag}
@@ -259,7 +260,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     value={newTags[note.id] || ''}
                     onChange={(e) => handleTagInputChange(note.id, e.target.value)}
                     onKeyDown={(e) => handleTagKeyDown(e, note.id)}
-                    className="w-20 bg-yellow-500/15 border border-yellow-500/15 text-yellow-400 placeholder:text-yellow-400/60 caret-amber-400 outline-none rounded-lg text-xs px-2 py-[0.25rem] font-ia-quattro tracking-tight"
+                    className="w-20 bg-primary/15 border border-primary/15 text-primary-text placeholder:text-primary-text/60 outline-none rounded-lg text-xs px-2 py-[0.25rem] font-ia-quattro tracking-tight"
                     placeholder="Tag Name"
                     autoFocus
                   />
@@ -268,10 +269,10 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
-                          className={`text-yellow-400 hover:bg-yellow-500/25 hover:border-yellow-500/40 text-xs rounded-lg border px-2 py-[0.28rem] md:py-[0.26rem] flex items-center duration-300 ${
+                          className={`text-primary-text hover:bg-primary/25 hover:border-primary/40 text-xs rounded-lg border px-2 py-[0.28rem] md:py-[0.26rem] flex items-center duration-300 ${
                             currentNoteId === note.id
-                              ? 'bg-yellow-500/15 border-yellow-500/15'
-                              : 'bg-yellow-500/10 border-yellow-500/10'
+                              ? 'bg-primary/15 border-primary/15'
+                              : 'bg-primary/10 border-primary/10'
                           }`}
                           aria-label="Add Tag"
                           onClick={() => toggleTagInput(note.id)}
@@ -280,7 +281,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                           {(!note.tags || note.tags.length === 0) && <span className="ml-1">Add tag</span>}
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent>Add Tag</TooltipContent>
+                      <TooltipContent>Add tag</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 )}

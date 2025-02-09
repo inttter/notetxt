@@ -13,8 +13,12 @@ module.exports = {
       colors: {
         'confirm': '#166534',
         'destructive': '#EF4444',
-        'default': '#282828',
-        'dark': '#101010',
+        'primary': '#5577f2',
+        'primary-text': '#94a8f2',
+        'dark': '#121215',
+        'dark-secondary': '#151519',
+        'dark-button': '#1b1b1f',
+        'dark-focus': '#1d1e23'
       }
     },
     keyframes: {

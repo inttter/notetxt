@@ -30,19 +30,6 @@ body {
   z-index: 2;
 }
 
-/* Custom toast styles */
-.toast-container {
-  @apply bg-dark border border-neutral-800 rounded-lg shadow-lg p-4 z-[1050];
-}
-
-.toast-title {
-  @apply text-lg text-zinc-100 font-semibold;
-}
-
-.toast-description {
-  @apply text-sm text-zinc-300 mt-1;
-}
-
 /* Normal button styles */
 .btn {
   @apply rounded-lg px-3 py-2 duration-300
@@ -89,7 +76,7 @@ body {
 
 /* Use a thinner scrollbar for the textarea because it looks ugly with the 8px style */
 .textarea-custom-scroll::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 .textarea-custom-scroll::-webkit-scrollbar-track {
@@ -106,7 +93,7 @@ input::placeholder,
 textarea::placeholder,
 input,
 textarea {
-  caret-color: #fbbf24;
+  caret-color: theme('colors.primary');
 }
 
 @keyframes spin {

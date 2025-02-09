@@ -51,30 +51,30 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
           type="text"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-neutral-900 placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
+          className="w-full px-3 py-2 rounded-lg bg-dark-secondary placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
           placeholder="Note Name"
         />
         <div className="flex justify-end items-center">
           <div className="text-zinc-300 flex space-x-2">
             <button
               onClick={onRequestClose}
-              className="btn-dialog bg-neutral-800/60 hover:bg-neutral-800/85 border-neutral-700/60"
+              className="btn-dialog bg-dark-button hover:bg-neutral-800/85 border-neutral-700/60"
               aria-label="Cancel"
             >
               Cancel
             </button>
 
             <Select value={fileType} onValueChange={setFileType}>
-              <SelectTrigger className="bg-neutral-800/60 hover:bg-neutral-800/85 border border-neutral-700/60 px-2 py-1 rounded-md text-sm duration-300 flex items-center">
+              <SelectTrigger className="bg-dark-button hover:bg-neutral-800/85 border border-neutral-700/60 px-2 py-1 rounded-md text-sm duration-300 flex items-center">
                 {fileTypes.find((type) => type.value === fileType)?.icon}
                 <span>
                   {fileTypes.find((type) => type.value === fileType)?.name || 'Select Format'}
                 </span>
               </SelectTrigger>
-              <SelectContent align="start" className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden duration-300 mt-2.5">
+              <SelectContent align="start" className="bg-dark border border-neutral-800 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden duration-300 mt-2.5">
                 {fileTypes.map((type) => (
                   <SelectItem
-                    className="text-zinc-300 text-sm hover:bg-neutral-800 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
+                    className="text-zinc-300 text-sm hover:bg-dark-focus rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
                     key={type.value}
                     value={type.value}
                   >
@@ -88,7 +88,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
             </Select>
 
             <button
-              className="btn-dialog bg-confirm/80 border-neutral-700/60 hover:bg-confirm flex items-center"
+              className="btn-dialog text-zinc-100 hover:text-zinc-200 bg-primary/80 border-neutral-700/60 hover:bg-primary/65 flex items-center"
               onClick={handleSave}
               aria-label="Download Note"
             >

@@ -5,23 +5,23 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const LandingBadge = ({ link = 'https://docs.notetxt.xyz/main/markdown#dates' }) => {
+const LandingBadge = ({ link = '' }) => {
   const isExternalLink = link.startsWith('http');
   
   const content = (
     <div 
       className={`
-        rounded-lg px-3 py-1 md:py-1.5 text-zinc-300 text-xs md:text-sm leading-6 bg-yellow-500/10 ring-1 ring-yellow-500/20 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300 group
-        ${link ? 'hover:ring-yellow-500/30 hover:bg-yellow-500/15' : 'ring-yellow-500/20'}
+        rounded-lg px-3 py-1 md:py-1.5 text-zinc-300 text-xs md:text-sm leading-6 bg-primary/15 ring-1 ring-primary/30 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300 group
+        ${link ? 'hover:ring-primary/40 hover:bg-primary/20' : 'ring-primary/25'}
       `}
       role="alert"
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-        ✨ Reference dates easier within your notes!
+        ✨ Notetxt has a new and improved color scheme!
       </div>
       {link && 
-        <ArrowRight size={15} className="ml-1 text-zinc-100/70 group-hover:text-zinc-100 group-hover:translate-x-0.5 duration-300" />
+        <ArrowRight size={15} className="ml-1 text-primary-text/90 group-hover:text-primary-text group-hover:translate-x-0.5 duration-300" />
       }
     </div>
   );

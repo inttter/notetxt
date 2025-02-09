@@ -75,7 +75,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
           {summaryItems.map(({ title, value, description, isLongestWord, isTimeToRead }) => (
             <div
               key={title}
-              className="summary-item shadow-2xl shadow-neutral-950 bg-neutral-900 border border-neutral-700/60 p-3 rounded-lg duration-300"
+              className="summary-item shadow-2xl shadow-neutral-950 bg-dark-secondary border border-neutral-700/60 p-3 rounded-lg duration-300"
               aria-label={title}
             >
               <div className="summary-item-content">

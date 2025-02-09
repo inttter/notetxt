@@ -45,7 +45,7 @@ const MarkdownPreview = ({ content, scrollPosition, setScrollPosition, textareaR
     >
       <div
         ref={scrollRef}
-        className="h-[542px] overflow-y-auto textarea-custom-scroll border border-neutral-800 rounded-b-lg rounded-l-lg md:rounded-l-none rounded-t-lg md:rounded-t-none p-4"
+        className="bg-dark-secondary h-[542px] overflow-y-auto textarea-custom-scroll border border-neutral-800/70 rounded-b-lg rounded-l-lg md:rounded-l-none rounded-t-lg md:rounded-t-none p-4"
       >
         <ReactMarkdown
           children={content}
@@ -63,7 +63,7 @@ const MarkdownPreview = ({ content, scrollPosition, setScrollPosition, textareaR
             rehypeKatex,
             [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
           ]}
-          className="bg-transparent text-stone-200/95 placeholder:text-neutral-600 outline-none w-full -mt-4 text-[14.5px] caret-amber-400 font-sans duration-300"
+          className="text-stone-200/95 placeholder:text-neutral-600 outline-none w-full -mt-4 text-[14.5px] caret-amber-400 font-sans duration-300"
         />
       </div>
     </motion.div>

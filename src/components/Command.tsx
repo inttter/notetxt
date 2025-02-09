@@ -24,7 +24,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
     <CommandItem
       key={id}
       onSelect={handleSelect}
-      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-neutral-800/50 hover:border-neutral-800 rounded-lg flex items-center group duration-300"
+      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-dark-button hover:border-neutral-800 rounded-lg flex items-center group duration-300"
     >
       {icon && (
       <span className="mr-2 text-stone-400 duration-300">
@@ -35,7 +35,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
         {name}
       </span>
       {!isMobile && keybind && (
-        <CommandShortcut className="ml-auto flex items-center">
+        <CommandShortcut className="ml-autoflex items-center">
           {keybind}
         </CommandShortcut>
       )}
@@ -150,7 +150,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
               ))}
             </CommandGroup>
             <CommandEmpty>
-              No results found.
+              No results found
             </CommandEmpty>
           </CommandList>
         </div>
@@ -191,7 +191,7 @@ const CommandMenuButton = ({ openCommandMenu, onNoteSelect, formatCreationDate }
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               onClick={toggleCommandMenu}
-              className="bg-neutral-800/40 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-700/40 duration-300 p-3 rounded-lg flex items-center group"
+              className="bg-dark-button/80 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-800/70 duration-300 p-3 rounded-lg flex items-center group"
               aria-label="Open Command Menu Button"
             >
               <CommandIcon size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />

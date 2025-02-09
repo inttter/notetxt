@@ -35,26 +35,25 @@ const HeroSection = () => {
         <Link 
           href="/editor" 
           onClick={() => setIsLoading(true)}
-          className={`px-3 py-2 text-zinc-300 bg-neutral-800/70 hover:bg-neutral-700/45 text-base font-medium border border-neutral-700/70 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-60 hover:border-neutral-600'} active:border-neutral-500 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group`}
+          className={`px-3 py-2 text-white hover:text-zinc-200 bg-primary/50 hover:bg-primary/40 ring-1 ring-primary/60 text-base font-medium ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:ring-primary/55'} duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group`}
           aria-label="Open Editor Button"
         >
           {isLoading ? (
-            <Loader2 size={17} className={`mr-1 text-yellow-400 animate-spin`} />
+            <Loader2 size={17} className={`mr-1.5 text-white animate-spin`} />
           ) : (
-            <NotepadText size={17} className="mr-1 text-stone-400 group-hover:text-zinc-100 rotate-6 duration-300" />
+            <NotepadText size={17} className="mr-1.5 text-white rotate-6 duration-300" />
           )}
-          {isLoading ? 'Loading Editor...' : 'Open the Editor'}
+          {isLoading ? 'Loading...' : 'Open Editor'}
         </Link>
         <Link 
           href="https://docs.notetxt.xyz" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="text-sm text-zinc-300 hover:text-zinc-100 duration-300 flex items-center group"
+          className="px-3 py-2 text-base text-zinc-100 hover:text-zinc-100 bg-dark-button hover:bg-dark-button/30 border border-neutral-700/60 hover:border-neutral-800 duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group"
           aria-label="Visit Documentation Button"
         >
-          <BookOpenText size={17} className="mr-1 text-stone-400 group-hover:text-zinc-100 duration-300" /> 
-          Visit the Docs
-          <ArrowRight size={15} className="ml-1 text-stone-500 group-hover:translate-x-0.5 duration-300" />
+          <BookOpenText size={17} className="mr-1.5 duration-300" /> 
+          View the Docs
         </Link>
       </div>
     </motion.div>

@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-neutral-900 border border-neutral-800 text-zinc-300 shadow hover:bg-neutral-800/60",
+          "bg-neutral-800/60 border border-neutral-800 text-zinc-300 shadow hover:bg-neutral-800",
         success:
           "bg-confirm border border-neutral-800 text-zinc-100 shadow-sm hover:bg-confirm/90",
         destructive:
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         outline:
           "text-zinc-300 bg-transparent border border-neutral-800 shadow-sm hover:bg-neutral-900/90",
         secondary:
-          "bg-zinc-100 text-neutral-950 shadow-sm hover:bg-zinc-100/80",
+          "bg-primary text-zinc-100 hover:text-zinc-200 shadow-sm hover:bg-primary/80",
         ghost: "text-zinc-300 bg-transparent hover:bg-neutral-900/90",
         link: "text-zinc-300 underline-offset-4 hover:underline",
       },

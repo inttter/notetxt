@@ -26,8 +26,8 @@ export default function Privacy() {
           initial={{ opacity: 0.01, y: 20 }}
           animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.1 } }}
         >
-          <FileLock size={40} className="mr-2 text-amber-400 md:mt-0 mt-10" />
-          <div className="text-4xl md:text-5xl text-zinc-100 opacity-90 md:mt-0 mt-10 max-w-lg tracking-tighter flex items-center" aria-label="Privacy Policy Title">
+          <FileLock size={40} className="mr-2 text-primary md:mt-0 mt-10" />
+          <div className="text-4xl md:text-5xl text-zinc-100 font-semibold opacity-90 md:mt-0 mt-10 max-w-lg tracking-tight flex items-center" aria-label="Privacy Policy Title">
             {privacyTitle}
           </div>
         </motion.div>

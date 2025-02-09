@@ -25,12 +25,12 @@ const SortDropdown = ({ sortOptions, sortCriteria, handleSortChange }) => {
           </Tooltip>
         </TooltipProvider>
 
-        <SelectContent className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden duration-300">
+        <SelectContent className="bg-dark border border-neutral-800/60 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden duration-300">
           {sortOptions.map(({ value, label }) => (
             <SelectItem
               key={value}
               value={value}
-              className="text-zinc-300 text-sm hover:bg-neutral-800 px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
+              className="text-zinc-300 text-sm hover:bg-dark-focus px-2 py-1.5 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
             >
               {label}
             </SelectItem>
