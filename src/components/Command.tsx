@@ -93,32 +93,36 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
         </div>
         <div className="bg-dark overflow-hidden flex flex-col" style={{ maxHeight: '65vh' }}>
           <CommandList className="p-2 rounded-b-xl overflow-y-auto flex-grow">
-            <CommandGroup heading="Recent Notes">
-              {recentNotes.map((note) => (
-                // @ts-ignore
-                <MenuItem
-                  key={note.id}
-                  id={note.id}
-                  // To override the default naming styling from the MenuItem
-                  // component, which allows showing the note name and date
-                  name={
-                    <div className="flex flex-col flex-grow overflow-hidden">
-                      <span className="text-sm md:text-base font-medium truncate overflow-hidden">
-                        {note.name}
-                      </span>
-                      <span className="text-[11px] md:text-xs text-zinc-300/85 truncate overflow-hidden">
-                        {note.date}
-                      </span>
-                    </div>
-                  }
-                  onSelect={() => {
-                    onNoteSelect(note.id);
-                    toggleMenu(false);
-                  }}
-                />
-              ))}
-            </CommandGroup>
-            <CommandSeparator />
+            {recentNotes.length > 0 && (
+              <>
+                <CommandGroup heading="Recent Notes">
+                  {recentNotes.map((note) => (
+                    // @ts-ignore
+                    <MenuItem
+                      key={note.id}
+                      id={note.id}
+                      // To override the default naming styling from the MenuItem
+                      // component, which allows showing the note name and date
+                      name={
+                        <div className="flex flex-col flex-grow overflow-hidden">
+                          <span className="text-sm md:text-base font-medium truncate overflow-hidden">
+                            {note.name}
+                          </span>
+                          <span className="text-[11px] md:text-xs text-zinc-300/85 truncate overflow-hidden">
+                            {note.date}
+                          </span>
+                        </div>
+                      }
+                      onSelect={() => {
+                        onNoteSelect(note.id);
+                        toggleMenu(false);
+                      }}
+                    />
+                  ))}
+                </CommandGroup>
+                <CommandSeparator />
+              </>
+            )}
             <CommandGroup heading="General">
               {general.map((command) => (
                 // @ts-ignore
