@@ -1,11 +1,11 @@
 [
     {
       "question": "Can I import notes from my device?",
-      "answer": "Yes, you can drag/drop notes of a supported file format or use the 'Import Note' option from the Command Menu."
+      "answer": "Yes, you can drag/drop files of a supported file format or use the 'Import Note' option from the Command Menu."
     },
     {
-      "question": "Can I download/export these notes to my device?",
-      "answer": "Yes, you can download any of your notes by using Ctrl+S, or by selecting 'Download Note' from either the Command Menu or Note Manager. To export your notes, select 'Export Notes' from the Note Manager, where they will be bundled into a singular ZIP file."
+      "question": "Can I download/export notes to my device?",
+      "answer": "Yes, you can download any of your notes by using Ctrl+S, or by selecting 'Download Note' from the Command Menu or Note Manager. To export them, select 'Export Notes' from the Note Manager, where they will be bundled into a ZIP file."
     },
     {
       "question": "What file formats are supported?",
@@ -13,10 +13,10 @@
     },
     {
       "question": "How can I manage all of my notes?",
-      "answer": "Use the Note Manager, which you can get to from the Command Menu, or using Ctrl+J. From there, you can peform various actions on your notes, such as tagging and downloading them. When searching for notes, you can search by either name or by tag."
+      "answer": "Use the Note Manager, which you can get to from the Command Menu, or using Ctrl+J. From there, you can peform various actions on your notes, such as tagging or downloading them."
     },
     {
       "question": "How do I preview my note in Markdown?",
-      "answer": "You will need to toggle the Markdown side-by-side preview, which you can do by using Ctrl+M, or by selecting 'Preview Markdown' from the Command Menu."
+      "answer": "Toggle the Markdown side-by-side preview, can be done by selecting 'Preview Markdown' from the Command Menu, or using Ctrl+M."
     }
 ]  
