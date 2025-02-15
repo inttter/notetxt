@@ -368,7 +368,7 @@ export default function Editor() {
       // Check for commands
       const commandLineIndex = parsedLines.findIndex((line) => line.startsWith('/'));
       if (commandLineIndex !== -1) {
-        const command = parsedLines[commandLineIndex].slice(1); // Get command without the slash
+        const command = parsedLines[commandLineIndex].slice(1).toLowerCase(); // Get command without the slash
         const foundCommand = Object.entries(commands).find(([cmd, { aliases }]) =>
           cmd === command || aliases.includes(command) // Check both command and aliases
         );
