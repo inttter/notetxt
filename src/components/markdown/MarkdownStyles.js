@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Check, FileQuestion, Copy } from 'lucide-react';
 import hljs from 'highlight.js';
 import copy from 'copy-to-clipboard';
-import 'highlight.js/styles/github-dark-dimmed.css';
+import 'highlight.js/styles/github-dark.css';
 
 const markdownStyles = {
   h1: ({ node, ...props }) => (
@@ -40,11 +40,11 @@ const markdownStyles = {
             <div key={index} className="relative inline-block">
               <input
                 type="checkbox"
-                className="appearance-none w-4 h-4 mr-1 -mb-0.5 rounded bg-neutral-800 border border-neutral-700/60 checked:border-neutral-800 checked:bg-yellow-400 accent-neutral-800"
+                className="appearance-none w-4 h-4 mr-1 -mb-0.5 rounded bg-dark border border-neutral-700/60 checked:border-neutral-800 checked:bg-primary accent-neutral-800"
                 {...child.props}
               />
               {child.props.checked && (
-                <Check className="absolute top-[4px] left-0.5 w-3 h-4 text-neutral-950 pointer-events-none" />
+                <Check className="absolute top-[4px] left-0.5 w-3 h-4 text-zinc-100 pointer-events-none" />
               )}
             </div>
           );
@@ -59,10 +59,10 @@ const markdownStyles = {
     </div>
   ),
   th: ({ node, ...props }) => (
-    <th className="px-4 py-2 bg-neutral-900 text-zinc-200 font-semibold border border-neutral-800 prose-invert text-left" {...props} />
+    <th className="px-4 py-2 bg-dark text-zinc-200 font-semibold border border-neutral-800 prose-invert text-left text-sm" {...props} />
   ),
   td: ({ node, ...props }) => (
-    <td className="px-4 py-1.5 bg-neutral-900/40 text-zinc-100 border border-neutral-800 prose-invert" {...props} />
+    <td className="px-4 py-1.5 bg-dark/60 text-zinc-100 border border-neutral-800 prose-invert" {...props} />
   ),
   strong: ({ node, ...props }) => (
     <strong className="prose-strong:font-bold tracking-normal prose-invert" {...props} />
@@ -135,8 +135,8 @@ const markdownStyles = {
       <div className="relative overflow-x-auto mt-4 rounded-lg">
         <button
           onClick={handleCopy}
-          className={`absolute top-[7px] right-2.5 bg-neutral-800 border border-neutral-700/60 text-zinc-300 rounded-lg p-1.5 transition duration-300 ${
-            disabled ? 'bg-neutral-800 cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-neutral-700/60 hover:border-neutral-600'
+          className={`absolute top-[7px] right-2.5 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${
+            disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-dark-focus hover:border-neutral-600'
           }`}
           aria-label="Copy Code to Clipboard"
           title="Copy Code to Clipboard"
@@ -145,10 +145,10 @@ const markdownStyles = {
           {copied ? (
             <Check size={18} className="w-4 h-4 text-green-400 transform transition-transform duration-300" />
           ) : (
-            <Copy size={18} className="w-4 h-4 transform transition-transform duration-300" />
+            <Copy size={18} className="w-4 h-4 text-zinc-100 transform transition-transform duration-300" />
           )}
         </button>
-        <pre className="px-4 my-0 rounded-lg text-zinc-300 bg-neutral-900/80 border border-neutral-800 prose-invert font-medium code text-xs md:text-sm leading-5" aria-label="Code Block">
+        <pre className="px-4 my-0 rounded-lg bg-dark border border-neutral-800 prose-invert font-mono text-xs md:text-xs text-zinc-200" aria-label="Code Block">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
         </pre>
       </div>
@@ -156,13 +156,13 @@ const markdownStyles = {
   },
   code: ({ node, inline, children, ...props }) => {
     return (
-      <code className="px-1 py-[1px] text-stone-200/95 bg-neutral-800 border border-neutral-700/40 rounded-md code m-0.5 whitespace-pre-line" {...props}>
+      <code className="px-1 py-0.5 bg-neutral-800 border border-neutral-700/60 rounded-md code m-0.5 whitespace-pre-line" {...props}>
         {children}
       </code>
     );
   },
   a: ({ node, ...props }) => (
-    <a className="underline-offset-2 text-zinc-100 hover:text-zinc-300/90 duration-300" {...props} />
+    <a className="underline-offset-2 text-primary-text hover:text-primary-text/80 duration-300" {...props} />
   ),
   blockquote: ({ node, ...props }) => (
     // The before/after classes prevent `tailwind-typography` from
@@ -183,8 +183,8 @@ const markdownStyles = {
     return (
       <div className="relative">
         {imgError ? (
-          <div className="max-w-full h-40 mt-4 my-0 bg-neutral-900 border border-neutral-800 flex flex-col items-center justify-center rounded-lg duration-300">
-            <FileQuestion className="text-stone-400 mb-1" size={40} /> No image found
+          <div className="max-w-full h-40 mt-4 my-0 bg-dark border border-neutral-800 flex flex-col items-center justify-center rounded-lg duration-300">
+            <FileQuestion className="text-primary-text mb-1" size={40} /> No image found!
           </div>
         ) : (
           <img
@@ -209,7 +209,12 @@ const markdownStyles = {
     </div>
   ),
   kbd: ({ node, ...props }) => (
-    <kbd className="px-1 py-[1px] bg-neutral-800 border border-neutral-900 text-stone-200/95 rounded-md prose-invert font-mono" {...props} />
+    <kbd className="px-1 py-0.5 bg-neutral-800 border border-neutral-800 text-stone-200/95 rounded-md prose-invert font-mono" {...props} />
+  ),
+  footnoteBlock: ({ node, ...props }) => (
+    <section data-footnotes="" className="footnotes mt-4" {...props}>
+      <ol className="prose-ol:pl-5 prose-ol:mb-2 marker:text-stone-400">{props.children}</ol>
+    </section>
   ),
 };
 

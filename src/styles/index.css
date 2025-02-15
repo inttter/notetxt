@@ -96,6 +96,11 @@ textarea {
   caret-color: theme('colors.primary');
 }
 
+.footnotes h2#footnote-label {
+  display: none;
+}
+
+/* Animations */
 @keyframes spin {
   from {
     transform: rotate(0deg);
