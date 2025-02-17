@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Check, FileQuestion, Copy } from 'lucide-react';
 import hljs from 'highlight.js';
 import copy from 'copy-to-clipboard';
-import 'highlight.js/styles/github-dark.css';
+import 'highlight.js/styles/github-dark-dimmed.css';
 
 const markdownStyles = {
   h1: ({ node, ...props }) => (
@@ -21,7 +21,7 @@ const markdownStyles = {
     <h5 className="relative text-base md:text-lg font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   h6: ({ node, ...props }) => (
-    <h6 className="relative text-sm md:text-base font-semibold mt-5 mb-3 text-neutral-500 prose-invert" {...props} />
+    <h6 className="relative text-sm md:text-base font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   p: ({ node, ...props }) => (
     <p className="mb-4 prose-p:text-neutral-200 opacity-95 prose-invert" {...props} />
@@ -65,7 +65,7 @@ const markdownStyles = {
     <td className="px-4 py-1.5 bg-dark/60 text-zinc-100 border border-neutral-800 prose-invert" {...props} />
   ),
   strong: ({ node, ...props }) => (
-    <strong className="prose-strong:font-bold tracking-normal prose-invert" {...props} />
+    <strong className="font-semibold tracking-normal prose-invert" {...props} />
   ),
   em: ({ node, ...props }) => (
     <em className="italic mr-0.5 prose-invert" {...props} />
@@ -132,11 +132,11 @@ const markdownStyles = {
     };
 
     return (
-      <div className="relative overflow-x-auto mt-4 rounded-lg">
+      <div className="relative overflow-x-auto mt-4">
         <button
           onClick={handleCopy}
-          className={`absolute top-[7px] right-2.5 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${
-            disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-dark-focus hover:border-neutral-600'
+          className={`absolute top-2.5 right-3 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${
+            disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-neutral-700/50'
           }`}
           aria-label="Copy Code to Clipboard"
           title="Copy Code to Clipboard"
@@ -148,7 +148,7 @@ const markdownStyles = {
             <Copy size={18} className="w-4 h-4 text-zinc-100 transform transition-transform duration-300" />
           )}
         </button>
-        <pre className="px-4 my-0 rounded-lg bg-dark border border-neutral-800 prose-invert font-mono text-xs md:text-xs text-zinc-200" aria-label="Code Block">
+        <pre className="p-4 my-0 rounded-lg bg-dark border border-neutral-800 prose-invert font-mono text-xs text-zinc-200" aria-label="Code Block">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
         </pre>
       </div>
@@ -165,7 +165,7 @@ const markdownStyles = {
     <a className="underline-offset-2 text-primary-text hover:text-primary-text/80 duration-300" {...props} />
   ),
   blockquote: ({ node, ...props }) => (
-    // The before/after classes prevent `tailwind-typography` from
+    // The before/after classes prevent tailwind-typography from
     // automatically adding quotation marks at the beginning and end of the text.
     <blockquote className="border-l-4 border-neutral-800 text-zinc-300 mb-0 pl-4 prose-invert before:prose-p:content-none after:prose-p:content-none not-italic" {...props} />
   ),
