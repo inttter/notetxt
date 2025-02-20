@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Check, FileQuestion, Copy } from 'lucide-react';
 import hljs from 'highlight.js';
 import copy from 'copy-to-clipboard';
-import 'highlight.js/styles/github-dark-dimmed.css';
+import 'highlight.js/styles/base16/qualia.css';
 
 const markdownStyles = {
   h1: ({ node, ...props }) => (
@@ -148,7 +148,7 @@ const markdownStyles = {
             <Copy size={18} className="w-4 h-4 text-zinc-100 transform transition-transform duration-300" />
           )}
         </button>
-        <pre className="p-4 my-0 rounded-lg bg-dark border border-neutral-800 prose-invert font-mono text-xs text-zinc-200" aria-label="Code Block">
+        <pre className="p-4 my-0 rounded-lg bg-dark/60 border border-neutral-800 prose-invert font-mono text-xs text-zinc-200" aria-label="Code Block">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
         </pre>
       </div>
@@ -156,7 +156,7 @@ const markdownStyles = {
   },
   code: ({ node, inline, children, ...props }) => {
     return (
-      <code className="px-1 py-0.5 bg-neutral-800 border border-neutral-700/60 rounded-md code m-0.5 whitespace-pre-line" {...props}>
+      <code className="px-1 py-0.5 text-zinc-200 bg-neutral-800 border border-neutral-700/60 rounded-md code m-0.5 whitespace-pre-line" {...props}>
         {children}
       </code>
     );
