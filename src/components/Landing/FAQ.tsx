@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, TableOfContents } from 'lucide-react';
+import { TableOfContents } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/Accordion';
 import faqQuestions from '@/data/faqQuestions.json';
 
@@ -37,13 +37,15 @@ const FAQ = () => {
             <AccordionItem
               key={index}
               value={index.toString()}
-              className={`text-stone-200 duration-300 group ${index > 0 ? 'border-t border-neutral-800' : ''}`}
+              className={`duration-300 group ${index > 0 ? 'border-t border-neutral-800' : ''}`}
             >
               <AccordionTrigger
-                className="w-full py-4 text-left text-sm md:text-base cursor-pointer flex items-center justify-between"
+                className="w-full py-4 text-left text-sm md:text-base font-medium cursor-pointer flex items-center justify-between"
                 onClick={() => handleToggle(index)}
               >
-                <span aria-label="FAQ Question Title">{faq.question}</span>
+                <span aria-label="FAQ Question Title" className="text-zinc-200 group-hover:text-zinc-100 duration-300">
+                  {faq.question}
+                </span>
               </AccordionTrigger>
               <AccordionContent className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp">
                 <AnimatePresence>
@@ -52,8 +54,8 @@ const FAQ = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="text-stone-400 text-sm pb-5"
+                      transition={{ duration: 0.2, ease: 'easeInOut' }}
+                      className="text-stone-300/85 text-sm pb-5"
                       aria-label="FAQ Item Content"
                     >
                       {faq.answer}

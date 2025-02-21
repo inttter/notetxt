@@ -26,7 +26,7 @@ const FeatureCard = () => {
             <div className="text-xl font-medium text-zinc-100">
               {card.title}
             </div>
-            <div className="text-stone-400 text-sm mt-0.5">
+            <div className="text-stone-300/85 text-sm mt-0.5">
               {card.description}
             </div>
           </div>

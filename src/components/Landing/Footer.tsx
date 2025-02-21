@@ -51,7 +51,7 @@ const Footer = () => {
             />
             <div className="text-xl md:text-base text-stone-100" aria-label="Project Name">
               {projectName}
-              <span className="hidden md:block text-xs text-stone-400 -mt-0.5" aria-label="Project Slogan">
+              <span className="hidden md:block text-xs text-stone-300/85 -mt-0.5" aria-label="Project Slogan">
                 {projectSlogan}
               </span>
             </div>
@@ -64,7 +64,9 @@ const Footer = () => {
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
-                className="text-stone-400 hover:text-zinc-100 duration-300 flex items-center"
+                className={`text-stone-300/85 hover:text-zinc-100 duration-300 flex items-center ${
+                  link.text === commitHash ? 'font-mono' : ''
+                }`}                
                 aria-label={link.text}
               >
                 {link.text}
@@ -74,7 +76,6 @@ const Footer = () => {
               </Link>
             ))}
           </div>
-
         </div>
       </div>
     </motion.footer>

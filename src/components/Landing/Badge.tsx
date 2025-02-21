@@ -11,7 +11,7 @@ const LandingBadge = ({ link = '' }) => {
   const content = (
     <div 
       className={`
-        rounded-lg px-3 py-1 md:py-1.5 text-zinc-300 text-xs md:text-sm leading-6 bg-primary/15 ring-1 ring-primary/30 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300 group
+        rounded-lg px-3 py-1 md:py-1.5 text-zinc-200 text-xs md:text-sm leading-6 bg-primary/15 ring-1 ring-primary/30 flex items-center min-w-0 max-w-xs md:max-w-full shadow-lg shadow-neutral-950 duration-300 group
         ${link ? 'hover:ring-primary/40 hover:bg-primary/20' : 'ring-primary/25'}
       `}
       role="alert"
@@ -21,7 +21,7 @@ const LandingBadge = ({ link = '' }) => {
         ✨ Notetxt has a new and improved color scheme!
       </div>
       {link && 
-        <ArrowRight size={15} className="ml-1 text-primary-text/90 group-hover:text-primary-text group-hover:translate-x-0.5 duration-300" />
+        <ArrowRight size={15} className="ml-1 text-primary-text group-hover:translate-x-0.5 duration-300" />
       }
     </div>
   );
