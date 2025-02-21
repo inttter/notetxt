@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { Check, FileQuestion, Copy } from 'lucide-react';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/Tooltip";
 import hljs from 'highlight.js';
 import copy from 'copy-to-clipboard';
 import 'highlight.js/styles/base16/qualia.css';
 
 const markdownStyles = {
   h1: ({ node, ...props }) => (
-    <div className="relative text-3xl md:text-4xl font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <div className="relative text-3xl md:text-4xl font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   h2: ({ node, ...props }) => (
-    <h2 className="relative text-2xl md:text-3xl font-semibold mt-5 mb-4 text-zinc-100 prose-invert" {...props} />
+    <h2 className="relative text-2xl md:text-3xl font-medium mt-5 mb-4 text-zinc-100 prose-invert" {...props} />
   ),
   h3: ({ node, ...props }) => (
-    <h3 className="relative text-xl md:text-2xl font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h3 className="relative text-xl md:text-2xl font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   h4: ({ node, ...props }) => (
-    <h4 className="relative text-lg md:text-xl font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h4 className="relative text-lg md:text-xl font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   h5: ({ node, ...props }) => (
-    <h5 className="relative text-base md:text-lg font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h5 className="relative text-base md:text-lg font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   h6: ({ node, ...props }) => (
-    <h6 className="relative text-sm md:text-base font-semibold mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h6 className="relative text-sm md:text-base font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
   ),
   p: ({ node, ...props }) => (
-    <p className="mb-4 prose-p:text-neutral-200 opacity-95 prose-invert" {...props} />
+    <p className="mb-4 prose-p:text-neutral-200/95 prose-invert" {...props} />
   ),
   ul: ({ node, ...props }) => (
-    <ul className="prose-ul:pl-5 prose-ul:mb-2 marker:text-stone-400" {...props} />
+    <ul className="prose-ul:pl-5 prose-ul:mb-2 marker:text-zinc-100" {...props} />
   ),
   ol: ({ node, ...props }) => (
-    <ol className="prose-ol:pl-5 prose-ol:mb-2 marker:text-stone-400" {...props} />
+    <ol className="prose-ol:pl-5 prose-ol:mb-2 marker:text-zinc-100" {...props} />
   ),
   li: ({ node, children, ...props }) => (
-    <li className="mb-2 prose-li:mb-2 marker:text-stone-400" {...props}>
+    <li className="mb-2 prose-li:mb-2 marker:text-zinc-100" {...props}>
       {React.Children.map(children, (child, index) => {
         if (React.isValidElement(child) && child.type === 'input' && child.props.type === 'checkbox') {
           return (
@@ -59,13 +60,13 @@ const markdownStyles = {
     </div>
   ),
   th: ({ node, ...props }) => (
-    <th className="px-4 py-2 bg-dark text-zinc-200 font-semibold border border-neutral-800 prose-invert text-left text-sm" {...props} />
+    <th className="px-4 py-2 bg-dark text-zinc-200 font-medium border border-neutral-800 prose-invert text-left text-sm" {...props} />
   ),
   td: ({ node, ...props }) => (
     <td className="px-4 py-1.5 bg-dark/60 text-zinc-100 border border-neutral-800 prose-invert" {...props} />
   ),
   strong: ({ node, ...props }) => (
-    <strong className="font-semibold tracking-normal prose-invert" {...props} />
+    <strong className="font-medium tracking-normal prose-invert" {...props} />
   ),
   em: ({ node, ...props }) => (
     <em className="italic mr-0.5 prose-invert" {...props} />
@@ -133,21 +134,29 @@ const markdownStyles = {
 
     return (
       <div className="relative overflow-x-auto mt-4">
-        <button
-          onClick={handleCopy}
-          className={`absolute top-2.5 right-3 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${
-            disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-neutral-700/50'
-          }`}
-          aria-label="Copy Code to Clipboard"
-          title="Copy Code to Clipboard"
-          disabled={disabled}
-        >
-          {copied ? (
-            <Check size={18} className="w-4 h-4 text-green-400 transform transition-transform duration-300" />
-          ) : (
-            <Copy size={18} className="w-4 h-4 text-zinc-100 transform transition-transform duration-300" />
-          )}
-        </button>
+        <TooltipProvider delayDuration={50}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={handleCopy}
+                className={`absolute top-2.5 right-3 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${
+                  disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-neutral-800'
+                }`}
+                aria-label="Copy Code To Clipboard Button"
+                disabled={disabled}
+              >
+                {copied ? (
+                  <Check size={18} className="w-4 h-4 text-green-400 transform transition-transform duration-300" />
+                ) : (
+                  <Copy size={18} className="w-4 h-4 text-zinc-100 transform transition-transform duration-300" />
+                )}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              {copied ? 'Copied!' : 'Copy'}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <pre className="p-4 my-0 rounded-lg bg-dark/60 border border-neutral-800 prose-invert font-mono text-xs text-zinc-200" aria-label="Code Block">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
         </pre>
@@ -213,7 +222,7 @@ const markdownStyles = {
   ),
   footnoteBlock: ({ node, ...props }) => (
     <section data-footnotes="" className="footnotes mt-4" {...props}>
-      <ol className="prose-ol:pl-5 prose-ol:mb-2 marker:text-stone-400">{props.children}</ol>
+      <ol className="prose-ol:pl-5 prose-ol:mb-2">{props.children}</ol>
     </section>
   ),
 };
