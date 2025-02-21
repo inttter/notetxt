@@ -15,6 +15,7 @@ body {
   font-family: var(--font-ia-quattro);
 }
 
+/* Hide backticks from anything which uses 'code' */
 .code::before,
 .code::after {
   content: none;
@@ -32,7 +33,7 @@ body {
 
 /* Normal button styles */
 .btn {
-  @apply rounded-lg px-3 py-2 duration-300
+  @apply rounded-lg px-3 py-2 duration-300;
 }
 
 /* Button styles for dialogs (see `components/Dialogs`) */
@@ -88,7 +89,7 @@ body {
   border-radius: 20px;
 }
 
-/* Gives all textareas/inputs a ...-amber-400 caret */
+/* Gives all textareas/inputs a caret that uses the primary color */
 input::placeholder,
 textarea::placeholder,
 input,
@@ -96,8 +97,14 @@ textarea {
   caret-color: theme('colors.primary');
 }
 
+/* Footnotes */
+/* Hide footnote header */
 .footnotes h2#footnote-label {
   display: none;
+}
+
+.footnotes {
+  @apply text-stone-400 text-sm;
 }
 
 /* Animations */
