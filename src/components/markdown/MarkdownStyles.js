@@ -39,13 +39,14 @@ const markdownStyles = {
         if (React.isValidElement(child) && child.type === 'input' && child.props.type === 'checkbox') {
           return (
             <div key={index} className="relative inline-block">
+              {/* Extremely hacky fix to hide the bullet point from appearing by covering it with the checkbox */}
               <input
                 type="checkbox"
-                className="appearance-none w-4 h-4 mr-1 -mb-0.5 rounded bg-dark border border-neutral-700/60 checked:border-neutral-800 checked:bg-primary accent-neutral-800"
+                className="appearance-none w-4 h-4 mr-1 -mb-0.5 -ml-[22px] rounded bg-dark-focus border border-neutral-700/50 checked:border-neutral-800 checked:bg-primary"
                 {...child.props}
               />
               {child.props.checked && (
-                <Check className="absolute top-[4px] left-0.5 w-3 h-4 text-zinc-100 pointer-events-none" />
+                <Check className="absolute top-[4px] -ml-[20px] w-3 h-4 text-zinc-100 pointer-events-none" />
               )}
             </div>
           );
