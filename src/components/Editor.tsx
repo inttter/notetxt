@@ -747,7 +747,7 @@ export default function Editor() {
               initial={{ opacity: 0.01 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="px-3 py-[0.6rem] text-stone-400 bg-dark-secondary border border-neutral-800/70 -mb-3 rounded-t-xl flex flex-col justify-between"
+              className="px-3 py-[0.6rem] text-stone-300/85 bg-dark-secondary border border-neutral-800/70 -mb-3 rounded-t-xl flex flex-col justify-between"
             >
               {/* Note Name */}
               <div className="flex justify-between items-center">
@@ -769,9 +769,9 @@ export default function Editor() {
                 )}
               </div>
               {/* Note Creation Date */}
-              <div className="text-xs truncate overflow-ellipsis text-stone-400 flex items-center mt-0.5" aria-label="Note Creation Date">
+              <div className="text-xs truncate overflow-ellipsis text-stone-300/85 flex items-center mt-0.5" aria-label="Note Creation Date">
                 {/* Note ID's are stored as their time created in Unix, so we can use that here */}
-                {formattedDate || <Loader2 size={12} className={`mr-1 text-stone-00 animate-spin`} />}
+                {formattedDate || <Loader2 size={12} className={`mr-1 text-stone-300/85 animate-spin`} />}
               </div>
             </motion.div>
             {/* Editor/Textarea */}

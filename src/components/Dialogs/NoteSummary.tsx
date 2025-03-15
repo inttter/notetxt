@@ -65,10 +65,10 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
     <Dialog open={isDialogOpen} onOpenChange={onClose}>
       <DialogContent className="bg-dark border border-neutral-700/60 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-11/12 z-50">
         <DialogTitle className="text-lg truncate font-medium text-zinc-100 gap-1 flex items-center" aria-label="Note Summary Dialog Title">
-          <ListOrdered size={20} className="text-stone-400" />
+          <ListOrdered size={20} className="text-stone-300/85" />
           {noteSummaryTitle}
         </DialogTitle>
-        <DialogDescription className="text-stone-400 text-sm leading-normal mb-4" aria-label="Note Summary Dialog Description">
+        <DialogDescription className="text-stone-300/85 text-sm leading-normal mb-4" aria-label="Note Summary Dialog Description">
           {noteSummaryDescription}
         </DialogDescription>
         <div className="grid grid-cols-2 gap-4" aria-label="Note Summary Item">
@@ -82,7 +82,7 @@ export default function NoteSummary({ text, isDialogOpen, onClose }) {
                 <div className="text-sm font-medium text-zinc-200" aria-label="Note Summary Item Title">
                   {title}
                 </div>
-                <div className="text-xs text-stone-400 mb-0.5" aria-label="Note Summary Item Description">
+                <div className="text-xs text-stone-300/85 mb-0.5" aria-label="Note Summary Item Description">
                   {description}
                 </div>
                 <div className="text-lg text-zinc-200 truncate" aria-label="Note Summary Item Value">

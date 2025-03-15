@@ -185,7 +185,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                 </span>
                 <span
                   className={`block text-xs truncate overflow-ellipsis duration-300 ${
-                    currentNoteId === note.id ? 'text-stone-300/70' : 'text-stone-400/80'
+                    currentNoteId === note.id ? 'text-stone-300/85' : 'text-stone-300/65'
                   }`}
                 >
                   {note.content ? note.content.slice(0, 150) : ''}

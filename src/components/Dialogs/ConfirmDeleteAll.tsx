@@ -3,17 +3,17 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } fr
 import { Trash2, TriangleAlert, X } from 'lucide-react';
 
 const deleteAllTitle = 'Are you sure?';
-const deleteAllDescription = 'You are about to delete all notes. This action is not reversible, and they will be unrecoverable. Would you like to proceed anyway?';
+const deleteAllDescription = 'You are about to delete all current notes. This action is not reversible, and they will be unrecoverable. Would you like to proceed?';
 
 const ConfirmDeleteAll = ({ isOpen, onConfirm, onCancel }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onCancel}>
       <DialogContent className="bg-dark border border-neutral-700/60 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-11/12 z-50">
           <DialogTitle className="text-lg font-medium text-zinc-100 mx-0.5 gap-1 pb-1 flex items-center" aria-label="Delete All Dialog Title">
-            <TriangleAlert size={20} className="text-stone-400" />
+            <TriangleAlert size={20} className="text-stone-300/85" />
             {deleteAllTitle}
           </DialogTitle>
-          <DialogDescription className="text-stone-400 text-sm leading-normal mx-0.5" aria-label="Delete All Dialog Description">
+          <DialogDescription className="text-stone-300/85 text-sm leading-normal mx-0.5" aria-label="Delete All Dialog Description">
             {deleteAllDescription}
           </DialogDescription>
           <div className="flex justify-end items-center">

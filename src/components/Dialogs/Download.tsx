@@ -41,10 +41,10 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
     <Dialog open={isOpen} onOpenChange={onRequestClose}>
       <DialogContent className="bg-dark border border-neutral-700/60 p-6 rounded-lg shadow-2xl shadow-neutral-950 max-w-lg w-11/12 z-50">
         <DialogTitle className="text-lg font-medium text-zinc-100 mx-0.5 gap-1 flex items-center" aria-label="Download Dialog Title">
-          <Download size={20} className="text-stone-400" />
+          <Download size={20} className="text-stone-300/85" />
           {downloadTitle}
         </DialogTitle>
-        <DialogDescription className="text-stone-400 text-sm leading-normal mx-0.5 mb-3" aria-label="Download Dialog Description">
+        <DialogDescription className="text-stone-300/85 text-sm leading-normal mx-0.5 mb-3" aria-label="Download Dialog Description">
           {downloadDescription}
         </DialogDescription>
         <input
@@ -88,7 +88,7 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
             </Select>
 
             <button
-              className="btn-dialog text-zinc-100 hover:text-zinc-200 bg-primary/80 border-neutral-700/60 hover:bg-primary/65 flex items-center"
+              className="btn-dialog text-zinc-100 hover:text-zinc-200 bg-primary/80 border-primary/80 hover:bg-primary/65 flex items-center"
               onClick={handleSave}
               aria-label="Download Note"
             >

@@ -228,7 +228,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 <LibraryBig size={20} className="mr-1" />
                 {drawerTitle}
               </Drawer.Title>
-              <div className="text-stone-400/90 text-xs md:text-sm mb-3">
+              <div className="text-stone-300/85 text-xs md:text-sm mb-3">
                 {drawerDescription}
               </div>
               {/* Search Bar */}
@@ -326,7 +326,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             </div>
             {/* Bottom Footer */}
             <hr className="border border-neutral-800/80" />
-            <div className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-400" data-vaul-no-drag>
+            <div className="flex justify-between items-center p-3 mt-auto bg-dark text-xs text-stone-300/85" data-vaul-no-drag>
               <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                 {searchQuery
                   ? sortedNotes.length === 0
