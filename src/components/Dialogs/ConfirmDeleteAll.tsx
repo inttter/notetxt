@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } fr
 import { Trash2, TriangleAlert, X } from 'lucide-react';
 
 const deleteAllTitle = 'Are you sure?';
-const deleteAllDescription = 'You are about to delete all current notes. This action is not reversible, and they will be unrecoverable. Would you like to proceed?';
+const deleteAllDescription = 'This action is not reversible, and your notes will be unrecoverable. Would you like to proceed anyway?';
 
 const ConfirmDeleteAll = ({ isOpen, onConfirm, onCancel }) => {
   return (

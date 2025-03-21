@@ -47,12 +47,12 @@ export default function Custom404() {
             <Link href="/editor" passHref>
               <Button
                 asChild
-                className="w-full text-base flex justify-center items-center"
+                className="w-full flex justify-center items-center"
               >
                 <motion.span
                   initial={{ x: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="flex items-center"
+                  className="flex items-center text-zinc-100"
                 >
                   <ArrowLeft size={17} />
                   Go to the Editor

@@ -6,10 +6,13 @@ import { Button } from '@/components/ui/Button';
 import { ArrowLeft, FileLock } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 const privacyTitle = 'Privacy Policy';
 
 export default function Privacy() {
+  const router = useRouter();
+
   return (
     <div className="bg-dark min-h-screen flex flex-col justify-center items-center antialiased scroll-smooth p-4 md:p-8">
       <Head>
@@ -41,11 +44,11 @@ export default function Privacy() {
             animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.2 } }}
             aria-label="Privacy Policy Content"
           >
-            <div className="text-stone-200 text-xl my-1">
+            <div className="text-zinc-100 text-xl my-1">
               {item.header}
             </div>
             {item.content.split('\n').map((line, lineIndex) => (
-              <span key={lineIndex} className="text-stone-400 text-md tracking-tight">
+              <span key={lineIndex} className="text-stone-300/85 text-base">
                 {line}
                 <br />
               </span>
@@ -60,10 +63,16 @@ export default function Privacy() {
           className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-2 mt-6 max-w-xl"
         >
           <Button
-            className="w-full md:w-1/2"
+            className="w-full md:w-1/2 text-zinc-100 text-sm"
             aria-label="Go Back To Last Page Button"
-            onClick={() => (window.history.length > 2 ? window.history.back() : (window.location.href = "/"))}
-            >
+            onClick={() => {
+              if (window.history.length > 1) {
+                router.back();
+              } else {
+                router.push("/editor");
+              }
+            }}            
+          >
             <ArrowLeft size={17} />
             Go back
           </Button>
@@ -71,7 +80,7 @@ export default function Privacy() {
           {/* View Source Code */}
           <Link href="https://github.com/inttter/notetxt" target="_blank" rel="noopener noreferrer" className="w-full md:w-1/2">
             <Button
-              className="w-full"
+              className="w-full text-zinc-100 text-sm"
               aria-label="View Source Code Button"
             >
               <FaGithub size={17} />

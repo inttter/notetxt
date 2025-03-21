@@ -1,4 +1,4 @@
-import Dexie from 'dexie';
+import Dexie from "dexie";
 
 export interface Note {
   id: string;
@@ -17,13 +17,27 @@ export interface AppState {
   hasSeenWelcome: boolean;
 }
 
+export interface EditorSettings {
+  defaultPreviewMode: boolean;
+  defaultFileType: string;
+  defaultNoteName: string;
+  showRecentNotes: boolean;
+}
+
+export interface AppSettings {
+  id: string;
+  editor: EditorSettings;
+}
+
 export class NotesDatabase extends Dexie {
   notes: Dexie.Table<Note, string>;
   currentNote: Dexie.Table<CurrentNote, string>;
   appState: Dexie.Table<AppState, string>;
+  settings: Dexie.Table<AppSettings, string>;
 
   constructor() {
     super('Notetxt');
+
     this.version(1).stores({
       notes: 'id, name, content',
       currentNote: 'id, noteId',
@@ -54,9 +68,44 @@ export class NotesDatabase extends Dexie {
       });
     });
 
+    this.version(4).stores({
+        notes: 'id, name, content, tags',
+        currentNote: 'id, noteId',
+        appState: 'id',
+        settings: 'id',
+    }).upgrade(async tx => {
+      const oldSettings = await tx.table('settings').get('user-settings');
+
+      if (oldSettings && 'note' in oldSettings) {
+        // Migrate from old 'note' structure to new 'editor' structure
+        // (not sure that this is needed, but just in case)
+        await tx.table('settings').put({
+          id: 'user-settings',
+          editor: {
+            defaultNoteName: oldSettings.note.defaultName || 'New Note',
+            defaultFileType: oldSettings.note.defaultFileType || '.txt',
+            defaultPreviewMode: oldSettings.note.defaultPreviewMode || false,
+            showRecentNotes: oldSettings.note.showRecentNotes || true,
+          },
+        });
+      } else {
+        // Initialize default settings
+        await tx.table('settings').put({
+          id: 'user-settings',
+          editor: {
+            defaultNoteName: 'New Note',
+            defaultFileType: '.txt',
+            defaultPreviewMode: false,
+            showRecentNotes: true,
+          },
+        });
+      };
+    });
+
     this.notes = this.table('notes');
     this.currentNote = this.table('currentNote');
     this.appState = this.table('appState');
+    this.settings = this.table('settings');
   }
 }
 

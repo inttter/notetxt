@@ -7,24 +7,24 @@ import { saveAs } from 'file-saver';
 import { useRouter } from 'next/router';
 import JSZip from 'jszip';
 import hotkeys from 'hotkeys-js';
+import db from '@/utils/db';
 import NoteList from '@/components/Manager/NoteList';
 import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
-import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import NoteSummary from '@/components/Dialogs/NoteSummary';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 
-const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onDeleteAllNotes, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, onCopyNote, formatCreationDate, isDrawerOpen, setIsDrawerOpen }) => {
+const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, onCopyNote, formatCreationDate, isDrawerOpen, setIsDrawerOpen }) => {
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [newName, setNewName] = useState('');
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('.txt');
-  const [isConfirmDeleteAllOpen, setConfirmDeleteAllOpen] = useState(false);
   const [isNoteSummaryDialogOpen, setNoteSummaryDialogOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [sortCriteria, setSortCriteria] = useState('newest');
+  const [defaultFileType, setDefaultFileType] = useState('.txt');
   const [tagCounts, setTagCounts] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
@@ -135,19 +135,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
     setIsDownloadDialogOpen(true);
   };
 
-  const handleConfirmDeleteAll = () => {
-    setConfirmDeleteAllOpen(true);
-  };
-
-  const handleDeleteAllNotes = () => {
-    onDeleteAllNotes();
-    setConfirmDeleteAllOpen(false);
-  };
-
-  const handleCancelDeleteAll = () => {
-    setConfirmDeleteAllOpen(false);
-  };
-
   const openNoteSummary = (note) => {
     setSelectedNote(note);
     setNoteSummaryDialogOpen(true);
@@ -162,6 +149,22 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
     setFileType(type);
     exportAllNotes(type);
   };
+
+  // Get user's setting for default file type to use in download dialog
+  useEffect(() => {
+    const fetchFileType = async () => {
+      try {
+        const settings = await db.settings.get('user-settings');
+        if (settings && settings.editor) {
+          setDefaultFileType(settings.editor.defaultFileType || '.txt' );
+        }
+      } catch (error) {
+        console.error('Failed to fetch user settings:', error);
+      }
+    };
+
+    fetchFileType();
+  }, []);
 
   const exportAllNotes = async (type) => {
     if (notes.length === 0) {
@@ -318,7 +321,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                 />
                 <NoteControls
                   handleFileTypeChange={handleFileTypeChange}
-                  handleConfirmDeleteAll={handleConfirmDeleteAll}
                   onOpenNote={onOpenNote}
                   onAddNote={onAddNote}
                 />
@@ -355,7 +357,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
         }}
         fileName={fileName}
         setFileName={setFileName}
-        fileType={fileType}
+        fileType={defaultFileType}
         setFileType={setFileType}
       />
 
@@ -364,14 +366,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
           text={selectedNote?.content || ''} 
           isDialogOpen={isNoteSummaryDialogOpen} 
           onClose={closeNoteSummary} 
-        />
-      )}
-
-      {isConfirmDeleteAllOpen && (
-        <ConfirmDeleteAll
-          isOpen={isConfirmDeleteAllOpen}
-          onConfirm={handleDeleteAllNotes}
-          onCancel={handleCancelDeleteAll}
         />
       )}
     </>

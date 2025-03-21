@@ -1,14 +1,25 @@
 import React, { useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/Dialog';
-import { X, Download } from 'lucide-react';
-import { GrDocumentTxt } from 'react-icons/gr';
-import { FaMarkdown } from 'react-icons/fa';
 import db, { Note } from '@/utils/db';
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/Dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/Select';
+import { Input } from '@/components/ui/Input';
+import { X, Download, FileText } from 'lucide-react';
+import { FaMarkdown } from 'react-icons/fa';
 
-const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType, currentNoteId }) => {
+const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileName, fileType, setFileType, currentNoteId, settings }) => {
   const downloadTitle = 'Download Note';
   const downloadDescription = 'Choose a name and file format for your note.';
+
+  // Set default file type from settings when the dialog opens
+  useEffect(() => {
+    if (isOpen) {
+      if (settings && settings.defaultFileType) {
+        setFileType(settings.defaultFileType);
+      } else {
+        setFileType('.txt');
+      }
+    }
+  }, [isOpen, setFileType, settings]);
 
   // Fetch the note name from the database to automatically put it in the input box
   useEffect(() => {
@@ -33,8 +44,8 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
   };
 
   const fileTypes = [
-    { name: 'Rich Text', value: '.txt', icon: <GrDocumentTxt size={15} className="mr-1.5 text-stone-400" /> },
-    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-1.5 text-stone-400" /> },
+    { name: 'Rich Text', value: '.txt', icon: <FileText size={15} className="mr-1 text-stone-400" /> },
+    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-1 text-stone-400" /> },
   ];
 
   return (
@@ -47,11 +58,11 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
         <DialogDescription className="text-stone-300/85 text-sm leading-normal mx-0.5 mb-3" aria-label="Download Dialog Description">
           {downloadDescription}
         </DialogDescription>
-        <input
+        <Input
           type="text"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-dark-secondary placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
+          className="text-base w-full px-3 py-3 rounded-lg bg-dark-secondary placeholder:text-stone-400/80 text-zinc-300 outline-none border border-neutral-700/60 focus:border-neutral-700 duration-300 mb-4"
           placeholder="Note Name"
         />
         <div className="flex justify-end items-center">

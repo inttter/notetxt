@@ -1,14 +1,13 @@
 import React from 'react';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/Dropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
-import { Plus, Trash2, ChevronDown, FolderArchive, FileInput } from 'lucide-react';
-import { GrDocumentTxt } from "react-icons/gr";
+import { Plus, ChevronDown, FolderArchive, FileInput, FileText } from 'lucide-react';
 import { FaMarkdown } from 'react-icons/fa';
 
-const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote, onAddNote }) => {
+const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
   const fileTypes = [
-    { name: 'Rich Text', value: '.txt', icon: <GrDocumentTxt size={15} className="mr-1.5 text-stone-400" /> },
-    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-1.5 text-stone-400" /> }
+    { name: 'Rich Text', value: '.txt', icon: <FileText size={15} className="mr-1 text-stone-400" /> },
+    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-1 text-stone-400" /> }
   ];
 
   return (
@@ -81,27 +80,6 @@ const NoteActions = ({ handleFileTypeChange, handleConfirmDeleteAll, onOpenNote,
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center">
             Import Note
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-
-      <TooltipProvider delayDuration={50}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              className="flex items-center p-1.5 border border-neutral-800 bg-dark-button text-red-500 rounded-lg hover:bg-neutral-800/60 hover:border-neutral-700/60 duration-300"
-              aria-label="Delete All Notes"
-              data-vaul-no-drag
-              onClick={(e) => {
-                e.stopPropagation();
-                handleConfirmDeleteAll();
-              }}
-            >
-              <Trash2 size={19} />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" align="center">
-            Delete All Notes
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

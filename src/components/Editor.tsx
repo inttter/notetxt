@@ -5,6 +5,7 @@ import NoteManager from '@/components/Manager/DrawerLayout';
 import NoteSummary from '@/components/Dialogs/NoteSummary';
 import Download from '@/components/Dialogs/Download';
 import MarkdownPreview from '@/components/markdown/MarkdownPreview';
+import { SettingsButton } from '@/components/SettingsButton';
 import commands from '@/utils/commands';
 import db, { Note } from '@/utils/db';
 import copy from 'copy-to-clipboard';
@@ -39,6 +40,31 @@ export default function Editor() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const markdownRef = useRef<HTMLDivElement | null>(null);
+
+  const [settings, setSettings] = useState({
+    defaultNoteName: 'New Note',
+    defaultFileType: '.txt',
+    defaultPreviewMode: false,
+  });
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const storedSettings = await db.settings.get('user-settings');
+        if (storedSettings) {
+          setSettings({
+            defaultNoteName: storedSettings.editor?.defaultNoteName ?? 'New Note',
+            defaultFileType: storedSettings.editor?.defaultFileType ?? '.txt',
+            defaultPreviewMode: storedSettings.editor?.defaultPreviewMode ?? false,
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load settings:', error);
+      }
+    };
+  
+    loadSettings();
+  }, []);
 
   useEffect(() => {
     // When the URL contains `?markdown=true`, the 
@@ -188,12 +214,22 @@ export default function Editor() {
   const handleAddNote = async () => {
     try {
       const id = `${Date.now()}`;
-      const newNote: Note = { id, name: 'New Note', content: '' };
+      const newNote: Note = { 
+        id, 
+        name: settings.defaultNoteName || 'New Note', 
+        content: '', 
+      };
+  
       await db.notes.add(newNote);
       setNotes(prevNotes => ({ ...prevNotes, [id]: newNote }));
       setCurrentNoteId(newNote.id);
       setSearchQuery('');
       await db.currentNote.put({ id: 'current', noteId: id });
+  
+      // If default preview mode is enabled in settings, enable it for the new note
+      if (settings.defaultPreviewMode) {
+        setIsPreviewMode(true);
+      }
     } catch (error) {
       console.error('Failed to add note:', error);
       toast.error('Failed to add a new note.');
@@ -267,25 +303,6 @@ export default function Editor() {
     } catch (error) {
       console.error('Failed to update note name:', error);
       toast.error('Failed to update note name.');
-    }
-  };
-  
-
-  const handleDeleteAllNotes = async () => {
-    try {
-      await db.notes.clear();
-      setNotes({});
-      setCurrentNoteId('');
-  
-      // Create a new note to prevent `allNotes` from becoming 0
-      setTimeout(async () => {
-        await handleAddNote();
-      }, 200);
-  
-      toast.success('Successfully deleted all current notes.');
-    } catch (error) {
-      console.error('Failed to delete all notes:', error);
-      toast.error('Failed to delete all notes.');
     }
   };
   
@@ -466,6 +483,13 @@ export default function Editor() {
         setCurrentNoteId(id);
         setFileName(fileName);
         setFileType(`.${fileExtension}`);
+
+        // If default preview mode is enabled in settings, enable it
+        // for the imported note, as importing creates a new note.
+        if (settings.defaultPreviewMode) {
+          setIsPreviewMode(true);
+        }
+
         toast.success(`Successfully imported '${file.name}'!`);
       } catch (error) {
         console.error('Failed to import file contents:', error);
@@ -719,7 +743,6 @@ export default function Editor() {
               onRemoveNote={handleRemoveNote}
               onUpdateNoteName={handleUpdateNoteName}
               onDownload={handleDownload}
-              onDeleteAllNotes={handleDeleteAllNotes}
               onOpenNote={() => handleCommandSelect('open')}
               onUpdateNoteTags={handleUpdateNoteTags}
               onCopyNote={handleCopy}
@@ -729,6 +752,9 @@ export default function Editor() {
               isDrawerOpen={isDrawerOpen}
               setIsDrawerOpen={setIsDrawerOpen}
             />
+          </div>
+          <div className="ml-[22px]">
+            <SettingsButton />
           </div>
         </div>
       </div>
@@ -826,6 +852,7 @@ export default function Editor() {
           fileType={fileType}
           setFileType={setFileType}
           currentNoteId={currentNoteId}
+          settings={settings}
         />
       )}
     </div>

@@ -43,7 +43,7 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
   );
 };
 
-const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, formatCreationDate }) => {
+const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, formatCreationDate, showRecentNotes }) => {
   const general = [
     { id: 'open', name: 'Import Note', icon: <FileInput size={20} />, keybind: 'Ctrl+O', url: '' },
     { id: 'new', name: 'New Note', icon: <Plus size={20} />, keybind: 'Ctrl+Alt+N' },
@@ -93,7 +93,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
         </div>
         <div className="bg-dark overflow-hidden flex flex-col" style={{ maxHeight: '65vh' }}>
           <CommandList className="p-2 rounded-b-xl overflow-y-auto flex-grow">
-            {recentNotes.length > 0 && (
+            {showRecentNotes && recentNotes.length > 0 && (
               <>
                 <CommandGroup heading="Recent Notes">
                   {recentNotes.map((note) => (
@@ -161,10 +161,11 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
       </CommandDialog>
     </div>
   );
-}
+};
 
 const CommandMenuButton = ({ openCommandMenu, onNoteSelect, formatCreationDate }) => {
   const [commandMenuOpen, setCommandMenuOpen] = useState(false);
+  const [showRecentNotes, setShowRecentNotes] = useState(true);
 
   const toggleCommandMenu = () => {
     setCommandMenuOpen(prev => !prev);
@@ -184,6 +185,17 @@ const CommandMenuButton = ({ openCommandMenu, onNoteSelect, formatCreationDate }
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const setting = await db.settings.get('user-settings');
+      if (setting) {
+        setShowRecentNotes(setting.editor.showRecentNotes);
+      }
+    };
+
+    fetchSettings();
+  }, []);
 
   return (
     <TooltipProvider delayDuration={50}>
@@ -212,6 +224,7 @@ const CommandMenuButton = ({ openCommandMenu, onNoteSelect, formatCreationDate }
           toggleMenu={toggleCommandMenu} 
           onCommandSelect={openCommandMenu}
           formatCreationDate={formatCreationDate} 
+          showRecentNotes={showRecentNotes}
         />
       </div>
     </TooltipProvider>
