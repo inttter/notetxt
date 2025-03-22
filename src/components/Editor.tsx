@@ -6,6 +6,7 @@ import NoteSummary from '@/components/Dialogs/NoteSummary';
 import Download from '@/components/Dialogs/Download';
 import MarkdownPreview from '@/components/markdown/MarkdownPreview';
 import { SettingsButton } from '@/components/SettingsButton';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/Tooltip";
 import commands from '@/utils/commands';
 import db, { Note } from '@/utils/db';
 import copy from 'copy-to-clipboard';
@@ -18,7 +19,7 @@ import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
 import { isIOS } from 'react-device-detect';
 import { FaMarkdown } from 'react-icons/fa';
-import { Loader2 } from 'lucide-react';
+import { ExternalLink, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/router';
 
 export default function Editor() {
@@ -780,18 +781,25 @@ export default function Editor() {
                 <span className="text-sm text-stone-200 truncate overflow-ellipsis" aria-label="Note Name">
                   {notes[currentNoteId]?.name || (Object.keys(notes).length === 0 ? <Loader2 size={15} className={`text-stone-200 animate-spin mb-1`} /> : 'New Note')}
                 </span>
-                {/* Markdown Preview Mode Indicator */}
+                {/* Markdown Preview Mode Indicator (includes a link to Markdown documentation) */}
                 {isPreviewMode && (
-                  <Link
-                    href={mdDocsLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ml-1 text-xs hover:text-stone-300 border-b border-neutral-700 hover:border-neutral-500 duration-300 flex items-center"
-                    title="Visit Markdown Documentation"
-                    aria-label="Markdown Documentation Link"
-                  >
-                    <FaMarkdown size={15} className="mr-1" /> Markdown
-                  </Link>
+                  <TooltipProvider>
+                    <Tooltip delayDuration={50}>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href={mdDocsLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-1 text-[11px] group text-zinc-300/85 hover:text-zinc-100 duration-300 flex items-center"
+                          aria-label="Markdown Documentation Link"
+                        >
+                          <FaMarkdown size={13} className="mr-1" /> Markdown 
+                          <ExternalLink size={10} className="ml-1 text-stone-300/85" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent side="left">View Markdown Docs</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 )}
               </div>
               {/* Note Creation Date */}
