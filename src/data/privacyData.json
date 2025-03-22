@@ -5,7 +5,7 @@
     },
     {
       "header": "Deleting your data",
-      "content": "You can delete an individual note or all stored notes through the user interface via the Note Manager, or via developer tools. Once deleted, the notes will be permanently removed from your device and are unrecoverable."
+      "content": "The only 'data' stored is that of your notes. You can delete individual notes through the Note Manager. Deleting all of your stored notes can be done through the Settings page, or via developer tools. Once deleted, all traces of these notes will be permanently removed and are unrecoverable, even by us."
     },
     {
       "header": "Analytics",
