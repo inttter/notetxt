@@ -153,7 +153,7 @@ export default function SettingsPage() {
     },
     deleteAllNotes: {
       label: 'Delete All Notes',
-      description: 'Permanently delete all of your notes. This cannot be undone!'
+      description: 'Permanently delete all current notes. This cannot be undone!'
     }
   };
 
