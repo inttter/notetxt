@@ -819,7 +819,7 @@ export default function Editor() {
                 placeholder="Start typing here..."
                 onChange={handleTextareaChange}
                 onScroll={syncScroll}
-                className={`bg-dark-secondary border border-neutral-800/70 text-stone-200/90 placeholder:text-stone-400/90 outline-none leading-[21.5px]
+                className={`bg-dark-secondary border border-neutral-800/70 text-stone-200/90 placeholder:text-stone-400/90 outline-none leading-[21.5px] scroll-pb-3
                   ${isPreviewMode ? 'md:block max-w-full md:max-w-lg text-sm md:text-[15.5px] md:w-1/2 rounded-r-lg md:rounded-r-none' : 'max-w-full w-full text-sm md:text-base mx-auto'} 
                 p-4 rounded-b-lg rounded-t-none min-h-[542px] max-h-[552px] overflow-auto resize-none textarea-custom-scroll font-ia-quattro tracking-tight`}
                 aria-label="Note Content"
