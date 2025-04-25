@@ -5,41 +5,47 @@ import hljs from 'highlight.js';
 import copy from 'copy-to-clipboard';
 import 'highlight.js/styles/base16/qualia.css';
 
+// Base styles for some elements to avoid repeating same styles many times
+const baseTextStyle = 'text-zinc-100 prose-invert';
+const baseHeadingStyle = 'font-medium mt-5 mb-3';
+const baseListStyle = 'marker:text-zinc-100';
+const baseTableStyle = 'overflow-x-auto rounded-md mt-4 border border-neutral-900';
+
 const markdownStyles = {
   h1: ({ node, ...props }) => (
-    <div className="relative text-3xl md:text-4xl font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <div className={`relative text-3xl md:text-4xl ${baseHeadingStyle} ${baseTextStyle}`} {...props} />
   ),
   h2: ({ node, ...props }) => (
-    <h2 className="relative text-2xl md:text-3xl font-medium mt-5 mb-4 text-zinc-100 prose-invert" {...props} />
+    <h2 className={`relative text-2xl md:text-3xl ${baseHeadingStyle} ${baseTextStyle}`} {...props} />
   ),
   h3: ({ node, ...props }) => (
-    <h3 className="relative text-xl md:text-2xl font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h3 className={`relative text-xl md:text-2xl ${baseHeadingStyle} ${baseTextStyle}`} {...props} />
   ),
   h4: ({ node, ...props }) => (
-    <h4 className="relative text-lg md:text-xl font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h4 className={`relative text-lg md:text-xl ${baseHeadingStyle} ${baseTextStyle}`} {...props} />
   ),
   h5: ({ node, ...props }) => (
-    <h5 className="relative text-base md:text-lg font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h5 className={`relative text-base md:text-lg ${baseHeadingStyle} ${baseTextStyle}`} {...props} />
   ),
   h6: ({ node, ...props }) => (
-    <h6 className="relative text-sm md:text-base font-medium mt-5 mb-3 text-zinc-100 prose-invert" {...props} />
+    <h6 className={`relative text-sm md:text-base ${baseHeadingStyle} ${baseTextStyle}`} {...props} />
   ),
   p: ({ node, ...props }) => (
     <p className="mb-4 prose-p:text-neutral-200/95 prose-invert" {...props} />
   ),
   ul: ({ node, ...props }) => (
-    <ul className="prose-ul:pl-5 prose-ul:mb-2 marker:text-zinc-100" {...props} />
+    <ul className={baseListStyle} {...props} />
   ),
   ol: ({ node, ...props }) => (
-    <ol className="prose-ol:pl-5 prose-ol:mb-2 marker:text-zinc-100" {...props} />
+    <ol className={baseListStyle} {...props} />
   ),
   li: ({ node, children, ...props }) => (
-    <li className="mb-2 prose-li:mb-2 marker:text-zinc-100" {...props}>
+    <li className="-mb-0.5 marker:text-zinc-100" {...props}>
       {React.Children.map(children, (child, index) => {
         if (React.isValidElement(child) && child.type === 'input' && child.props.type === 'checkbox') {
           return (
             <div key={index} className="relative inline-block">
-              {/* Extremely hacky fix to hide the bullet point from appearing by covering it with the checkbox */}
+              {/* Hide the bullet point from appearing by covering it with the checkbox */}
               <input
                 type="checkbox"
                 className="appearance-none w-4 h-4 mr-1 -mb-0.5 -ml-[22px] rounded bg-dark-focus border border-neutral-700/50 checked:border-neutral-800 checked:bg-primary"
@@ -56,7 +62,7 @@ const markdownStyles = {
     </li>
   ),
   table: ({ node, ...props }) => (
-    <div className="overflow-x-auto rounded-md mt-4 border border-neutral-900">
+    <div className={baseTableStyle}>
       <table className="w-full my-0" {...props} />
     </div>
   ),
@@ -140,9 +146,7 @@ const markdownStyles = {
             <TooltipTrigger asChild>
               <button
                 onClick={handleCopy}
-                className={`absolute top-2.5 right-3 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${
-                  disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-neutral-800'
-                }`}
+                className={`absolute top-2.5 right-3 bg-dark-button border border-neutral-700/60 rounded-lg p-1.5 transition duration-300 ${disabled ? 'bg-dark-button cursor-not-allowed' : 'hover:text-zinc-100 hover:bg-neutral-800'}`}
                 aria-label="Copy Code To Clipboard Button"
                 disabled={disabled}
               >
@@ -166,7 +170,7 @@ const markdownStyles = {
   },
   code: ({ node, inline, children, ...props }) => {
     return (
-      <code className="px-1 py-0.5 text-zinc-200 bg-neutral-800 border border-neutral-700/60 rounded-md code m-0.5 whitespace-pre-line" {...props}>
+      <code className="px-1 py-0.5 text-zinc-200 bg-neutral-800 ring-1 ring-neutral-700/60 rounded-md code m-0.5 whitespace-pre-line" {...props}>
         {children}
       </code>
     );
@@ -225,6 +229,12 @@ const markdownStyles = {
     <section data-footnotes="" className="footnotes mt-4" {...props}>
       <ol className="prose-ol:pl-5 prose-ol:mb-2">{props.children}</ol>
     </section>
+  ),
+  details: ({ node, ...props }) => (
+    <details className="my-0 prose-invert" {...props} />
+  ),
+  summary: ({ node, ...props }) => (
+    <summary className="mt-4 my-0 font-medium text-primary-text hover:text-primary-text/80 hover:underline hover:underline-offset-2 duration-300 cursor-pointer prose-invert" {...props} />
   ),
 };
 
