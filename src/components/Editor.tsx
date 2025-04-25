@@ -574,15 +574,21 @@ export default function Editor() {
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setIsDraggingOver(true);
-  };
+    const hasFiles = Array.from(event.dataTransfer.types).includes('Files');
 
-  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    if (event.currentTarget === event.target || !event.currentTarget.contains(event.relatedTarget as Node)) {
-      setIsDraggingOver(false);
+    if (hasFiles) {
+      setIsDraggingOver(true);
     }
   };
 
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    const hasFiles = Array.from(event.dataTransfer.types).includes('Files');
+
+    if (hasFiles) {
+      setIsDraggingOver(false);
+    }
+  };
+  
   const handleCopy = async () => {
     const note = notes[currentNoteId];
     if (!note) {
