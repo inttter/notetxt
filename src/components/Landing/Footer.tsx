@@ -1,34 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/../public/landing/logo.png';
 import { motion } from 'framer-motion';
-import { GitCommit } from 'lucide-react';
-import { getLatestCommitHash } from '@/utils/commit';
 
 const Footer = () => {
-  const [commitHash, setCommitHash] = useState<string>('...');
-
-  useEffect(() => {
-    const fetchCommitHash = async () => {
-      const hash = await getLatestCommitHash();
-      setCommitHash(hash);
-    };
-
-    fetchCommitHash();
-  }, []);
-
   const projectName = 'Notetxt';
   const projectSlogan = `Write down what's on your mind.`;
-  const repoURL = 'https://github.com/inttter/notetxt';
-  const commitURL = `${repoURL}/commit/${commitHash}`;
 
   const quickLinks = [
     { href: 'https://docs.notetxt.xyz', text: 'Docs', external: true },
+    { href: '/settings', text: 'Settings', external: false},
     { href: '/privacy', text: 'Privacy' },
     { href: 'https://github.com/inttter/notetxt', text: 'GitHub', external: true },
     { href: 'https://github.com/sponsors/inttter', text: 'Donate', external: true },
-    { href: commitURL, text: commitHash, external: true },
   ];
 
   return (
@@ -64,15 +49,10 @@ const Footer = () => {
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
-                className={`text-stone-300/85 hover:text-zinc-100 duration-300 flex items-center ${
-                  link.text === commitHash ? 'font-mono' : ''
-                }`}                
+                className="text-stone-300/85 hover:text-zinc-100 duration-300 flex items-center"              
                 aria-label={link.text}
               >
                 {link.text}
-                {link.text === commitHash && (
-                  <GitCommit size={20} className="ml-1" />
-                )}
               </Link>
             ))}
           </div>
