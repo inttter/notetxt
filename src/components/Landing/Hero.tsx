@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { motion } from 'framer-motion';
 
 const heroMessage = `Write down what's on your mind.`;
-const heroDescription = `A minimalistic note-taker app designed to let you jot down what you need with ease, without distractions — <strong>no accounts, no subscriptions</strong>, just you and your notes.`;
+const heroDescription = `A minimalistic note-taker app designed to let you jot down what you need with ease, without distractions — no accounts, no subscriptions, just you and your notes.`;
 
 // Starts with opacity 0.01 to make Lighthouse work: https://stackoverflow.com/questions/55826735/how-to-fix-lighthouse-returned-error-no-fcp-when-running-google-page-speed-t
 const HeroSection = () => {
@@ -28,27 +28,34 @@ const HeroSection = () => {
         className="mt-6 text-md md:text-lg leading-6 text-stone-300" 
         aria-label="Hero Description"
       >
-        {/* Uses dangerouslySetInnerHTML to parse the <strong> tags */}
-        {/* Since this is static, it should be fine to use */}
-        <div dangerouslySetInnerHTML={{ __html: heroDescription }} />
+        {heroDescription}
       </div>
       <div className="mt-8 flex items-center justify-center gap-x-4">
         {/* Primary Button */}
-        <Link 
-          href="/editor" 
+        <Button
+          asChild
+          variant="primary"
+          className={`font-medium flex items-center shadow-md shadow-neutral-950 ${
+            isLoading ? 'opacity-70 pointer-events-none cursor-not-allowed' : ''
+          }`}
           onClick={() => setIsLoading(true)}
-          className={`px-3 py-2 text-zinc-100 hover:text-zinc-200 bg-primary/50 hover:bg-primary/40 ring-1 ring-primary/60 text-base font-medium ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:ring-primary/55'} duration-300 rounded-lg shadow-md shadow-neutral-950 flex items-center group`}
           aria-label="Open Editor Button"
         >
-          {isLoading ? (
-            <Loader2 size={17} className={`mr-1 animate-spin`} />
-          ) : (
-            <NotepadText size={17} className="mr-1 rotate-6" />
-          )}
-          {isLoading ? 'Loading...' : 'Open Editor'}
-        </Link>
+          <Link href="/editor">
+            {isLoading ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <NotepadText size={16} className="rotate-6" />
+            )}
+            {isLoading ? 'Loading...' : 'Open Editor'}
+          </Link>
+        </Button>
         {/* Secondary Button */}
-        <Button asChild variant="default" size="lg">
+        <Button 
+          asChild 
+          variant="default" 
+          size="lg"
+        >
           <Link 
             href="https://docs.notetxt.xyz" 
             target="_blank" 
@@ -56,7 +63,7 @@ const HeroSection = () => {
             className="text-zinc-200 hover:text-zinc-100 duration-300 flex items-center group"
             aria-label="Visit Documentation Button"
           >
-            <CircleHelp size={17} className="mr-[1px]" /> 
+            <CircleHelp size={16} /> 
             Get Started
           </Link>
         </Button>

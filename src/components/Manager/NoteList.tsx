@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { Tags, Pencil, Download, Trash2, X, Plus, MoreHorizontal, Copy, ListOrdered } from 'lucide-react';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/Dropdown';
-import { Tags, Pencil, Download, Trash2, X, Plus, MoreHorizontal, Copy, ListOrdered } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, handleEditClick, editingNoteId, newName, handleNameChange, handleSaveName, handleKeyDown, handleCopyNote, openDownloadDialog, openNoteSummary, handleUpdateNoteTags, formatCreationDate, searchQuery }) => {
   const [newTags, setNewTags] = useState<{ [key: string]: string }>({});
@@ -196,12 +197,14 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <DropdownMenuTrigger asChild>
-                        <button
-                          className="text-zinc-300 hover:text-zinc-100 hover:bg-neutral-700/60 border border-transparent hover:border-neutral-700 duration-300 absolute rounded-md top-0 right-0 mt-2 mr-2 p-0.5"  
+                        <Button
+                          size="icon"
+                          className="text-zinc-300 hover:text-zinc-100 shadow-none bg-transparent hover:bg-neutral-700/40 border border-transparent hover:border-neutral-700/60 duration-300 absolute rounded-md top-0 right-0 mt-2 mr-2 p-0.5"  
                           aria-label="Show Note Options Dropdown"
+                          data-vaul-no-drag
                         >
                           <MoreHorizontal size={20} />
-                        </button>
+                        </Button>
                       </DropdownMenuTrigger>
                     </TooltipTrigger>
                     <TooltipContent>Note Options</TooltipContent>
@@ -268,7 +271,8 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                   <TooltipProvider delayDuration={50}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button
+                        <Button
+                          size="sm"
                           className={`text-primary-text hover:bg-primary/25 hover:border-primary/40 text-xs rounded-lg border px-2 py-[0.28rem] md:py-[0.26rem] flex items-center duration-300 ${
                             currentNoteId === note.id
                               ? 'bg-primary/15 border-primary/15'
@@ -278,8 +282,8 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                           onClick={() => toggleTagInput(note.id)}
                         >
                           <Plus size={15} />
-                          {(!note.tags || note.tags.length === 0) && <span className="ml-1">Add tag</span>}
-                        </button>
+                          {(!note.tags || note.tags.length === 0) && <span>Add tag</span>}
+                        </Button>
                       </TooltipTrigger>
                       <TooltipContent>Add tag</TooltipContent>
                     </Tooltip>

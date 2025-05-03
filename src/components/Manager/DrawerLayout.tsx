@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
-import { motion } from 'framer-motion';
 import { Search, LibraryBig, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
@@ -13,6 +12,8 @@ import NoteControls from '@/components/Manager/NoteControls';
 import DownloadDialog from '@/components/Dialogs/Download';
 import NoteSummary from '@/components/Dialogs/NoteSummary';
 import SortDropdown from '@/components/Manager/NoteSortDropdown';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
 
 const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote, onUpdateNoteName, onDownload, onOpenNote, searchQuery, setSearchQuery, onUpdateNoteTags, onCopyNote, formatCreationDate, isDrawerOpen, setIsDrawerOpen }) => {
@@ -201,15 +202,13 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
             <TooltipTrigger asChild>
               <div>
                 <Drawer.Trigger asChild>
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="bg-dark-button/80 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-800/70 duration-300 p-3 rounded-lg flex items-center group"
+                  <Button
+                    size="icon"
+                    className="bg-dark-button/80 border border-neutral-800 hover:border-neutral-700/60 hover:bg-dark-button-hover duration-300 p-3 rounded-lg flex items-center group"
                     aria-label="Open Note Manager Button"
                   >
                     <LibraryBig size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
-                  </motion.button>
+                  </Button>
                 </Drawer.Trigger>
               </div>
             </TooltipTrigger>
@@ -236,7 +235,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
               </div>
               {/* Search Bar */}
               <div className="mb-3 relative flex items-center">
-                <input
+                <Input
                   type="text"
                   placeholder="Search for notes or tags..."
                   value={searchQuery}
@@ -256,7 +255,7 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                       className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs border truncate overflow-ellipsis tracking-wide cursor-pointer ${
                         isActive
                           ? 'bg-zinc-100 text-neutral-950 duration-300'
-                          : 'bg-dark-button border-neutral-700/40 hover:border-neutral-700 text-zinc-300'
+                          : 'bg-dark-button hover:bg-dark-button-hover border-neutral-700/40 hover:border-neutral-700 text-zinc-300'
                       }`}
                       onClick={() => setSearchQuery(isActive ? '' : tag)}
                       aria-label="Tag Name"
@@ -284,14 +283,15 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   );
                 })}
                 {tagCounts.length > 3 && (
-                  <button
+                  <Button
+                    size="icon"
                     onClick={() => setShowAll(!showAll)}
-                    className="bg-dark-button border border-neutral-700/40 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300/85 hover:text-zinc-300 text-xs"
+                    className="bg-dark-button border border-neutral-700/40 hover:border-neutral-700 px-2 py-1 rounded-lg text-zinc-300/85 hover:text-zinc-300 text-xs duration-0"
                     aria-label="Show More/Less Tags Button"
                     data-vaul-no-drag
                   >
                     {showAll ? 'Show Less' : 'Show More'}
-                  </button>
+                  </Button>
                 )}
               </div>
               {tagCounts.length > 0 && (

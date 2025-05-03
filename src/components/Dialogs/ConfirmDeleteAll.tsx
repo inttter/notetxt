@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/Dialog';
+import { Button } from '@/components/ui/Button';
 import { Trash2, TriangleAlert, X } from 'lucide-react';
 
 const deleteAllTitle = 'Are you sure?';
@@ -18,19 +19,22 @@ const ConfirmDeleteAll = ({ isOpen, onConfirm, onCancel }) => {
           </DialogDescription>
           <div className="flex justify-end items-center">
             <div className="text-zinc-100 flex space-x-2 mt-5 md:mt-3.5">
-              <button
+              <Button
+                size="sm"
                 onClick={onCancel}
-                className="btn-dialog bg-dark-button hover:bg-neutral-800/85 border-neutral-700/60"
+                className="px-4 border-neutral-700/60"
                 aria-label="Cancel"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
+                size="sm"
+                variant="destructive"
                 onClick={onConfirm}
-                className="btn-dialog bg-destructive/80 hover:bg-destructive/65 border-destructive/80 flex items-center"
+                className="px-3 bg-destructive/80 hover:bg-destructive/65 flex items-center"
               >
-                <Trash2 size={15} className="mr-1" /> Delete
-              </button>
+                <Trash2 size={15} /> Delete
+              </Button>
             </div>
           </div>
           <DialogClose className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close Dialog">

@@ -3,6 +3,7 @@ import db, { Note } from '@/utils/db';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/Dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { X, Download, FileText } from 'lucide-react';
 import { FaMarkdown } from 'react-icons/fa';
 
@@ -67,16 +68,17 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
         />
         <div className="flex justify-end items-center">
           <div className="text-zinc-300 flex space-x-2">
-            <button
+            <Button
+              size="sm"
               onClick={onRequestClose}
-              className="btn-dialog bg-dark-button hover:bg-neutral-800/85 border-neutral-700/60"
+              className="px-4 border-neutral-700/60 text-sm md:text-base"
               aria-label="Cancel"
             >
               Cancel
-            </button>
+            </Button>
 
             <Select value={fileType} onValueChange={setFileType}>
-              <SelectTrigger className="bg-dark-button hover:bg-neutral-800/85 border border-neutral-700/60 px-2 py-1 rounded-md text-sm duration-300 flex items-center">
+              <SelectTrigger className="bg-dark-button hover:bg-dark-button-hover border border-neutral-700/60 px-2 py-1 rounded-md text-sm duration-300 flex items-center">
                 {fileTypes.find((type) => type.value === fileType)?.icon}
                 <span>
                   {fileTypes.find((type) => type.value === fileType)?.name || 'Select Format'}
@@ -98,13 +100,15 @@ const DownloadDialog = ({ isOpen, onRequestClose, onDownload, fileName, setFileN
               </SelectContent>
             </Select>
 
-            <button
-              className="btn-dialog text-zinc-100 hover:text-zinc-200 bg-primary/80 border-primary/80 hover:bg-primary/65 flex items-center"
+            <Button
+              size="sm"
+              variant="primary"
+              className="px-3 md:px-4 text-sm md:text-base"
               onClick={handleSave}
               aria-label="Download Note"
             >
-              <Download size={18} className="mr-1" /> Save
-            </button>
+              <Download size={16} /> Save
+            </Button>
           </div>
         </div>
         <DialogClose className="absolute top-4 right-2 text-sm text-zinc-300 hover:text-zinc-400 font-semibold duration-300 px-1 py-0.5 mr-1" aria-label="Close Dialog">

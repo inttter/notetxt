@@ -16,7 +16,7 @@ const SortDropdown = ({ sortOptions, sortCriteria, handleSortChange }) => {
                 hideDefaultIcon
               >
                 {sortOptions.find(o => o.value === sortCriteria)?.label || 'N/A'}
-                <ChevronUp size={15} className="ml-1 text-stone-400" />
+                <ChevronUp size={15} className="ml-1 text-stone-300/80" />
               </SelectTrigger>
             </TooltipTrigger>
             <TooltipContent side="top" align="start">

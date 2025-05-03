@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
 import { CommandDialog, CommandInput, CommandList, CommandGroup, CommandItem, CommandEmpty, CommandShortcut, CommandSeparator } from "@/components/ui/Command";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
+import { Button } from '@/components/ui/Button';
 import { isMobile } from 'react-device-detect';
 import { FaGithub, FaMarkdown } from 'react-icons/fa';
 import { 
@@ -199,19 +199,17 @@ const CommandMenuButton = ({ openCommandMenu, onNoteSelect, formatCreationDate }
 
   return (
     <TooltipProvider delayDuration={50}>
-      <div className="flex mb-4 px-5 mx-0.5 rounded-lg">
+      <div className="flex mb-4 px-5 rounded-lg">
         <Tooltip>
           <TooltipTrigger asChild>
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+            <Button
+              size="icon"
               onClick={toggleCommandMenu}
-              className="bg-dark-button/80 border border-neutral-800 hover:border-neutral-700/60 hover:bg-neutral-800/70 duration-300 p-3 rounded-lg flex items-center group"
+              className="bg-dark-button/80 border border-neutral-800 hover:border-neutral-700/60 hover:bg-dark-button-hover duration-300 p-3 rounded-lg flex items-center group"
               aria-label="Open Command Menu Button"
             >
               <CommandIcon size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
-            </motion.button>
+            </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center">
             Command Menu

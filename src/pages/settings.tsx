@@ -27,7 +27,7 @@ export default function SettingsPage() {
   const [isDeleteAllDialogOpen, setIsDeleteAllDialogOpen] = useState(false);
 
   const settingsPageTitle = 'Settings';
-  const settingsPageDescription = 'Manage your preferences for Notetxt from here.';
+  const settingsPageDescription = 'Manage all of your Notetxt settings from here.';
 
   // Load settings from database
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function SettingsPage() {
   const settingsFields = {
     defaultNoteName: {
       label: 'Default Note Name',
-      description: 'The name given to new notes when created.',
+      description: 'The default name given to all new notes when they are created.',
     },
     defaultFileType: {
       label: 'Default File Type',
@@ -200,17 +200,21 @@ export default function SettingsPage() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <div className="-space-y-0.5">
-          <div
-            className="text-2xl text-primary-text brightness-110 font-ia-quattro font-semibold tracking-tight flex items-center"
-            aria-label="Settings Page Title"
-          >
-            <Settings2 size={20} className="mr-1 text-zinc-300/85" /> {settingsPageTitle}
-          </div>
-          <div className="text-zinc-100 text-sm" aria-label="Settings Page Description">
-            {settingsPageDescription}
-          </div>
+      
+      <div>
+        <div
+          className="text-2xl text-zinc-100 font-ia-quattro font-semibold tracking-tight flex items-center -mb-0.5"
+          aria-label="Settings Page Title"
+        >
+          <Settings2 size={20} className="mr-1" /> {settingsPageTitle}
         </div>
+        <div 
+          className="text-zinc-300/85 text-sm" 
+          aria-label="Settings Page Description"
+        >
+          {settingsPageDescription}
+        </div>
+      </div>
 
         {/* Note Settings */}
         <Card>
@@ -327,10 +331,10 @@ export default function SettingsPage() {
                 <Button
                   variant="destructive"
                   size="sm"
-                  className="mt-2 md:text-base text-xs bg-destructive/80 hover:bg-destructive/65 text-white"
+                  className="mt-2 md:text-sm text-xs bg-destructive/80 hover:bg-destructive/65 text-white"
                   onClick={() => setIsDeleteAllDialogOpen(true)}
                 >
-                  <Trash2 size={20} /> Delete
+                  <Trash2 size={16} /> Delete
                 </Button>
               </div>
             </div>
@@ -351,7 +355,7 @@ export default function SettingsPage() {
               }
             }}
           >
-            <DoorOpen size={20} /> Exit
+            <DoorOpen size={16} /> Exit
           </Button>
 
           <div className="ml-auto flex gap-2">
@@ -362,20 +366,20 @@ export default function SettingsPage() {
               onClick={handleResetSettings}
               aria-label="Reset Settings Button"
             >
-              <RotateCcw size={20} /> Reset
+              <RotateCcw size={16} /> Reset
             </Button>
             {/* Save Settings Button */}
             <Button
               variant="primary"
-              className="text-zinc-100 hover:text-zinc-200 text-sm hover:bg-primary/80 duration-300 flex items-center group"
+              className="text-sm duration-300 flex items-center group"
               onClick={handleSaveSettings}
               disabled={isLoading}
             >
               {isLoading ? (
-                <><Loader2 size={20} className="animate-spin" /> Saving changes...</>
+                <><Loader2 size={16} className="animate-spin" /> Saving...</>
               ) : (
                 <>
-                  <Check size={20} /> Save changes
+                  <Check size={16} /> Save changes
                 </>
               )}
             </Button>
