@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/Button';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const pageTitle404 = '404';
-const pageDescription404 = `Unfortunately, you won't come across your notes on this page. Check the link you entered, or use the button below to go to the Editor, where your notes actually are.`;
+const pageTitle404 = 'Page not found?!';
+const pageDescription404 = `Unfortunately, yes, there's no page here. Check the link you entered again, or use the button below to go to the Editor.`;
 
 export default function Custom404() {
   return (
@@ -22,7 +22,7 @@ export default function Custom404() {
             initial={{ opacity: 0.01, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="flex items-center justify-center text-8xl font-semibold text-primary tracking-tighter md:tracking-normal"
+            className="flex items-center justify-center text-6xl font-semibold text-zinc-100 tracking-tighter md:tracking-normal -mb-1"
             aria-label="404 Page Title"
           >
             {pageTitle404}
@@ -32,7 +32,7 @@ export default function Custom404() {
             initial={{ opacity: 0.01, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
-            className="text-zinc-100 text-base max-w-lg pt-1 pb-3 text-center"
+            className="text-zinc-300 text-sm md:text-base max-w-lg text-left md:text-center pb-2"
             aria-label="404 Page Description"
           >
             {pageDescription404}
@@ -44,7 +44,7 @@ export default function Custom404() {
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
             className="w-full max-w-lg"
           >
-            <Link href="/editor" passHref>
+            <Link href="/" passHref>
               <Button
                 asChild
                 className="w-full flex justify-center items-center"
