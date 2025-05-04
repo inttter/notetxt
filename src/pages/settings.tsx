@@ -19,6 +19,8 @@ export default function SettingsPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSettingsLoaded, setIsSettingsLoaded] = useState(false);
+  const [initialSettings, setInitialSettings] = useState(null);
+  const [isModified, setIsModified] = useState(false); 
 
   const [defaultNoteName, setDefaultNoteName] = useState('New Note');
   const [defaultFileType, setDefaultFileType] = useState('.txt');
@@ -51,6 +53,14 @@ export default function SettingsPage() {
           setDefaultFileType(settings.editor?.defaultFileType || '.txt');
           setDefaultPreviewMode(settings.editor?.defaultPreviewMode || false);
           setShowRecentNotes(settings.editor?.showRecentNotes ?? true);
+
+          // Save initial settings to compare with modified ones
+          setInitialSettings({
+            defaultNoteName: settings.editor?.defaultNoteName || 'New Note',
+            defaultFileType: settings.editor?.defaultFileType || '.txt',
+            defaultPreviewMode: settings.editor?.defaultPreviewMode || false,
+            showRecentNotes: settings.editor?.showRecentNotes ?? true
+          });
         };
 
         setIsSettingsLoaded(true);
@@ -97,6 +107,14 @@ export default function SettingsPage() {
         toast.success('Settings saved successfully!', {
           description: 'Your preferences have been updated.',
         });
+        
+        setIsModified(false);
+        setInitialSettings({ // Set initial settings again to use newly-saved settings
+          defaultNoteName,
+          defaultFileType,
+          defaultPreviewMode,
+          showRecentNotes
+        });
       } catch (error) {
         console.error('Failed to save settings:', error);
         toast.error('Failed to save settings.', {
@@ -119,6 +137,8 @@ export default function SettingsPage() {
     toast.info('Settings reset to defaults', {
       description: 'Click "Save changes" to apply these changes.',
     });
+
+    setIsModified(true);
   };
 
   const handleDeleteAllNotes = async () => {
@@ -132,6 +152,15 @@ export default function SettingsPage() {
       toast.error('Failed to delete all notes.');
     };
   };
+
+  // Checks to see if the current settings match initial settings
+  // (if not, then changes have been made to them)
+  const hasChanges = (
+    defaultNoteName !== initialSettings?.defaultNoteName ||
+    defaultFileType !== initialSettings?.defaultFileType ||
+    defaultPreviewMode !== initialSettings?.defaultPreviewMode ||
+    showRecentNotes !== initialSettings?.showRecentNotes
+  );
 
   // Settings Fields
   const settingsFields = {
@@ -368,15 +397,19 @@ export default function SettingsPage() {
             >
               <RotateCcw size={16} /> Reset
             </Button>
+
             {/* Save Settings Button */}
             <Button
               variant="primary"
               className="text-sm duration-300 flex items-center group"
               onClick={handleSaveSettings}
-              disabled={isLoading}
+              disabled={!hasChanges || isLoading}
             >
               {isLoading ? (
-                <><Loader2 size={16} className="animate-spin" /> Saving...</>
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Saving...
+                </>
               ) : (
                 <>
                   <Check size={16} /> Save changes
