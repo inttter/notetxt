@@ -44,7 +44,7 @@ export default function Custom404() {
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
             className="w-full max-w-lg"
           >
-            <Link href="/" passHref>
+            <Link href="/editor" passHref>
               <Button
                 asChild
                 className="w-full flex justify-center items-center"
