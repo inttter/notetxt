@@ -69,7 +69,7 @@ const commands = {
         aliases: ['day'],
     },
     spoiler: {
-        content: '<details>\n<summary>SPOILER</summary>\n\nThis is hidden spoiler content.\n\n</details>',
+        content: '<details>\n<summary>SPOILER</summary>\nThis is hidden spoiler content.\n\n</details>',
         aliases: ['secret']
     },
     
