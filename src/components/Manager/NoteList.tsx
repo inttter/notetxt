@@ -267,7 +267,7 @@ const NoteList = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveNote,
                     placeholder="Tag Name"
                     autoFocus
                   />
-                ) : (
+                ) : (showRemoveTags && currentNoteId === note.id || !(note.tags && note.tags.length > 0)) && (
                   <TooltipProvider delayDuration={50}>
                     <Tooltip>
                       <TooltipTrigger asChild>
