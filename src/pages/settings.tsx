@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { isMobile } from 'react-device-detect';
-import { Check, DoorOpen, FileText, Loader2, RotateCcw, Settings2, Trash2 } from 'lucide-react';
+import { Check, DoorOpen, FileText, Loader2, RotateCcw, Settings, Trash2 } from 'lucide-react';
 import { FaMarkdown } from 'react-icons/fa';
 import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import Head from 'next/head';
@@ -235,7 +235,7 @@ export default function SettingsPage() {
           className="text-2xl text-zinc-100 font-ia-quattro font-semibold tracking-tight flex items-center -mb-0.5"
           aria-label="Settings Page Title"
         >
-          <Settings2 size={20} className="mr-1" /> {settingsPageTitle}
+          <Settings size={20} className="mr-1" /> {settingsPageTitle}
         </div>
         <div 
           className="text-zinc-300/85 text-sm" 

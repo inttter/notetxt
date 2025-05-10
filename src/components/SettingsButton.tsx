@@ -1,6 +1,6 @@
 "use client"
 
-import { Settings2 } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/Button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
@@ -18,7 +18,7 @@ export function SettingsButton() {
             aria-label="Open Settings Page Button"
             onClick={() => router.push("/settings")}
           >
-            <Settings2 size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
+            <Settings size={20} className="text-stone-300 group-hover:text-zinc-100 duration-300" />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom">
