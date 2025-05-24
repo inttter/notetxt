@@ -39,28 +39,45 @@ const markdownStyles = {
   ol: ({ node, ...props }) => (
     <ol className={baseListStyle} {...props} />
   ),
-  li: ({ node, children, ...props }) => (
-    <li className="-mb-0.5 marker:text-zinc-100" {...props}>
-      {React.Children.map(children, (child, index) => {
-        if (React.isValidElement(child) && child.type === 'input' && child.props.type === 'checkbox') {
-          return (
-            <div key={index} className="relative inline-block">
-              {/* Hide the bullet point from appearing by covering it with the checkbox */}
+  li: ({ node, children, ...props }) => {
+    const childArray = React.Children.toArray(children);
+  
+    const checkbox = childArray.find((child) =>
+        React.isValidElement(child) &&
+        child.type === 'input' &&
+        child.props.type === 'checkbox'
+    );
+  
+    if (checkbox) {
+      const content = childArray.filter((child) => child !== checkbox);
+  
+      return (
+        <li className="list-none">
+          <label className="flex items-start gap-2 -ml-6 -mt-0.5">
+            <div className="relative">
               <input
                 type="checkbox"
-                className="appearance-none w-4 h-4 mr-1 -mb-0.5 -ml-[22px] rounded bg-dark-focus border border-neutral-700/50 checked:border-neutral-800 checked:bg-primary"
-                {...child.props}
+                className="appearance-none w-4 h-4 rounded bg-dark-focus border border-neutral-700/50 checked:border-neutral-800 checked:bg-primary mt-[3px]"
+                {...checkbox.props}
               />
-              {child.props.checked && (
-                <Check className="absolute top-[4px] -ml-[20px] w-3 h-4 text-zinc-100 pointer-events-none" />
+              {checkbox.props.checked && (
+                <Check className="absolute top-[3.5px] left-0.5 w-3 h-4 text-zinc-100 pointer-events-none" />
               )}
             </div>
-          );
-        }
-        return child;
-      })}
-    </li>
-  ),
+            <div className="flex-1">
+              {content}
+            </div>
+          </label>
+        </li>
+      );
+    }
+  
+    return (
+      <li className={`${baseListStyle} -mb-0.5`} {...props}>
+        {children}
+      </li>
+    );
+  },
   table: ({ node, ...props }) => (
     <div className={baseTableStyle}>
       <table className="w-full my-0" {...props} />
