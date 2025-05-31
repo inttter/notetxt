@@ -16,8 +16,8 @@ const commands = {
         aliases: ['blist'],
     },
     task: {
-        content: `- [ ] Task 1\n- [ ] Task 2`,
-        aliases: ['tlist', 'todo'],
+        content: `- [ ] Task goes here`,
+        aliases: ['todo'],
     },
     code: {
         content: '```\n// Your code here\n```',
