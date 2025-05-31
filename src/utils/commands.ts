@@ -15,7 +15,7 @@ const commands = {
         content: `* Item 1\n* Item 2\n* Item 3`,
         aliases: ['blist'],
     },
-    tasklist: {
+    task: {
         content: `- [ ] Task 1\n- [ ] Task 2`,
         aliases: ['tlist', 'todo'],
     },
