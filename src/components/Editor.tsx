@@ -6,14 +6,13 @@ import NoteSummary from '@/components/Dialogs/NoteSummary';
 import Download from '@/components/Dialogs/Download';
 import MarkdownPreview from '@/components/markdown/MarkdownPreview';
 import { SettingsButton } from '@/components/SettingsButton';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/Tooltip";
-import commands from '@/utils/commands';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
+import { useSlashCommands } from '@/hooks/use-slash-commands';
 import db, { Note } from '@/utils/db';
 import copy from 'copy-to-clipboard';
 import hotkeys from 'hotkeys-js';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import * as chrono from 'chrono-node';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { saveAs } from 'file-saver';
@@ -212,13 +211,15 @@ export default function Editor() {
     }
   }, [scrollPosition]);
 
-  const handleAddNote = async () => {
+  const handleAddNote = async (templateContent?: string) => {
     try {
       const id = `${Date.now()}`;
-      const newNote: Note = { 
-        id, 
-        name: settings.defaultNoteName || 'New Note', 
-        content: '', 
+      const newNote: Note = {
+        id,
+        name: settings.defaultNoteName || 'New Note',
+        // If creating a new note from a template, use the template's content instead,
+        // otherwise create a new note with no content.
+        content: templateContent || '',
       };
   
       await db.notes.add(newNote);
@@ -307,128 +308,18 @@ export default function Editor() {
     }
   };
   
-  const generateTOC = (content: string) => {
-    const lines = content.split('\n');
-    const toc: string[] = [];
-    const headerRegex = /^(#{1,6})\s+(.+)$/; // Matches H1 to H6
-    let inTOCSection = false;
-    let inCodeBlock = false;
-  
-    lines.forEach((line) => {
-      if (line.trim().startsWith('```')) {
-        inCodeBlock = !inCodeBlock; // Toggle code block state
-        return;
-      }
-  
-      // Check for command line input (both /toc and /contents)
-      if (inCodeBlock || line.trim() === `/${commands.toc.aliases[0]}` || line.trim() === '/toc') {
-        if (line.trim() === '/toc' || line.trim() === `/${commands.toc.aliases[0]}`) {
-          inTOCSection = true;
-        }
-        return;
-      }
-  
-      const match = line.match(headerRegex);
-      if (match && inTOCSection) {
-        const [, hashes, title] = match;
-        const indent = '  '.repeat(hashes.length - 1); // Indentation based on header level
-        const cleanedTitle = title
-          .replace(/`([^`]+)`/g, '$1') // Keep content of inline code
-          .toLowerCase()
-          .trim()
-          .replace(/[^\w\s-]+/g, '') // Remove punctuation except spaces and hyphens
-          .replace(/\s+/g, '-'); // Replace spaces with hyphens
-  
-        toc.push(`${indent}- [${title}](#${cleanedTitle})`);
-      }
-    });
-  
-    return toc.join('\n');
+  const updateNoteContent = (content: string) => {
+    setNotes(prevNotes => ({
+      ...prevNotes,
+      [currentNoteId]: { ...prevNotes[currentNoteId], content }
+    }));
   };
+
+  const { textareaRef: slashTextareaRef, handleChange } = useSlashCommands(notes[currentNoteId]?.content || '', updateNoteContent);
   
+  // Call handleChange from slash command hook
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    const lines = value.split('\n');
-  
-    const cursorPosition = e.target.selectionStart;
-  
-    let caretOffset = 0;
-  
-    // Match and parse dates when it matches regex (where [[...]] contains dates)
-    const parsedLines = lines.map((line) =>
-      line.replace(/\[\[(.*?)\]\]/g, (_, match) => {
-        const parsedDate = chrono.parseDate(match);
-  
-        if (parsedDate) {
-          const day = parsedDate.getDate().toString();
-          const month = parsedDate.toLocaleString('en-US', { month: 'long' });
-          const year = parsedDate.getFullYear();
-  
-          // eg. February 2, 2025
-          const replacement = `${month} ${day}, ${year}`;
-          
-          caretOffset += replacement.length - match.length - 4;
-          return replacement;
-        }
-  
-        return `[[${match}]]`;
-      })
-    );
-  
-    const parsedContent = parsedLines.join('\n');
-  
-    setNotes((prevNotes) => {
-      const updatedNote = {
-        ...prevNotes[currentNoteId],
-        content: parsedContent,
-      };
-  
-      // Check for commands
-      const commandLineIndex = parsedLines.findIndex((line) => line.startsWith('/'));
-      if (commandLineIndex !== -1) {
-        const command = parsedLines[commandLineIndex].slice(1).toLowerCase(); // Get command without the slash
-        const foundCommand = Object.entries(commands).find(([cmd, { aliases }]) =>
-          cmd === command || aliases.includes(command) // Check both command and aliases
-        );
-  
-        if (foundCommand) {
-          let commandOutput = foundCommand[1].content;
-  
-          // Use the command key from the foundCommand for TOC logic
-          if (foundCommand[0] === 'toc' || foundCommand[1].aliases.includes('contents')) {
-            const toc = generateTOC(parsedContent);
-            commandOutput = '## Table of Contents\n\n' + toc;
-          }
-  
-          parsedLines[commandLineIndex] = commandOutput;
-          const newContent = parsedLines.join('\n');
-          updatedNote.content = newContent;
-  
-          if (textareaRef.current) {
-            textareaRef.current.value = newContent;
-  
-            const positionBeforeCommand = parsedLines
-            .slice(0, commandLineIndex)
-            .join('\n').length + commandOutput.length + (commandLineIndex === 0 ? 0 : 1);
-  
-            textareaRef.current.setSelectionRange(positionBeforeCommand, positionBeforeCommand);
-            textareaRef.current.focus();
-          }
-        }
-      }
-  
-      // Move caret to the end of replacement for parsed placeholders (ie. wikilink syntax dates)
-      if (textareaRef.current && commandLineIndex === -1) {
-        textareaRef.current.value = parsedContent;
-  
-        // Move caret position to the end of the last replaced string
-        const newCaretPosition = cursorPosition + caretOffset;
-        textareaRef.current.setSelectionRange(newCaretPosition, newCaretPosition);
-        textareaRef.current.focus();
-      }
-  
-      return { ...prevNotes, [currentNoteId]: updatedNote };
-    });
+    handleChange(e);
   };
 
   const handleFileInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

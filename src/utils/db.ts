@@ -1,10 +1,17 @@
-import Dexie from "dexie";
+import Dexie from 'dexie';
 
 export interface Note {
   id: string;
   name: string;
   content: string;
   tags?: string[];
+}
+
+export interface Template {
+  id: string;
+  name: string;
+  content: string;
+  createdAt: Date;
 }
 
 export interface CurrentNote {
@@ -31,6 +38,7 @@ export interface AppSettings {
 
 export class NotesDatabase extends Dexie {
   notes: Dexie.Table<Note, string>;
+  templates: Dexie.Table<Template, string>;
   currentNote: Dexie.Table<CurrentNote, string>;
   appState: Dexie.Table<AppState, string>;
   settings: Dexie.Table<AppSettings, string>;
@@ -69,10 +77,10 @@ export class NotesDatabase extends Dexie {
     });
 
     this.version(4).stores({
-        notes: 'id, name, content, tags',
-        currentNote: 'id, noteId',
-        appState: 'id',
-        settings: 'id',
+      notes: 'id, name, content, tags',
+      currentNote: 'id, noteId',
+      appState: 'id',
+      settings: 'id',
     }).upgrade(async tx => {
       const oldSettings = await tx.table('settings').get('user-settings');
 
@@ -102,7 +110,16 @@ export class NotesDatabase extends Dexie {
       };
     });
 
+    this.version(5).stores({
+      notes: 'id, name, content, tags',
+      templates: 'id, name, content, createdAt',
+      currentNote: 'id, noteId',
+      appState: 'id',
+      settings: 'id',
+    });
+
     this.notes = this.table('notes');
+    this.templates = this.table('templates');
     this.currentNote = this.table('currentNote');
     this.appState = this.table('appState');
     this.settings = this.table('settings');
