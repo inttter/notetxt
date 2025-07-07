@@ -311,7 +311,7 @@ export default function Editor() {
     }));
   };
 
-  const { textareaRef: slashTextareaRef, handleChange } = useSlashCommands(notes[currentNoteId]?.content || '', updateNoteContent);
+  const { handleChange } = useSlashCommands(notes[currentNoteId]?.content || '', updateNoteContent,textareaRef);
   
   // Call handleChange from slash command hook
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

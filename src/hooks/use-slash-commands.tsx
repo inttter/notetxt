@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import commands from '@/utils/commands';
 import * as chrono from 'chrono-node';
 
-export const useSlashCommands = (content: string, setContent: (content: string) => void, additionalProcessing?: (e: React.ChangeEvent<HTMLTextAreaElement>, value: string) => string | null,
+export const useSlashCommands = (content: string, setContent: (content: string) => void, externalRef?: React.RefObject<HTMLTextAreaElement>, additionalProcessing?: (e: React.ChangeEvent<HTMLTextAreaElement>, value: string) => string | null,
 ) => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const internalRef = useRef<HTMLTextAreaElement | null>(null);
+  const textareaRef = externalRef || internalRef;
 
   const generateTOC = (content: string) => {
     const lines = content.split('\n');
