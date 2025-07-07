@@ -194,22 +194,18 @@ export default function Editor() {
   // Sync scrollbars
   const syncScroll = (e) => {
     if (textareaRef.current && markdownRef.current) {
-      const textareaHeight = textareaRef.current.scrollHeight - textareaRef.current.clientHeight;
-      const markdownHeight = markdownRef.current.scrollHeight - markdownRef.current.clientHeight;
-      const scrollRatio = markdownHeight / textareaHeight;
+      // Calculate scroll percentage for the textarea
+      const textareaScrollHeight = textareaRef.current.scrollHeight - textareaRef.current.clientHeight;
+      const textareaScrollPercentage = textareaScrollHeight > 0 ? e.target.scrollTop / textareaScrollHeight : 0;
 
-      const newScrollPosition = e.target.scrollTop * scrollRatio;
-      markdownRef.current.scrollTop = newScrollPosition; // Sync markdown scroll
-      textareaRef.current.scrollTop = e.target.scrollTop; // Sync textarea scroll
+      // Apply the same percentage to the markdown preview
+      const markdownScrollHeight = markdownRef.current.scrollHeight - markdownRef.current.clientHeight;
+      const newMarkdownScrollTop = markdownScrollHeight * textareaScrollPercentage;
+
+      markdownRef.current.scrollTop = newMarkdownScrollTop;
+      setScrollPosition(newMarkdownScrollTop);
     }
   };
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      // Update textarea scroll position
-      textareaRef.current.scrollTop = scrollPosition;
-    }
-  }, [scrollPosition]);
 
   const handleAddNote = async (templateContent?: string) => {
     try {

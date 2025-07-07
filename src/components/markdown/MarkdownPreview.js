@@ -20,8 +20,17 @@ const MarkdownPreview = ({ content, scrollPosition, setScrollPosition, textareaR
     const currentScrollTop = scrollRef.current.scrollTop;
     if (currentScrollTop !== scrollPosition) {
       setScrollPosition(currentScrollTop);
+
       if (textareaRef && textareaRef.current) {
-        textareaRef.current.scrollTop = currentScrollTop;
+        // Calculate scroll percentage for the markdown preview
+        const markdownScrollHeight = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
+        const markdownScrollPercentage = markdownScrollHeight > 0 ? currentScrollTop / markdownScrollHeight : 0;
+
+        // Apply the same percentage to the textarea
+        const textareaScrollHeight = textareaRef.current.scrollHeight - textareaRef.current.clientHeight;
+        const newTextareaScrollTop = textareaScrollHeight * markdownScrollPercentage;
+
+        textareaRef.current.scrollTop = newTextareaScrollTop;
       }
     }
   };
