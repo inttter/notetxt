@@ -117,7 +117,7 @@ const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side="top" sideOffset={5} className="bg-dark border border-neutral-800/60 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden min-w-64 max-w-xs md:max-w-sm">
             <DropdownMenuItem
-              className="text-zinc-300 text-sm hover:bg-dark-focus rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
+              className="text-zinc-300 text-sm hover:bg-dark-button border border-transparent hover:border-neutral-800 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsTemplateDialogOpen(true);
@@ -135,7 +135,7 @@ const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
                 {templates.map((template) => (
                   <DropdownMenuItem
                     key={template.id}
-                    className="text-zinc-300 text-sm hover:bg-dark-focus rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 py-3 relative"
+                    className="text-zinc-300 text-sm hover:bg-dark-button border border-transparent hover:border-neutral-800 rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300 py-3 relative"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleUseTemplate(template);
@@ -149,7 +149,7 @@ const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
                           {template.name}
                         </div>
                         {/* Template Content */}
-                        <div className="text-xs text-stone-400 mt-0.5 truncate">
+                        <div className="text-xs text-zinc-300/85 truncate">
                           {template.content ? template.content.slice(0, 150) : ''}
                         </div>
                       </div>
@@ -162,7 +162,7 @@ const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
                               e.stopPropagation();
                               handleDeleteTemplate(template.id, template);
                             }}
-                            className="absolute top-2 right-1.5 p-1 text-stone-400 hover:text-red-400 hover:bg-red-400/10 rounded-md transition-colors duration-200"
+                            className="absolute top-2 right-1.5 p-1 text-stone-400 hover:text-red-400 hover:bg-red-400/10 border border-transparent hover:border-red-400/10 rounded-md transition-colors duration-200"
                             aria-label={`Delete template: ${template.name}`}
                           >
                             <Trash2 size={14} />
