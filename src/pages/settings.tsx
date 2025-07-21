@@ -5,14 +5,17 @@ import { Label } from '@/components/ui/Label';
 import { Switch } from '@/components/ui/Switch';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/Select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/Dropdown';
 import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import { motion } from 'framer-motion';
 import { isMobile } from 'react-device-detect';
-import { Check, DoorOpen, FileText, Loader2, RotateCcw, Settings, Trash2 } from 'lucide-react';
+import { Check, DoorOpen, FileText, Loader2, RotateCcw, Settings, Trash2, FolderArchive, ChevronDown } from 'lucide-react';
 import { FaMarkdown } from 'react-icons/fa';
 import ConfirmDeleteAll from '@/components/Dialogs/ConfirmDeleteAll';
 import Head from 'next/head';
+import saveAs from 'file-saver';
+import JSZip from 'jszip';
 import db from '@/utils/db';
 
 export default function SettingsPage() {
@@ -21,12 +24,13 @@ export default function SettingsPage() {
   const [isSettingsLoaded, setIsSettingsLoaded] = useState(false);
   const [initialSettings, setInitialSettings] = useState(null);
   const [isModified, setIsModified] = useState(false); 
-
   const [defaultNoteName, setDefaultNoteName] = useState('New Note');
-  const [defaultFileType, setDefaultFileType] = useState('.txt');
+  const [defaultFileType, setDefaultFileType] = useState('.txt'); // Setting default file type
   const [defaultPreviewMode, setDefaultPreviewMode] = useState(false);
   const [showRecentNotes, setShowRecentNotes] = useState(true);
   const [isDeleteAllDialogOpen, setIsDeleteAllDialogOpen] = useState(false);
+  const [exportFileType, setExportFileType] = useState('.txt'); // Export default file type
+  const [notes, setNotes] = useState([]);
 
   const settingsPageTitle = 'Settings';
   const settingsPageDescription = 'Manage all of your Notetxt settings from here.';
@@ -141,6 +145,19 @@ export default function SettingsPage() {
     setIsModified(true);
   };
 
+  // Fetch all notes to thus allow exporting of all notes
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const allNotes = await db.notes.toArray();
+        setNotes(allNotes);
+      } catch (error) {
+        console.error('Failed to load notes:', error);
+      }
+    };
+    fetchNotes();
+  }, []);
+
   const handleDeleteAllNotes = async () => {
     try {
       await db.notes.clear();
@@ -151,6 +168,40 @@ export default function SettingsPage() {
       console.error('Failed to delete all notes:', error);
       toast.error('Failed to delete all notes.');
     };
+  };
+
+  const exportAllNotes = async (type) => {
+    // Fallback in case there are zero notes
+    if (notes.length === 0) {
+      toast.warning('No notes available to export!', {
+        description: 'Please go back and create at least one note first to be able to export.',
+      });      
+      return;
+    }
+  
+    try {
+      const zip = new JSZip();
+      notes.forEach(note => {
+        zip.file(`${note.name || 'Untitled'}${type}`, note.content || '');
+      });
+  
+      const content = await zip.generateAsync({ type: 'blob' });
+      
+      // Get date in DD/MM/YY
+      const date = new Date();
+      const formattedDate = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getFullYear()).slice(-2)}`;
+
+      saveAs(content, `Notetxt-${formattedDate}.zip`);
+    } catch (error) {
+      console.error(`Failed to export notes: ${error.message}`);
+      toast.error(`Failed to export notes: ${error.message}`);
+    }
+  };
+
+  //.Change file type and export as soon as choice is selected from dropdown
+  const handleFileTypeChange = type => {
+    setExportFileType(type);
+    exportAllNotes(type);
   };
 
   // Checks to see if the current settings match initial settings
@@ -180,6 +231,10 @@ export default function SettingsPage() {
       label: 'Show Recent Notes',
       description: 'When enabled, the three newest notes will appear in the Command Menu.',
     },
+    exportAllNotes: {
+      label: 'Export All Notes',
+      description: 'Export all current notes into a bundled ZIP file.'
+    },
     deleteAllNotes: {
       label: 'Delete All Notes',
       description: 'Permanently delete all current notes. This cannot be undone!'
@@ -192,9 +247,9 @@ export default function SettingsPage() {
       title: 'Note Settings',
       description: 'Configure how notes are created and managed.',
     },
-    dangerZone: {
-      title: 'Danger Zone',
-      description: 'Be careful when making changes in this section!',
+    dataManagement: {
+      title: 'Data Management',
+      description: 'Manage your notes and perform bulk actions.',
     },
   };
 
@@ -278,7 +333,7 @@ export default function SettingsPage() {
               </Label>
               <Select value={defaultFileType} onValueChange={setDefaultFileType}>
                 <SelectTrigger
-                  className="px-3 py-2 bg-dark border border-neutral-800 hover:border-neutral-700 text-zinc-100 text-sm duration-300 flex items-center focus:outline-none outline-none"
+                  className="px-3 py-2 bg-dark hover:bg-dark-button-hover/20 border border-neutral-800 hover:border-neutral-700/60 text-zinc-100 text-sm duration-300 flex items-center focus:outline-none outline-none"
                   id="default-file-type"
                 >
                   <div className="flex items-center">
@@ -337,15 +392,56 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        {/* Danger Zone */}
+        {/* Data Management */}
         <Card>
           <CardHeader>
-            <CardTitle>{settingsSectionFields.dangerZone.title}</CardTitle>
-            <CardDescription>{settingsSectionFields.dangerZone.description}</CardDescription>
+            <CardTitle>{settingsSectionFields.dataManagement.title}</CardTitle>
+            <CardDescription>{settingsSectionFields.dataManagement.description}</CardDescription>
           </CardHeader>
 
           <hr className="border border-neutral-800 rounded-full mb-3" />
           <CardContent className="space-y-6">
+            {/* Export All Notes */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="export-all-notes" aria-label="Export All Notes Label">
+                    {settingsFields.exportAllNotes.label}
+                  </Label>                  
+                  <div className="text-xs md:text-sm text-zinc-300/85" aria-label="Export All Notes Description">
+                    {settingsFields.exportAllNotes.description}
+                  </div>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="sm"
+                      className="text-xs h-8"
+                    >
+                      <FolderArchive size={14} /> Export Notes
+                      <ChevronDown size={15} className="text-stone-300/80" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" sideOffset={5} className="bg-dark border border-neutral-800/60 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden">
+                    {fileTypes.map((fileTypeItem) => (
+                      <DropdownMenuItem
+                        key={fileTypeItem.value}
+                        className="text-zinc-300 text-sm hover:bg-dark-focus rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFileTypeChange(fileTypeItem.value);
+                        }}
+                        aria-label="File Type Export Option"
+                      >
+                        {fileTypeItem.icon}
+                        {fileTypeItem.name} ({fileTypeItem.value})
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+
             {/* Delete All Notes */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
@@ -363,7 +459,7 @@ export default function SettingsPage() {
                   className="mt-2 md:text-sm text-xs bg-destructive/80 hover:bg-destructive/65 text-white"
                   onClick={() => setIsDeleteAllDialogOpen(true)}
                 >
-                  <Trash2 size={16} /> Delete
+                  <Trash2 size={14} /> Delete
                 </Button>
               </div>
             </div>

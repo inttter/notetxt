@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-dark-button border border-neutral-800 shadow-sm hover:bg-dark-button-hover",
+          "bg-dark-button border border-neutral-800 hover:border-neutral-700/60 shadow-sm hover:bg-dark-button-hover",
         success:
           "bg-confirm border border-confirm/80 text-zinc-100 hover:text-zinc-200 shadow-sm hover:bg-confirm/90",
         destructive:

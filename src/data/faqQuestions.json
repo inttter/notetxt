@@ -5,7 +5,7 @@
     },
     {
       "question": "Can I download/export notes to my device?",
-      "answer": "Yes, you can download any of your notes by using Ctrl+S, or by selecting 'Download Note' from the Command Menu or Note Manager. To export them, select 'Export Notes' from the Note Manager, where they will be bundled into a ZIP file."
+      "answer": "Yes, you can download any of your notes by using Ctrl+S, or by selecting 'Download Note' from the Command Menu or Note Manager. To export them, navigate to the 'Data Management' section of the settings page."
     },
     {
       "question": "What file formats are supported?",

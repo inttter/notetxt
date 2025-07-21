@@ -146,11 +146,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
     setSelectedNote(null);
   };
 
-  const handleFileTypeChange = type => {
-    setFileType(type);
-    exportAllNotes(type);
-  };
-
   // Get user's setting for default file type to use in download dialog
   useEffect(() => {
     const fetchFileType = async () => {
@@ -166,33 +161,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
 
     fetchFileType();
   }, []);
-
-  const exportAllNotes = async (type) => {
-    if (notes.length === 0) {
-      toast.warning('No notes available to export!', {
-        description: 'Please create a note first to be able to export.',
-      });      
-      return;
-    }
-  
-    try {
-      const zip = new JSZip();
-      notes.forEach(note => {
-        zip.file(`${note.name || 'Untitled'}${type}`, note.content || '');
-      });
-  
-      const content = await zip.generateAsync({ type: 'blob' });
-      
-      // Get date in DD/MM/YY
-      const date = new Date();
-      const formattedDate = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getFullYear()).slice(-2)}`;
-
-      saveAs(content, `Notetxt-${formattedDate}.zip`);
-    } catch (error) {
-      console.error(`Failed to export notes: ${error.message}`);
-      toast.error(`Failed to export notes: ${error.message}`);
-    }
-  };
 
   return (
     <>
@@ -320,7 +288,6 @@ const DrawerLayout = ({ notes, currentNoteId, onChangeNote, onAddNote, onRemoveN
                   searchQuery={searchQuery}
                 />
                 <NoteControls
-                  handleFileTypeChange={handleFileTypeChange}
                   onOpenNote={onOpenNote}
                   onAddNote={onAddNote}
                 />

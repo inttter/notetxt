@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/Dropdown';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/Tooltip';
-import { Plus, ChevronDown, FolderArchive, FileInput, FileText, Layout, Trash2 } from 'lucide-react';
+import { Plus, ChevronDown, FileInput, Layout, Trash2 } from 'lucide-react';
 import CreateTemplateDialog from '@/components/Dialogs/CreateNoteTemplate';
 import db, { type Template } from '@/utils/db';
-import { FaMarkdown } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
+const NoteActions = ({ onOpenNote, onAddNote }) => {
   const [isTemplateDialogOpen, setIsTemplateDialogOpen] = useState(false);
   const [templates, setTemplates] = useState<Template[]>([]);
-
-  const fileTypes = [
-    { name: 'Rich Text', value: '.txt', icon: <FileText size={15} className="mr-1 text-stone-400" /> },
-    { name: 'Markdown', value: '.md', icon: <FaMarkdown size={15} className="mr-1 text-stone-400" /> }
-  ];
 
   useEffect(() => {
     loadTemplates();
@@ -68,39 +62,6 @@ const NoteActions = ({ handleFileTypeChange, onOpenNote, onAddNote }) => {
   return (
     <>
       <div className="flex flex-wrap gap-2 mt-2 mb-8 justify-end">
-        {/* Export Notes */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              size="sm"
-              // h-8 here so buttons are correct size on mobile
-              className="text-zinc-300 text-xs h-8"
-              aria-label="Export All Current Notes"
-              title="Export All Current Notes"
-              data-vaul-no-drag
-            >
-              <FolderArchive size={15} /> Export Notes
-              <ChevronDown size={15} className="text-stone-300/80" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" sideOffset={5} className="bg-dark border border-neutral-800/60 rounded-lg shadow-2xl shadow-neutral-950 z-50 overflow-hidden">
-            {fileTypes.map((fileTypeItem) => (
-              <DropdownMenuItem
-                key={fileTypeItem.value}
-                className="text-zinc-300 text-sm hover:bg-dark-focus rounded-md cursor-pointer duration-300 selection:bg-neutral-700 selection:text-zinc-300"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleFileTypeChange(fileTypeItem.value);
-                }}
-                aria-label="File Type Export Option"
-              >
-                {fileTypeItem.icon}
-                {fileTypeItem.name} ({fileTypeItem.value})
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         {/* Templates */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
