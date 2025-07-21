@@ -470,8 +470,8 @@ export default function Editor() {
 
   const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     const hasFiles = Array.from(event.dataTransfer.types).includes('Files');
-
-    if (hasFiles) {
+  
+    if (hasFiles && !event.currentTarget.contains(event.relatedTarget as Node)) {
       setIsDraggingOver(false);
     }
   };
