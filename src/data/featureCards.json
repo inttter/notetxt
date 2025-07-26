@@ -1,23 +1,33 @@
 [
     {
+      "number": "1",
       "image": "/landing/1.png",
       "title": "Minimal and Functional",
-      "description": "Notetxt is designed with a simple and minimal user interface, while also minimizing any unwanted distractions, letting you focus on your thoughts."
+      "description": "Notetxt is designed with a simple and minimal user interface, while also hiding what you don't need, letting you focus on your thoughts."
     },
     {
+      "number": "2",
       "image": "/landing/2.png",
       "title": "Markdown Support",
-      "description": "Edit and preview notes side-by-side with live Markdown rendering! It includes support for most base Markdown syntax and a few Remark/Rehype plugins."
+      "description": "Edit and preview notes side-by-side with live Markdown rendering! It includes support for most base Markdown syntax and a few Remark/Rehype plugins that add extra features."
     },
     {
+      "number": "3",
       "image": "/landing/3.png",
-      "title": "Simple, Yet Useful Features",
-      "description": "Notetxt includes multiple features that can help you improve your workflow while taking notes, such as slash commands, metrics for your notes, exporting of notes, and more!"
+      "title": "Manage Multiple Notes",
+      "description": "Access and manage your notes from the Note Manager! You can do various things to your notes from here, like tagging them, downloading them, renaming them, and more."
     },
     {
+      "number": "4",
       "image": "/landing/4.png",
-      "title": "Manage Multiple Notes",
-      "description": "Access and manage your notes from the Note Manager! You can manage various aspects of your notes from here, such as tagging them to sort and find better, downloading them, renaming them, and more."
+      "title": "Note Templates",
+      "description": "Save time with reusable note templates, like ones for reviews or meeting notes, so that you don't have to start from scratch every time."
+    },
+    {
+      "number": "5",
+      "image": "/landing/5.png",
+      "title": "Simple, Yet Useful Features",
+      "description": "Notetxt includes a variety of features that can help you improve your workflow while taking notes, such as slash commands, metrics for your notes, exporting of notes, and more!"
     }
   ]
   
