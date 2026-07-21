@@ -12,24 +12,12 @@ import {
 import db from '@/utils/db';
 
 const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
-  const handleSelect = () => {
-    if (url) {
-      window.open(url, '_blank');
-    } else if (onSelect) {
-      onSelect();
-    }
-  };
-
-  return (
-    <CommandItem
-      key={id}
-      onSelect={handleSelect}
-      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-dark-button hover:border-neutral-800 rounded-lg flex items-center group duration-300"
-    >
+  const content = (
+    <>
       {icon && (
-      <span className="mr-2 text-stone-400 duration-300">
-        {icon}
-      </span>
+        <span className="mr-2 text-stone-400 duration-300">
+          {icon}
+        </span>
       )}
       <span className="text-zinc-300 truncate duration-300">
         {name}
@@ -39,6 +27,30 @@ const MenuItem = ({ id, icon, name, keybind, onSelect, url }) => {
           {keybind}
         </CommandShortcut>
       )}
+    </>
+  );
+
+  if (url) {
+    return (
+      <CommandItem
+        key={id}
+        asChild
+        className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-dark-button hover:border-neutral-800 rounded-lg flex items-center group duration-300"
+      >
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {content}
+        </a>
+      </CommandItem>
+    );
+  }
+
+  return (
+    <CommandItem
+      key={id}
+      onSelect={onSelect}
+      className="p-2.5 my-0.5 hover:cursor-pointer hover:bg-dark-button hover:border-neutral-800 rounded-lg flex items-center group duration-300"
+    >
+      {content}
     </CommandItem>
   );
 };
@@ -55,7 +67,7 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
   ];
 
   const links = [
-    { id: 'docs', name: 'Documentation', icon: <BookOpenText size={20} />, url: 'https://docs.notetxt.xyz' },
+    { id: 'docs', name: 'Documentation', icon: <BookOpenText size={20} />, url: 'https://inttter.gitbook.io/notetxt' },
     { id: 'privacy', name: 'Privacy Policy', icon: <Lock size={20} />, url: '/privacy' },
     { id: 'github', name: 'GitHub', icon: <FaGithub size={20} />, url: 'https://github.com/inttter/notetxt' },
     { id: 'donate', name: 'Donate', icon: <Heart size={20} />, url: 'https://github.com/sponsors/inttter' },
@@ -149,7 +161,6 @@ const CommandMenu = ({ onCommandSelect, isOpen, toggleMenu, onNoteSelect, format
                   icon={link.icon}
                   name={link.name}
                   url={link.url}
-                  onSelect={() => {}}
                 />
               ))}
             </CommandGroup>
