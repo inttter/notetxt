@@ -6,10 +6,10 @@ export default function Document() {
       <Head>
         <meta property="og:title" content="Notetxt" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://notetxt.xyz/external/og.png" />
+        <meta property="og:image" content="https://notetxt.vercel.app/external/og.png" />
         <meta property="og:description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind." />
         <meta name="description" content="A note-taker app with a focus on minimalism and simplicity, so you can write down what's on your mind." />
-        <meta name="twitter:image" content="https://notetxt.xyz/external/og.png" />
+        <meta name="twitter:image" content="https://notetxt.vercel.app/external/og.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="theme-color" content="#121215" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />

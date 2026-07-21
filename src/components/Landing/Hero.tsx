@@ -57,7 +57,7 @@ const HeroSection = () => {
           size="lg"
         >
           <Link 
-            href="https://docs.notetxt.xyz" 
+            href="https://inttter.gitbook.io/notetxt" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-zinc-200 hover:text-zinc-100 duration-300 flex items-center group"

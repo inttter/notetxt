@@ -12,6 +12,6 @@ Welcome to the **Editor**! This is where all of your note-taking will happen. Th
 - [ ] Create another note (`Ctrl+Alt+N`)
 - [ ] Create a reusable [Note Template]
 
-[slash]: https://docs.notetxt.xyz/main/slash-commands
-[markdown]: https://docs.notetxt.xyz/main/markdown
-[note template]: https://docs.notetxt.xyz/main/note-templates
+[slash]: https://inttter.gitbook.io/notetxt/main/slash-commands
+[markdown]: https://inttter.gitbook.io/notetxt/main/markdown
+[note template]: https://inttter.gitbook.io/notetxt/main/note-templates

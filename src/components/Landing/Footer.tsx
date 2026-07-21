@@ -9,7 +9,7 @@ const Footer = () => {
   const projectSlogan = `Write down what's on your mind.`;
 
   const quickLinks = [
-    { href: 'https://docs.notetxt.xyz', text: 'Docs', external: true },
+    { href: 'https://inttter.gitbook.io/notetxt', text: 'Docs', external: true },
     { href: '/settings', text: 'Settings', external: false},
     { href: '/privacy', text: 'Privacy' },
     { href: 'https://github.com/inttter/notetxt', text: 'GitHub', external: true },

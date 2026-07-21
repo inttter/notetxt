@@ -19,7 +19,7 @@ const CreateTemplateDialog = ({ isOpen, onConfirm, onCancel }) => {
   const templateContentTitle = 'Template Content';
 
   const slashHintText = 'Slash commands are also supported here.';
-  const slashHintLink = { href: 'https://docs.notetxt.xyz/main/slash-commands', label: 'View commands' };
+  const slashHintLink = { href: 'https://inttter.gitbook.io/notetxt/main/slash-commands', label: 'View commands' };
 
   const handleConfirm = () => {
     if (templateName.trim() && templateContent.trim()) {

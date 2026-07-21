@@ -23,7 +23,7 @@ import { useRouter } from 'next/router';
 
 export default function Editor() {
   const router = useRouter();
-  const mdDocsLink = 'https://docs.notetxt.xyz/main/markdown';
+  const mdDocsLink = 'https://inttter.gitbook.io/notetxt/main/markdown';
   const [notes, setNotes] = useState<{ [key: string]: Note }>({});
   const [currentNoteId, setCurrentNoteId] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
