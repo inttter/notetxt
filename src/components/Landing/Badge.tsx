@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 // ? To make the badge link somewhere, add a link in the speech marks after `link =`.
 // ? To not wrap the badge in a link, leave the text in between the speech marks blank.
-const LandingBadge = ({ link = 'https://docs.notetxt.xyz/main/note-templates' }) => {
+const LandingBadge = ({ link = 'https://inttter.gitbook.io/notetxt/main/markdown#dates' }) => {
   const isExternalLink = link.startsWith('http');
   
   const content = (
@@ -18,7 +18,7 @@ const LandingBadge = ({ link = 'https://docs.notetxt.xyz/main/note-templates' })
       aria-label="Badge"
     >
       <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-        ✨ Create reusable templates for your new notes!
+        🗓️ Reference dates like [[tomorrow]] or [[last saturday]]
       </div>
       {link && 
         <ArrowRight size={15} className="ml-1 text-primary-text group-hover:translate-x-0.5 duration-300" />
